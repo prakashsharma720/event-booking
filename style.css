@@ -1,0 +1,537 @@
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Poppins', sans-serif;
+}
+
+html,
+body {
+   display: grid;
+   height: 100%;
+   width: 100%;
+   place-items: center;
+   background: #000;
+   font-family: Arial, sans-serif;
+   margin: 0;
+   padding: 0;
+}
+
+::selection {
+   background: #4158d0;
+   color: #fff;
+}
+
+.wrapper {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 90%;
+   /* Adjusted for responsiveness */
+   max-width: 420px;
+   /* Limit maximum width */
+   background: #fff;
+   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+   padding: 20px;
+   display: none;
+   /* Hide the wrapper by default */
+}
+
+.wrapper.active {
+   display: block;
+   /* Show the active wrapper */
+}
+
+.title {
+   font-size: 30px;
+   /* Adjusted font size for responsiveness */
+   font-weight: 600;
+   text-align: center;
+   color: black;
+   margin-bottom: 20px;
+}
+
+.button-container {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 15px;
+   /* Adjusted for better spacing */
+   margin-bottom: 20px;
+}
+
+.button {
+   margin-top: 20px;
+   height: 50px;
+   border: none;
+   border-radius: 5px;
+   font-size: 18px;
+   font-weight: 500;
+   color: #fff;
+   background: #cfbc6d;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   padding: 8px 9px;
+}
+
+.button button {
+   flex: 1;
+   height: 50px;
+   border: none;
+   border-radius: 5px;
+   font-size: 18px;
+   font-weight: 500;
+   color: #fff;
+   cursor: pointer;
+   transition: all 0.3s ease;
+}
+
+.button button:first-child {
+   background: #cfbc6d;
+}
+
+.button button:first-child:hover {
+   background: #e60074;
+}
+
+.button button:last-child {
+   background: #fff;
+   color: #000;
+}
+
+.button button:last-child:hover {
+   background: #f0f0f0;
+   color: #000;
+}
+
+/* Active state styles for clicked button */
+.button button.active {
+   background: #ff8c00;
+   color: #fff;
+}
+
+.wrapper form {
+   padding: 0;
+}
+
+.wrapper form .field {
+   height: 50px;
+   width: 100%;
+   margin-top: 20px;
+   position: relative;
+}
+
+.wrapper form .field input {
+   height: 100%;
+   width: 100%;
+   outline: none;
+   font-size: 17px;
+   padding-left: 20px;
+   border: 1px solid lightgrey;
+   border-radius: 5px;
+   transition: all 0.3s ease;
+}
+
+.wrapper form .field input:focus,
+.wrapper form .field input:valid {
+   border-color: #4158d0;
+}
+
+.wrapper form .field label {
+   position: absolute;
+   top: 50%;
+   left: 20px;
+   color: #999999;
+   font-weight: 400;
+   font-size: 17px;
+   pointer-events: none;
+   transform: translateY(-50%);
+   transition: all 0.3s ease;
+}
+
+.wrapper form .field input:focus~label,
+.wrapper form .field input:valid~label {
+   top: 0%;
+   font-size: 16px;
+   color: #4158d0;
+   background: #fff;
+   transform: translateY(-50%);
+}
+
+.wrapper form .content {
+   display: flex;
+   margin-top: 5px;
+   width: 90%;
+   height: 50px;
+   font-size: 16px;
+   align-items: center;
+   justify-content: space-between;
+}
+
+.wrapper form .content .checkbox {
+   display: flex;
+   align-items: center;
+}
+
+.wrapper form .content input {
+   width: 15px;
+   height: 15px;
+}
+
+.wrapper form .content label {
+   color: #262626;
+   user-select: none;
+   padding-left: 5px;
+}
+
+.wrapper form .content .pass-link {
+   color: #cfbc6d;
+}
+
+.wrapper form .field input[type="submit"] {
+   color: #fff;
+   border: none;
+   padding-left: 0;
+   margin-top: 0px;
+   font-size: 20px;
+   font-weight: 500;
+   cursor: pointer;
+   background: #cfbc6d;
+   transition: all 0.3s ease;
+}
+
+.wrapper form .field input[type="submit"]:active {
+   transform: scale(0.95);
+}
+
+.wrapper form .signup-link {
+   margin-top: 20px;
+   text-align: center;
+}
+
+.wrapper form .pass-link a,
+.wrapper form .signup-link a {
+   color: #cfbc6d;
+   text-decoration: none;
+}
+
+.wrapper form .pass-link a:hover,
+.wrapper form .signup-link a:hover {
+   text-decoration: underline;
+}
+
+/* Common styles for both Send OTP and Verify OTP containers */
+.send-otp-container,
+.otp-container {
+   display: flex;
+   width: 100%;
+   gap: 10px;
+   /* Space between mobile number/OTP field and button */
+}
+
+.otp-container {
+   display: none;
+   /* Hidden by default */
+   margin-top: 20px;
+}
+
+.otp-container.active {
+   display: flex;
+   /* Show OTP container when active */
+}
+
+.send-otp-container .mobile-number,
+.otp-container .otp-inputs {
+   flex: 70%;
+}
+
+.send-otp-container .send-otp-button,
+.verify-button-container {
+   margin-top: 20px;
+   height: 50px;
+   border: none;
+   border-radius: 5px;
+   font-size: 18px;
+   font-weight: 500;
+   color: #fff;
+   background: #cfbc6d;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   padding: 8px 9px;
+}
+
+.send-otp-button,
+.verify-button-container input[type="submit"] {
+   margin-top: 20px;
+   height: 50px;
+   border: none;
+   border-radius: 5px;
+   font-size: 18px;
+   font-weight: 500;
+   color: #fff;
+   background: #cfbc6d;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   padding: 8px 9px;
+}
+
+.send-otp-button:hover,
+.verify-button-container input[type="submit"]:hover {
+   background: #e60074;
+}
+
+/* OTP fields styling */
+.otp-container .field input {
+   width: 80px;
+   height: 50px;
+   text-align: center;
+   margin-right: 10px;
+   border: 1px solid lightgrey;
+   border-radius: 5px;
+   font-size: 17px;
+   transition: all 0.3s ease;
+}
+
+.otp-container .field input:focus,
+.otp-container .field input:valid {
+   border-color: #4158d0;
+}
+
+.status-message {
+   font-size: 16px;
+   font-weight: 500;
+   text-align: center;
+   margin-top: 10px;
+}
+
+.role-selection {
+   display: flex;
+   justify-content: space-around;
+   margin-top: 20px;
+}
+
+.role-selection label {
+   font-size: 16px;
+   font-weight: 500;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.role-selection input[type="radio"] {
+   margin-right: 10px;
+}
+
+.role-selection label:hover {
+   background-color: #f0f0f0;
+   border-color: #4158d0;
+}
+
+.role-selection input[type="radio"]:checked+label {
+   background-color: #cfbc6d;
+   color: #fff;
+   border-color: #cfbc6d;
+}
+
+/* Base styles for the logo */
+.img {
+   display: flex;
+   justify-content: center;
+   margin-top: 20px;
+}
+
+.logo {
+   width: 100%;
+   max-width: 150px;
+   height: auto;
+}
+
+/* Responsive styles for the logo */
+@media (max-width: 768px) {
+   .logo {
+      max-width: 120px;
+      /* Adjust logo size for tablets and small laptops */
+   }
+}
+
+@media (max-width: 480px) {
+   .logo {
+      max-width: 100px;
+      /* Further reduce logo size for mobile devices */
+   }
+}
+
+@media (max-width: 320px) {
+   .logo {
+      max-width: 80px;
+      /* Smallest logo size for very small screens */
+   }
+}
+
+/* Base styles for the form wrapper */
+.wrapper {
+   width: 90%;
+   /* Adjusted for responsiveness */
+   max-width: 420px;
+   /* Limit maximum width */
+   background: #fff;
+   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+   padding: 20px;
+   display: none;
+   /* Hide the wrapper by default */
+}
+
+.wrapper.active {
+   display: block;
+   /* Show the active wrapper */
+}
+
+/* Responsive styles for the form wrapper */
+@media (max-width: 768px) {
+   .wrapper {
+      width: 95%;
+      /* Adjust wrapper width for smaller screens */
+      padding: 15px;
+   }
+
+   .title {
+      font-size: 24px;
+      /* Adjust title size for smaller screens */
+      margin-bottom: 15px;
+   }
+
+   .button button {
+      font-size: 16px;
+      /* Adjust button font size */
+      height: 45px;
+      /* Adjust button height */
+   }
+
+   .field input {
+      font-size: 16px;
+      /* Adjust input font size */
+      height: 45px;
+      /* Adjust input height */
+      padding-left: 15px;
+      /* Adjust padding for smaller screens */
+   }
+
+   .content {
+      font-size: 14px;
+      /* Adjust content font size */
+   }
+
+   .send-otp-button,
+   .verify-button-container input[type="submit"] {
+      font-size: 16px;
+      /* Adjust OTP button font size */
+      height: 45px;
+      /* Adjust OTP button height */
+   }
+
+   .role-selection label {
+      font-size: 14px;
+      /* Adjust role selection label font size */
+      padding: 8px;
+      /* Adjust padding */
+   }
+
+   .otp-container .field input {
+      width: 60px;
+      /* Smaller width for OTP fields */
+      height: 40px;
+      /* Smaller height for OTP fields */
+      font-size: 15px;
+      /* Smaller font size for OTP fields */
+   }
+}
+
+@media (max-width: 480px) {
+   .title {
+      font-size: 20px;
+      /* Further reduce title size */
+   }
+
+   .field input {
+      font-size: 14px;
+      /* Further reduce input font size */
+      height: 40px;
+      /* Further reduce input height */
+   }
+
+   .send-otp-button,
+   .verify-button-container input[type="submit"] {
+      margin-top: 20px;
+      height: 50px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      font-weight: 500;
+      color: #fff;
+      background: #cfbc6d;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 8px 9px;
+   }
+
+   .role-selection label {
+      font-size: 12px;
+      /* Further reduce role selection label font size */
+      padding: 5px;
+      /* Further adjust padding */
+   }
+
+   .signup-link,
+   .pass-link {
+      font-size: 12px;
+      /* Smaller font size for links */
+   }
+}
+
+@media (max-width: 320px) {
+   .wrapper {
+      width: 100%;
+      padding: 10px;
+   }
+
+   .title {
+      font-size: 18px;
+      /* Reduce title size for very small screens */
+      margin-bottom: 10px;
+   }
+
+   .field input {
+      font-size: 13px;
+      /* Reduce input font size */
+      height: 35px;
+      /* Reduce input height */
+   }
+
+   .send-otp-button,
+   .verify-button-container input[type="submit"] {
+      margin-top: 20px;
+    height: 50px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #fff;
+    background: #cfbc6d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px 9px;
+   }
+
+   .role-selection label {
+      font-size: 11px;
+      /* Reduce role selection label font size */
+      padding: 5px;
+   }
+}
+

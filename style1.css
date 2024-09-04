@@ -1,0 +1,130 @@
+
+       body {
+   display: grid;
+   height: 100%;
+   width: 100%;
+   place-items: center;
+   background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+   font-family: Arial, sans-serif;
+   margin-top: 80px;
+}
+
+.logo {
+   width: 170px;
+   margin-top: 20px;
+}
+
+.wrapper {
+   width: 420px;
+   background: #fff;
+   box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+   padding: 30px 25px;
+   border-radius: 10px;
+}
+
+.title {
+   font-size: 30px;
+   font-weight: 700;
+   text-align: center;
+   color: #333;
+   margin-bottom: 25px;
+}
+
+.field {
+   height: 50px;
+   width: 100%;
+   margin-top: 20px;
+   position: relative;
+}
+
+.field input {
+   height: 100%;
+   width: 100%;
+   outline: none;
+   font-size: 16px;
+   padding-left: 20px;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   transition: all 0.3s ease;
+   box-sizing: border-box;
+}
+
+.field input:focus {
+   border-color: #ff0080;
+}
+
+/* Common styles for both Send OTP and Verify OTP containers */
+.send-otp-container,
+.otp-container {
+   display: flex;
+   width: 100%;
+   gap: 10px;
+   /* Space between mobile number/OTP field and button */
+}
+
+.otp-container {
+   display: none;
+   /* Hidden by default */
+   margin-top: 20px;
+}
+
+.otp-container.active {
+   display: flex;
+   /* Show OTP container when active */
+}
+
+.send-otp-container .mobile-number,
+.otp-container .otp-inputs {
+   flex: 70%;
+   /* Adjust width proportion for the mobile number and OTP fields */
+}
+
+.send-otp-container .send-otp-button,
+.otp-container .verify-button-container {
+   flex: 30%;
+   /* Adjust width proportion for the OTP and verify buttons */
+}
+
+.send-otp-button,
+.otp-container .verify-button-container input[type="submit"] {
+   margin-top: 20px;
+   height: 50px;
+   border: none;
+   border-radius: 5px;
+   font-size: 18px;
+   font-weight: 500;
+   color: #fff;
+   background: #ff0080;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   padding: 15px 9px;
+   flex: 30%;
+}
+
+.send-otp-button:hover,
+.otp-container .verify-button-container input[type="submit"]:hover {
+   background: #e60074;
+}
+
+/* OTP fields styling */
+.otp-container .field input {
+   flex: 70%;
+   height: 50px;
+   text-align: center;
+   margin-right: 10px;
+   border: 1px solid lightgrey;
+   border-radius: 5px;
+   font-size: 17px;
+   transition: all 0.3s ease;
+}
+
+.otp-container .field input:focus,
+.otp-container .field input:valid {
+   border-color: #4158d0;
+}
+.verify-button-container{
+    flex: 30%;
+}
+
+        
+    
