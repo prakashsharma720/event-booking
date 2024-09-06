@@ -2,7 +2,7 @@
     $servername = "localhost";
     $username = "root";
     $password = "";
-    $dbname = "demo";
+    $dbname = "gwm_events";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
     if(!$conn)
@@ -879,7 +879,7 @@
                 if(couponCode != currentCoupon)
                 {
                     currentCoupon = couponCode ;
-                                    // Perform AJAX request
+                    // Perform AJAX request
                     $.ajax({
                         url: 'varify_coupon.php', // Replace with the path to your PHP script
                         type: 'GET',
