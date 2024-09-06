@@ -25,6 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          $stmt->fetch();
 
          if (password_verify($password, $hashed_password)) {
+            
+            
             if ($user_type == 'Participant') {
                header("Location: details.php");
             } elseif ($user_type == 'Visitor') {
