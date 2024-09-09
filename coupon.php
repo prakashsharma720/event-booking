@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Event Booking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,19 +27,23 @@
             margin-top: 20px;
         }
 
+        .event-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            width: 100%;
+            padding: 20px;
+            background-color: #fff;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
         .event-details {
             font-family: Arial, sans-serif;
             color: #333;
-            background-color: #fff;
-            padding: 45px;
-
-            max-width: 1200px;
-            margin: 20px auto;
-            width: 100%;
-        }
-
-        .event-details:hover {
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            max-width: 60%;
         }
 
         .event-details p {
@@ -52,6 +57,34 @@
         .event-details a {
             color: #007bff;
             text-decoration: none;
+        }
+
+        .event-details a:hover {
+            text-decoration: underline;
+        }
+
+        .event-container img {
+            max-width: 600px;
+            height: 280px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Media Queries for Responsive Design */
+        @media (max-width: 768px) {
+            .event-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .event-details {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+
+            .event-container img {
+                width: 100%;
+            }
         }
 
         .event-details a:hover {
@@ -531,20 +564,60 @@
         .upload-submit-button:hover {
             background-color: #0056b3;
         }
+
+        .button {
+            flex: 0 0 auto;
+            width: 30%;
+        }
+
+        .file-upload-container {
+            margin-bottom: 20px;
+        }
+
+        .file-upload-area {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upload-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .selected-files {
+            margin-top: 10px;
+        }
+
+        .selected-files img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
     </style>
 </head>
 
 <body>
-    <img src="head.jpg" alt="">
-
-    <div class="event-details">
-        <p><strong>Event Name:</strong> MUMBAI MEHNDI MARATHON 24</p>
-        <p><strong>Event Date:</strong> September 21st</p>
-        <p><strong>Event Address:</strong> RAJORA BANQUETS</p>
-        <p><strong>Event Location:</strong> <a href="https://g.co/kgs/uLLDqfF" target="_blank">Udaipur</a></p>
-        <p><strong>Event Timing:</strong> 9 AM To 6 PM</p>
-        <p><strong>Contact No:</strong> +91 9820490762 / +91 9820490460</p>
-        <p><strong>Email:</strong> <a href="mailto:jayeshpatel.muskowl@gmail.com">jayeshpatel.muskowl@gmail.com</a></p>
+    <div class="event-container">
+        <div class="event-details">
+            <p><strong>Event Name:</strong> MUMBAI MEHNDI MARATHON 24</p>
+            <p><strong>Event Date:</strong> September 21st</p>
+            <p><strong>Event Address:</strong> RAJORA BANQUETS</p>
+            <p><strong>Event Location:</strong> <a href="https://g.co/kgs/uLLDqfF" target="_blank">Udaipur</a></p>
+            <p><strong>Event Timing:</strong> 9 AM To 6 PM</p>
+            <p><strong>Contact No:</strong> +91 9820490762 / +91 9820490460</p>
+            <p><strong>Email:</strong> <a href="mailto:jayeshpatel.muskowl@gmail.com">jayeshpatel.muskowl@gmail.com</a></p>
+        </div>
+        <div class="event-image">
+            <img src="head.jpg" alt="Event Image">
+        </div>
     </div>
 
     <div class="container">
@@ -704,27 +777,18 @@
                 </div>
 
                 <div class="total-area">
-                    <p>(Including Advance Payment of ₹3,500):</p>
+
                     <div class="amounts">
                         <div class="amount-item">
                             <span class="label">Total:</span>
                             ₹<span id="payment_total">0.00</span>
                             <input type="hidden" name="total_amount">
                         </div>
-                        <div class="amount-item">
-                            <span class="label">Advance:</span>
-                            ₹<span id="Advance">0.00</span>
-                            <input type="hidden" name="advance_amount">
-                        </div>
-                        <div class="amount-item">
-                            <span class="label">Remaining:</span>
-                            ₹<span id="remaining_amount">0.00</span>
-                            <input type="hidden" name="remaining_amount">
-                        </div>
+
                     </div>
                 </div>
                 <br>
-                <div class="field-container discount-section">
+                <!-- <div class="field-container discount-section">
                     <label for="discount">Choose Discount</label>
                     <div class="checkbox-container">
                         <div class="checkbox-item">
@@ -740,29 +804,77 @@
                             <label for="discount-general">General</label>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="field-container" id="coupon-container">
                     <div class="field">
-                        <label for="coupon-code">Enter Coupon Code</label>
+                        <label for="coupon-code">Enter Coupon Code<span class="required-icon">*</span></label>
                         <div class="row">
                             <div class="col-6">
                                 <input type="text" id="coupon-code" name="coupon-code" placeholder="Enter coupon code">
                             </div>
-                            <div class="col-3">
+                            <div class="col-3 button">
                                 <button type="button" id="apply-coupon" class="btn btn-primary">Apply</button>
-                                <button type="button" id="cancel-coupon" class="btn btn-secondary my-2 ">Cancel</button>
+                                <button type="button" id="cancel-coupon" class="btn btn-danger my-2 mr-2 "><i class="bi bi-x-circle-fill"></i></button>
                             </div>
-                            <div class="col-3">
-                                <p id="coupon-message" style="color: green;"></p>
-                            </div>
+
                         </div>
                     </div>
                 </div>
+                <div class="col-3 d-flex">
+                    <p id="coupon-message" style="color: green;"></p>
+                </div>
 
-                <!-- Your existing code for submit button and other elements -->
+                <div class="total-area ">
+                    <p>(Including Advance Payment of 50%):</p>
+                    <div class="amounts">
+                        <div class="amount-item">
+                            <span class="label">Net payable Total:</span>
+                            ₹<span id="payment_total">0.00</span>
+
+                        </div>
+                        <div class="amount-item">
+                            <span class="label">Advance:</span>
+                            ₹<span id="Advance">0.00</span>
+                            <input type="hidden" name="advance_amount">
+                        </div>
+                        <div class="amount-item">
+                            <span class="label">Remaining:</span>
+                            ₹
+                            <span id="remaining_amount"> 0.00</span>
+                            <input type="hidden" name="remaining_amount">
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <div class="field-container">
+                    <div class="field">
+                        <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
+                        <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" required>
+                    </div>
+                </div>
+                <br>
+                <br>
+
+                <div class="qr-code-container " id="qr-code" name="qr-code">
+                    <img src="QR-Code.png" id="download-qr">
+                </div>
+                <H5 class="text-center my-2"> Click on QR code to Download</H5>
 
                 <br>
+
+                <div class="file-upload-container">
+                    <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span></h3>
+                    <div class="file-upload-area">
+                        <input type="file" id="file-upload" name="file-upload" multiple accept="image/*" required>
+                        <label for="file-upload" class="upload-button">
+                            <span>Add file</span>
+                        </label>
+                        <div id="selected-files" class="selected-files"></div>
+                    </div>
+
+                </div>
                 <input type="submit" value="Submit">
             </form>
         </div>
@@ -806,22 +918,13 @@
                 <div class="file-upload-area">
                     <input type="file" id="file-upload" name="file-upload" multiple accept="image/*" required>
                     <label for="file-upload" class="upload-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                            <g transform="translate(-3, -3)">
-                                <path d="M6,14.25 L7.5,14.25 L7.5,16.5 L16.5,16.5 L16.5,14.25 L18,14.25 L18,16.5 C18,17.325 17.325,18 16.5,18 L7.5,18 C6.675,18 6,17.325 6,16.5 L6,14.25 Z M9.3075,10.8075 L11.25,8.8725 L11.25,15 L12.75,15 L12.75,8.8725 L14.6925,10.815 L15.75,9.75 L12,6 L8.25,9.75 L9.3075,10.8075 Z"></path>
-                            </g>
-                        </svg>
+
                         <span>Add file</span>
                     </label>
                     <div id="selected-files" class="selected-files"></div>
                 </div>
-
-                <button type="submit" class="upload-submit-button">Upload</button>
             </div>
-
-
         </div>
-
     </div>
 
     <br>
@@ -832,9 +935,8 @@
         $(document).ready(function() {
             let totalPrice = 0.00;
             let currentCoupon = "";
-            let couponDiscount = 0; // To keep track of the applied coupon discount
+            let couponDiscount = 0;
 
-            // Apply coupon code
             $('#apply-coupon').click(function() {
                 var couponCode = $('#coupon-code').val().trim();
                 if (couponCode !== currentCoupon) {
@@ -850,8 +952,8 @@
                             var message = '';
                             if (discount > 0 && totalPrice > 0) {
                                 message = 'Coupon applied successfully! Discount: ₹' + discount;
-                                couponDiscount = discount; // Update coupon discount
-                                updateTotal(); // Update total price with new discount
+                                couponDiscount = discount;
+                                updateTotal();
                             } else if (discount === -1) {
                                 message = 'Invalid coupon code. Please try again.';
                             } else if (discount === -2) {
@@ -870,21 +972,21 @@
                 }
             });
 
-            // Cancel coupon code
+
             $('#cancel-coupon').click(function() {
                 if (currentCoupon) {
                     $('#coupon-code').val('');
-                    $('#coupon-message').text('Coupon code canceled');
-                    // Reset totalPrice and recalculate
-                    couponDiscount = 0; // Clear coupon discount
-                    currentCoupon = ''; // Clear coupon code
-                    updateTotal(); // Recalculate total price without coupon
+                    $('#coupon-message').text('');
+
+                    couponDiscount = 0;
+                    currentCoupon = '';
+                    updateTotal();
                 } else {
                     $('#coupon-message').text('No coupon code applied to cancel.');
                 }
             });
 
-            // Update total price
+
             function updateTotal() {
                 totalPrice = 0.00;
                 const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
@@ -930,7 +1032,7 @@
                     totalPrice -= totalPrice * discount;
                 }
 
-                // Apply the coupon discount if any
+
                 if (couponDiscount > 0) {
                     totalPrice -= couponDiscount;
                 }
@@ -938,7 +1040,7 @@
                 calculate();
             }
 
-            // Attach event listeners
+
             document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
                 checkbox.addEventListener('change', updateTotal);
             });
@@ -954,7 +1056,7 @@
                 });
             });
 
-            // Calculate and update totals
+
             function calculate() {
                 const paymentTotalSpan = document.getElementById('payment_total');
                 const advanceAmountSpan = document.getElementById('Advance');
@@ -971,10 +1073,59 @@
                 document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
             }
         });
+
+        document.getElementById('download-qr').addEventListener('click', function() {
+
+            var qrCodeUrl = '';
+            var link = document.createElement('a');
+            link.href = qrCodeUrl;
+            link.download = 'QR-Code.png';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('file-upload');
+            const selectedFilesContainer = document.getElementById('selected-files');
+
+            fileInput.addEventListener('change', function(event) {
+                const files = event.target.files;
+                selectedFilesContainer.innerHTML = '';
+
+                Array.from(files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.alt = file.name;
+                            img.title = file.name;
+
+
+                            const removeBtn = document.createElement('button');
+                            removeBtn.textContent = 'Remove';
+                            removeBtn.className = 'remove-btn';
+                            removeBtn.onclick = function() {
+                                selectedFilesContainer.removeChild(img);
+                                selectedFilesContainer.removeChild(removeBtn);
+
+                                if (selectedFilesContainer.children.length === 0) {
+                                    fileInput.value = '';
+                                }
+                            };
+
+                            selectedFilesContainer.appendChild(img);
+                            selectedFilesContainer.appendChild(removeBtn);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please select an image file.');
+                    }
+                });
+            });
+        });
     </script>
-
-
-
 </body>
 
 </html>
