@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -748,24 +747,27 @@
                         <label for="coupon-code">Enter Coupon Code</label>
                         <div class="row">
                             <div class="col-6">
-                                <input  type="text" id="coupon-code" name="coupon-code" placeholder="Enter coupon code">
+                                <input type="text" id="coupon-code" name="coupon-code" placeholder="Enter coupon code">
                             </div>
                             <div class="col-3">
-                                <button  type="button" id="apply-coupon" class="btn btn-primary">Apply</button>
+                                <button type="button" id="apply-coupon" class="btn btn-primary">Apply</button>
+                                <button type="button" id="cancel-coupon" class="btn btn-secondary my-2 ">Cancel</button>
                             </div>
                             <div class="col-3">
-                                  <p id="coupon-message" style="color: green;"></p>
+                                <p id="coupon-message" style="color: green;"></p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- Your existing code for submit button and other elements -->
+
                 <br>
                 <input type="submit" value="Submit">
             </form>
         </div>
 
-        <!-- <div class="payment-methods-area">
+        <div class="payment-methods-area">
             <h2>Payment Method</h2>
             <div id="payment-method-content">
                 <div class="content-area">
@@ -818,7 +820,7 @@
             </div>
 
 
-        </div> -->
+        </div>
 
     </div>
 
@@ -827,29 +829,29 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-Tc5G3sS0u5S7nH6j27blOg9Q71GmA0m1m4U2F2mvDlV8z7F3Km/rI4b3r8ewpPpY" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        let totalPrice = 0.00;
-        let currentCoupon = "no coupon" ;
         $(document).ready(function() {
-            $('#apply-coupon').click(function() {
-                // Get the coupon code from the input field
-                var couponCode = $('#coupon-code').val();
-                if(couponCode != currentCoupon)
-                {
-                    currentCoupon = couponCode ;
-                    // Perform AJAX request
-                    $.ajax({
-                        url: 'verify_coupon.php', // Replace with the path to your PHP script
-                        type: 'GET',
-                        data: { code: couponCode },
-                        success: function(response) {
-                            // Handle the response based on the returned value
-                            var message = '';
-                            var discount = parseInt(response, 10);
+            let totalPrice = 0.00;
+            let currentCoupon = "";
+            let couponDiscount = 0; // To keep track of the applied coupon discount
 
-                            if (discount > 0 && totalPrice>0) {
-                                message = 'Coupon applied successfully! Discount: ' + discount;
-                                totalPrice-=discount;
-                                calculate();
+            // Apply coupon code
+            $('#apply-coupon').click(function() {
+                var couponCode = $('#coupon-code').val().trim();
+                if (couponCode !== currentCoupon) {
+                    currentCoupon = couponCode;
+                    $.ajax({
+                        url: 'verify_coupon.php',
+                        type: 'GET',
+                        data: {
+                            code: couponCode
+                        },
+                        success: function(response) {
+                            var discount = parseInt(response, 10);
+                            var message = '';
+                            if (discount > 0 && totalPrice > 0) {
+                                message = 'Coupon applied successfully! Discount: ₹' + discount;
+                                couponDiscount = discount; // Update coupon discount
+                                updateTotal(); // Update total price with new discount
                             } else if (discount === -1) {
                                 message = 'Invalid coupon code. Please try again.';
                             } else if (discount === -2) {
@@ -857,118 +859,119 @@
                             } else {
                                 message = 'Unexpected response from the server.';
                             }
-
-                            // Display the message
                             $('#coupon-message').text(message);
                         },
                         error: function() {
                             $('#coupon-message').text('An error occurred. Please try again.');
                         }
                     });
-
-                }
-                else
-                {
-                    $('#coupon-message').text('couponCode already applied');
-                }
-            });
-        });
-
-
-        function updateTotal() {
-            const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
-            const couponCode = document.getElementById('coupon-code').value;
-            const couponDiscounts = {
-                'early-birds': 0.10,
-                'group': 0.15,
-                'general': 0.05
-            };
-
-            const prices = {
-                'seminar': 20000,
-                'Competition': 10000,
-                'Master Class': 30000,
-                'Expo': 15000,
-            };
-
-            
-            let seminarSelected = false;
-
-            checkboxes.forEach(checkbox => {
-                const value = checkbox.value;
-                if (value === 'seminar') {
-                    seminarSelected = true;
                 } else {
-                    totalPrice += prices[value] || 0.00;
+                    $('#coupon-message').text('Coupon code already applied');
                 }
             });
 
-            const packageSelection = document.getElementById('package-selection');
-            packageSelection.style.display = seminarSelected ? 'block' : 'none';
-
-            if (seminarSelected) {
-                const selectedPackage = document.querySelector('input[name="package-type"]:checked');
-                const packageFee = parseFloat(selectedPackage ? selectedPackage.dataset.fee : 0.00);
-                totalPrice += packageFee;
-            }
-
-            const selectedDiscount = document.querySelector('input[name="discount"]:checked');
-            if (selectedDiscount) {
-                const discountType = selectedDiscount.value;
-                const discount = couponDiscounts[discountType] || 0;
-                totalPrice -= totalPrice * discount;
-            }
-            calculate();
-        }
-
-        document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
-            checkbox.addEventListener('change', updateTotal);
-        });
-
-        document.querySelectorAll('input[name="package-type"]').forEach(radio => {
-            radio.addEventListener('change', updateTotal);
-        });
-
-        document.querySelectorAll('input[name="discount"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.getElementById('coupon-container').style.display = 'block';
-                updateTotal();
+            // Cancel coupon code
+            $('#cancel-coupon').click(function() {
+                if (currentCoupon) {
+                    $('#coupon-code').val('');
+                    $('#coupon-message').text('Coupon code canceled');
+                    // Reset totalPrice and recalculate
+                    couponDiscount = 0; // Clear coupon discount
+                    currentCoupon = ''; // Clear coupon code
+                    updateTotal(); // Recalculate total price without coupon
+                } else {
+                    $('#coupon-message').text('No coupon code applied to cancel.');
+                }
             });
-        });
-        
-        document.getElementById('category-type').addEventListener('change', function() {
-            const otherInput = document.getElementById('category-others');
-            if (this.value === 'Others') {
-                otherInput.style.display = 'block';
-                otherInput.required = true;
-            } else {
-                otherInput.style.display = 'none';
-                otherInput.required = false;
+
+            // Update total price
+            function updateTotal() {
+                totalPrice = 0.00;
+                const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
+                const couponCode = document.getElementById('coupon-code').value.trim();
+                const couponDiscounts = {
+                    'early-birds': 0.10,
+                    'group': 0.15,
+                    'general': 0.05
+                };
+
+                const prices = {
+                    'seminar': 20000,
+                    'Competition': 10000,
+                    'Master Class': 30000,
+                    'Expo': 15000,
+                };
+
+                let seminarSelected = false;
+
+                checkboxes.forEach(checkbox => {
+                    const value = checkbox.value;
+                    if (value === 'seminar') {
+                        seminarSelected = true;
+                    } else {
+                        totalPrice += prices[value] || 0.00;
+                    }
+                });
+
+                const packageSelection = document.getElementById('package-selection');
+                packageSelection.style.display = seminarSelected ? 'block' : 'none';
+
+                if (seminarSelected) {
+                    const selectedPackage = document.querySelector('input[name="package-type"]:checked');
+                    const packageFee = parseFloat(selectedPackage ? selectedPackage.dataset.fee : 0.00);
+                    totalPrice += packageFee;
+                }
+
+                // Apply event discount if selected
+                const selectedDiscount = document.querySelector('input[name="discount"]:checked');
+                if (selectedDiscount) {
+                    const discountType = selectedDiscount.value;
+                    const discount = couponDiscounts[discountType] || 0;
+                    totalPrice -= totalPrice * discount;
+                }
+
+                // Apply the coupon discount if any
+                if (couponDiscount > 0) {
+                    totalPrice -= couponDiscount;
+                }
+
+                calculate();
+            }
+
+            // Attach event listeners
+            document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
+                checkbox.addEventListener('change', updateTotal);
+            });
+
+            document.querySelectorAll('input[name="package-type"]').forEach(radio => {
+                radio.addEventListener('change', updateTotal);
+            });
+
+            document.querySelectorAll('input[name="discount"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('coupon-container').style.display = 'block';
+                    updateTotal();
+                });
+            });
+
+            // Calculate and update totals
+            function calculate() {
+                const paymentTotalSpan = document.getElementById('payment_total');
+                const advanceAmountSpan = document.getElementById('Advance');
+                const remainingAmountSpan = document.getElementById('remaining_amount');
+                const advancePayment = (totalPrice * 50) / 100;
+                const remainingAmount = Math.max(0, discountedTotal - advancePayment);
+
+
+                paymentTotalSpan.textContent = totalPrice.toFixed(2);
+                remainingAmountSpan.textContent = remainingAmount.toFixed(2);
+                advanceAmountSpan.textContent = advancePayment.toFixed(2);
+
+                document.querySelector('input[name="total_amount"]').value = totalPrice;
+                document.querySelector('input[name="advance_amount"]').value = advancePayment;
+                document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
             }
         });
-
-        document.querySelector('form').addEventListener('submit', function(event) {
-            if (!document.querySelector('input[name="event-type"]:checked')) {
-                alert('Please select at least one event type.');
-                event.preventDefault();
-            }
-        });
-
-
-        function calculate(){
-            const paymentTotalSpan = document.getElementById('payment_total');
-            const advanceAmountSpan = document.getElementById('Advance');
-            const remainingAmountSpan = document.getElementById('remaining_amount');
-            const advancePayment = (totalPrice*50)/100;
-            const remainingAmount = Math.max(0, totalPrice - advancePayment);
-            paymentTotalSpan.textContent = totalPrice.toFixed(2);
-            remainingAmountSpan.textContent = remainingAmount.toFixed(2);
-            advanceAmountSpan.textContent = advancePayment.toFixed(2);
-
-            document.querySelector('input[name="total_amount"]').value =totalPrice;
-            document.querySelector('input[name="advance_amount"]').value =advancePayment;
-            document.querySelector('input[name="remaining_amount"]').value =remainingAmount;
-        }
     </script>
 
 

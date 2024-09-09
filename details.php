@@ -811,6 +811,8 @@
     <br>
 
     <script>
+
+        
         function updateTotal() {
             const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
             const paymentTotalSpan = document.getElementById('payment_total');
