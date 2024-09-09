@@ -960,8 +960,7 @@
                 const advanceAmountSpan = document.getElementById('Advance');
                 const remainingAmountSpan = document.getElementById('remaining_amount');
                 const advancePayment = (totalPrice * 50) / 100;
-                const remainingAmount = Math.max(0, discountedTotal - advancePayment);
-
+                const remainingAmount = Math.max(0, totalPrice - advancePayment);
 
                 paymentTotalSpan.textContent = totalPrice.toFixed(2);
                 remainingAmountSpan.textContent = remainingAmount.toFixed(2);
