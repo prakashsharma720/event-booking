@@ -3,7 +3,7 @@ $code = $_GET['code'];
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => 'https://gwmadmin.muskowl.com/index.php/api/Events_api/EvtD',
+  CURLOPT_URL => 'http://localhost/CI/event-portal/index.php/api/Events_api/EvtD',
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => '',
   CURLOPT_MAXREDIRS => 10,
@@ -59,28 +59,30 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $result['event_name']?> || Event Booking</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: "Open Sans", sans-serif;
+             font-family: "Raleway", sans-serif;
             font-optical-sizing: auto;
-            font-weight: <weight>;
+            font-weight: 600;
             font-style: normal;
             font-variation-settings:
-                "wdth" 100;
-            background-color: #f7f7f7;
-            transition: background-color 0.5s ease;
+                "wdth" 100;background-color 0.5s ease;
+            
         }
 
         /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {height: 1500px}
+    .row.content {
+        height: 1000px;   
+    }
     
     /* Set gray background color and 100% height */
     .sidenav {
       background-color: #f1f1f1;
       height: 100%;
+      padding:10px;
     }
     
     /* Set black background color, white text and some padding */
@@ -133,6 +135,13 @@ else {
         .event-details a:hover {
             text-decoration: underline;
         }
+        .greebie_image{
+            display:inline-flex;
+            padding:10px;
+            background: #000;
+            color: #fff;
+            align-items: center;
+        }
 
     </style>
 </head>
@@ -140,8 +149,11 @@ else {
 <body>
     <div class="container-fluid">
         <div class="row content">
-            <div class="col-sm-3 sidenav">
-                <h4>Event Registration Form</h4>
+            <div class="col-md-6 sidenav">
+                <div class="greebie_image" >
+                    <img src="logo-gwm.jpg" style="width:10%;">
+                    &nbsp; &nbsp;<h2> Event Registration Form</h2>
+                </div>
                 <div class="event-details">
                     <p><strong>Event Name:</strong> <?= $result['event_name']?></p>
                     <p><strong>Start Date:</strong> <?= date('d-M-y',strtotime($result['start_date'])).','.date('h:i a',strtotime($result['start_time']))?></p>
@@ -151,38 +163,69 @@ else {
                     <p><strong>Contact No:</strong> +91 9820490762 / +91 9820490460</p>
                     <p><strong>Email:</strong> <a href="mailto:jayeshpatel.muskowl@gmail.com">jayeshpatel.muskowl@gmail.com</a></p>
                 </div>
-            </div>
-            <div class="col-sm-6">
-                <h4><small>RECENT POSTS</small></h4>
-                <hr>
-                <h2>User Details</h2>
-                    <form action="" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
-                    <hr>
+                   <div class="event-details">
+                    <h4> Bank Details</h4>
+                    <p><strong>Bank Name:</strong>  ICICI Bank</p>
+                    <p><strong>Account Number:</strong> 004501560103</p>
+                    <p><strong>IFSC:</strong> ICIC0000045</p>
+                    <p><strong>Branch:</strong> Madhuban, Udaipur</p>
+                    
                 </div>
+               
             </div>
-            <div class="col-sm-3">
-                <h4><small>RECENT POSTS</small></h4>
-                <hr>
-                <h2>User Details</h2>
-                    <form action="" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email">
-                        </div>
-                        <button type="submit" class="btn btn-default">Submit</button>
-                    </form>
-                    <hr>
+            <div class="col-md-6">
+                 <div class="img greebie_image" >
+                    <img src="freebie1.jpg" style="width:100%;">
                 </div>
+                <h2>Event Registration Form</h2>
+                <hr>
+                <form action="#" method="POST">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label for="gender">Gender <span class="required-icon">*</span></label>
+                            <select id="gender" name="gender" class="form-control" required>
+                                <option value="" disabled selected>Select Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="name">Company Name <span class="required-icon">*</span></label>
+                            <input type="text" id="name" name="name" placeholder="Enter Company Name" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label for="state">State <span class="required-icon">*</span></label>
+                            <input type="text" id="state" name="state" placeholder="Enter your state"  class="form-control" required>
+                        </div>
+                        <div class="col-md-6">
+                                <label for="category-type">Category Type <span class="required-icon">*</span></label>
+                                <select id="category-type" name="category-type" class="form-control" required>
+                                <option value="" disabled selected>Select your category</option>
+                                <option value="Salon">Salon</option>
+                                <option value="Spa">Spa</option>
+                                <option value="Nail Studio">Nail Studio</option>
+                                <option value="Parlour">Parlour</option>
+                                <option value="Association">Association</option>
+                                <option value="Manufacturer">Manufacturer</option>
+                                <option value="Distributor">Distributor</option>
+                                <option value="Wholesaler">Wholesaler</option>
+                                <option value="Retailer">Retailer</option>
+                                <option value="Freelancer">Freelancer</option>
+                                <option value="Academy">Academy</option>
+                                <option value="Others">Others</option>
+                                </select>
+                                <input type="text" id="other" name="category-others" style="display: none;" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </form> 
             </div>
         </div>
     </div>
-
+    
     <footer class="container-fluid">
     <p>Footer Text</p>
     </footer>
