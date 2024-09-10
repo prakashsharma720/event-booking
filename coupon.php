@@ -524,8 +524,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 200px;
-            height: 50px;
+            width: 89px;
+            height: 43px;
             border: 2px solid #007bff;
             border-radius: 4px;
             background-color: #e9f1ff;
@@ -601,6 +601,90 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
+
+        /* General Mobile Styles */
+        @media only screen and (max-width: 600px) {
+            .event-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .event-image img {
+                max-width: 100%;
+                height: auto;
+            }
+
+            .form-container form {
+                padding: 15px;
+            }
+
+            .field-container {
+                margin-bottom: 10px;
+            }
+
+            .field-container .field label,
+            .field-container .field input,
+            .field-container .field select {
+                width: 100%;
+            }
+
+            .checkbox-container {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .checkbox-item {
+                margin-bottom: 10px;
+            }
+
+            .amounts {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .total-area {
+                margin-top: 15px;
+                text-align: center;
+            }
+
+            .total-area .amount-item {
+                margin-bottom: 10px;
+            }
+
+            .file-upload-container {
+                text-align: center;
+            }
+
+            .file-upload-area {
+                display: inline-block;
+            }
+
+            .payment-methods-area {
+                padding: 15px;
+            }
+
+            .payment-methods-area .content-area {
+                margin-bottom: 15px;
+            }
+
+            .qr-code-container img {
+                max-width: 100px;
+                height: auto;
+            }
+
+            #coupon-container .col-6,
+            #coupon-container .col-3 {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            #coupon-message {
+                text-align: center;
+            }
+        }
     </style>
 </head>
 
@@ -638,7 +722,7 @@
                             <option value="" disabled selected>Select Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
-                            <option value="other">Other</option>
+
                         </select>
                         <label for="gender">Gender <span class="required-icon">*</span></label>
                     </div>
@@ -666,9 +750,9 @@
                             <option value="Retailer">Retailer</option>
                             <option value="Freelancer">Freelancer</option>
                             <option value="Academy">Academy</option>
-                            <option value="Others">Others</option>
+
                         </select>
-                        <input type="text" id="other" name="category-others" style="display: none;">
+
                     </div>
                 </div>
 
@@ -694,34 +778,35 @@
                             <option value="Nail Art">Nail Art</option>
                             <option value="Others">Others</option>
                         </select>
-                        <input type="text" id="category-others" name="category-others" style="display: none;">
+                        <input type="text" id="category-others" name="category-others" style="display: none;" placeholder="Please specify">
                     </div>
                 </div>
                 <div class="field-container">
                     <div class="field">
-                        <select required>
+                        <label for="lead-source">Lead Source Master <span class="required-icon">*</span></label>
+                        <select id="lead-source" name="lead-source" required>
                             <option value="" disabled selected>Select an option</option>
                             <option value="Friends Reference">Friends Reference</option>
                             <option value="GWM Instagram Page">GWM Instagram Page</option>
-                            <option value="GWM Facebook Page ">GWM Facebook Page </option>
-                            <option value="Mehndi Marathon 24 Instagram Page "> Mehndi Marathon 24 Instagram Page</option>
-                            <option value="Mehndi Marathon 24 Facebook Page"> Mehndi Marathon 24 Facebook Page</option>
-                            <option value="GWM Website ">GWM Website </option>
-                            <option value="GWM WhatsApp ">GWM WhatsApp </option>
-                            <option value="Ads Campaign ">Ads Campaign </option>
-                            <option value="Google Ads">Google Ads </option>
-                            <option value="YouTube "> YouTube </option>
-                            <option value="SMS">SMS </option>
-                            <option value="Email Marketing  ">Email Marketing </option>
-                            <option value="Tele Calling ">Tele Calling </option>
-                            <option value="Linked In  ">Linked In </option>
-                            <option value="Artists Page"> Artists Page</option>
-                            <option value="Others" id="other">Others</option>
-
+                            <option value="GWM Facebook Page">GWM Facebook Page</option>
+                            <option value="Mehndi Marathon 24 Instagram Page">Mehndi Marathon 24 Instagram Page</option>
+                            <option value="Mehndi Marathon 24 Facebook Page">Mehndi Marathon 24 Facebook Page</option>
+                            <option value="GWM Website">GWM Website</option>
+                            <option value="GWM WhatsApp">GWM WhatsApp</option>
+                            <option value="Ads Campaign">Ads Campaign</option>
+                            <option value="Google Ads">Google Ads</option>
+                            <option value="YouTube">YouTube</option>
+                            <option value="SMS">SMS</option>
+                            <option value="Email Marketing">Email Marketing</option>
+                            <option value="Tele Calling">Tele Calling</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Artists Page">Artists Page</option>
+                            <option value="Others" id="lead-source-other">Others</option>
                         </select>
-                        <label for="dropdown">Lead Source Master <span class="required-icon">*</span></label>
+                        <input type="text" id="lead-source-others" name="lead-source-others" style="display: none;" placeholder="Please specify">
                     </div>
                 </div>
+
                 <div class="field-container">
                     <div class="field">
                         <label for="experience">Experience Level <span class="required-icon">*</span></label>
@@ -824,14 +909,12 @@
                 <div class="col-3 d-flex">
                     <p id="coupon-message" style="color: green;"></p>
                 </div>
-
-                <div class="total-area ">
+                <div class="total-area">
                     <p>(Including Advance Payment of 50%):</p>
                     <div class="amounts">
                         <div class="amount-item">
                             <span class="label">Net payable Total:</span>
-                            ₹<span id="payment_total">0.00</span>
-
+                            ₹<span id="net-payable-total">0.00</span>
                         </div>
                         <div class="amount-item">
                             <span class="label">Advance:</span>
@@ -840,12 +923,12 @@
                         </div>
                         <div class="amount-item">
                             <span class="label">Remaining:</span>
-                            ₹
-                            <span id="remaining_amount"> 0.00</span>
+                            ₹<span id="remaining_amount">0.00</span>
                             <input type="hidden" name="remaining_amount">
                         </div>
                     </div>
                 </div>
+
                 <br>
 
                 <div class="field-container">
@@ -912,18 +995,7 @@
                     </div>
                 </div>
             </div>
-            <div class="file-upload-container">
-                <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span></h3>
 
-                <div class="file-upload-area">
-                    <input type="file" id="file-upload" name="file-upload" multiple accept="image/*" required>
-                    <label for="file-upload" class="upload-button">
-
-                        <span>Add file</span>
-                    </label>
-                    <div id="selected-files" class="selected-files"></div>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -948,7 +1020,7 @@
                             code: couponCode
                         },
                         success: function(response) {
-                            var discount = parseInt(response, 10);
+                            var discount = parseFloat(response);
                             var message = '';
                             if (discount > 0 && totalPrice > 0) {
                                 message = 'Coupon applied successfully! Discount: ₹' + discount;
@@ -972,12 +1044,10 @@
                 }
             });
 
-
             $('#cancel-coupon').click(function() {
                 if (currentCoupon) {
                     $('#coupon-code').val('');
                     $('#coupon-message').text('');
-
                     couponDiscount = 0;
                     currentCoupon = '';
                     updateTotal();
@@ -985,7 +1055,6 @@
                     $('#coupon-message').text('No coupon code applied to cancel.');
                 }
             });
-
 
             function updateTotal() {
                 totalPrice = 0.00;
@@ -1024,7 +1093,7 @@
                     totalPrice += packageFee;
                 }
 
-                // Apply event discount if selected
+
                 const selectedDiscount = document.querySelector('input[name="discount"]:checked');
                 if (selectedDiscount) {
                     const discountType = selectedDiscount.value;
@@ -1033,11 +1102,40 @@
                 }
 
 
+                let paymentTotal = totalPrice;
                 if (couponDiscount > 0) {
-                    totalPrice -= couponDiscount;
+                    paymentTotal -= couponDiscount;
                 }
 
-                calculate();
+
+                let netPayableTotal = paymentTotal;
+
+                calculate(paymentTotal, netPayableTotal);
+            }
+
+            function calculate(paymentTotal, netPayableTotal) {
+                const paymentTotalSpan = document.getElementById('payment_total');
+                const netPayableTotalSpan = document.getElementById('net-payable-total');
+                const advanceAmountSpan = document.getElementById('Advance');
+                const remainingAmountSpan = document.getElementById('remaining_amount');
+
+                let advancePayment = (netPayableTotal * 50) / 100;
+
+
+                if (advancePayment > netPayableTotal) {
+                    advancePayment = netPayableTotal;
+                }
+
+                const remainingAmount = Math.max(0, netPayableTotal - advancePayment);
+
+                paymentTotalSpan.textContent = paymentTotal.toFixed(2);
+                netPayableTotalSpan.textContent = netPayableTotal.toFixed(2);
+                advanceAmountSpan.textContent = advancePayment.toFixed(2);
+                remainingAmountSpan.textContent = remainingAmount.toFixed(2);
+
+                document.querySelector('input[name="total_amount"]').value = paymentTotal;
+                document.querySelector('input[name="advance_amount"]').value = advancePayment;
+                document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
             }
 
 
@@ -1056,41 +1154,19 @@
                 });
             });
 
+            document.getElementById('download-qr').addEventListener('click', function() {
+                var qrCodeUrl = 'QR-Code.png';
+                var link = document.createElement('a');
+                link.href = qrCodeUrl;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
 
-            function calculate() {
-                const paymentTotalSpan = document.getElementById('payment_total');
-                const advanceAmountSpan = document.getElementById('Advance');
-                const remainingAmountSpan = document.getElementById('remaining_amount');
-                const advancePayment = (totalPrice * 50) / 100;
-                const remainingAmount = Math.max(0, totalPrice - advancePayment);
-
-                paymentTotalSpan.textContent = totalPrice.toFixed(2);
-                remainingAmountSpan.textContent = remainingAmount.toFixed(2);
-                advanceAmountSpan.textContent = advancePayment.toFixed(2);
-
-                document.querySelector('input[name="total_amount"]').value = totalPrice;
-                document.querySelector('input[name="advance_amount"]').value = advancePayment;
-                document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
-            }
-        });
-
-        document.getElementById('download-qr').addEventListener('click', function() {
-
-            var qrCodeUrl = '';
-            var link = document.createElement('a');
-            link.href = qrCodeUrl;
-            link.download = 'QR-Code.png';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const fileInput = document.getElementById('file-upload');
-            const selectedFilesContainer = document.getElementById('selected-files');
-
-            fileInput.addEventListener('change', function(event) {
+            document.getElementById('file-upload').addEventListener('change', function(event) {
                 const files = event.target.files;
+                const selectedFilesContainer = document.getElementById('selected-files');
                 selectedFilesContainer.innerHTML = '';
 
                 Array.from(files).forEach(file => {
@@ -1101,7 +1177,8 @@
                             img.src = e.target.result;
                             img.alt = file.name;
                             img.title = file.name;
-
+                            img.style.maxWidth = '150px';
+                            img.style.maxHeight = '150px';
 
                             const removeBtn = document.createElement('button');
                             removeBtn.textContent = 'Remove';
@@ -1111,7 +1188,7 @@
                                 selectedFilesContainer.removeChild(removeBtn);
 
                                 if (selectedFilesContainer.children.length === 0) {
-                                    fileInput.value = '';
+                                    document.getElementById('file-upload').value = '';
                                 }
                             };
 
@@ -1125,7 +1202,39 @@
                 });
             });
         });
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const areaInterestSelect = document.getElementById('area-interest');
+            const areaInterestOthersInput = document.getElementById('category-others');
+
+            areaInterestSelect.addEventListener('change', function() {
+                if (this.value === 'Others') {
+                    areaInterestOthersInput.style.display = 'block';
+                } else {
+                    areaInterestOthersInput.style.display = 'none';
+                    areaInterestOthersInput.value = '';
+                }
+            });
+
+
+            const leadSourceSelect = document.getElementById('lead-source');
+            const leadSourceOthersInput = document.getElementById('lead-source-others');
+
+            leadSourceSelect.addEventListener('change', function() {
+                if (this.value === 'Others') {
+                    leadSourceOthersInput.style.display = 'block';
+                } else {
+                    leadSourceOthersInput.style.display = 'none';
+                    leadSourceOthersInput.value = '';
+                }
+            });
+        });
     </script>
+
 </body>
 
 </html>
