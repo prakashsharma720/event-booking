@@ -64,8 +64,8 @@
         }
 
         .event-container img {
-            max-width: 600px;
-            height: 280px;
+            max-width: 658px;
+            height: 235px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -1004,235 +1004,214 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-Tc5G3sS0u5S7nH6j27blOg9Q71GmA0m1m4U2F2mvDlV8z7F3Km/rI4b3r8ewpPpY" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            let totalPrice = 0.00;
-            let currentCoupon = "";
-            let couponDiscount = 0;
+$(document).ready(function() {
+    let totalPrice = 0.00;
+    let currentCoupon = "";
+    let couponDiscount = 0;
 
-            $('#apply-coupon').click(function() {
-                var couponCode = $('#coupon-code').val().trim();
-                if (couponCode !== currentCoupon) {
-                    currentCoupon = couponCode;
-                    $.ajax({
-                        url: 'verify_coupon.php',
-                        type: 'GET',
-                        data: {
-                            code: couponCode
-                        },
-                        success: function(response) {
-                            var discount = parseFloat(response);
-                            var message = '';
-                            if (discount > 0 && totalPrice > 0) {
-                                message = 'Coupon applied successfully! Discount: ₹' + discount;
-                                couponDiscount = discount;
-                                updateTotal();
-                            } else if (discount === -1) {
-                                message = 'Invalid coupon code. Please try again.';
-                            } else if (discount === -2) {
-                                message = 'No coupon code provided.';
-                            } else {
-                                message = 'Unexpected response from the server.';
-                            }
-                            $('#coupon-message').text(message);
-                        },
-                        error: function() {
-                            $('#coupon-message').text('An error occurred. Please try again.');
+    $('#apply-coupon').click(function() {
+        var couponCode = $('#coupon-code').val().trim();
+        if (couponCode !== currentCoupon) {
+            currentCoupon = couponCode;
+            $.ajax({
+                url: 'verify_coupon.php',
+                type: 'GET',
+                data: {
+                    code: couponCode
+                },
+                success: function(response) {
+                    var discount = parseFloat(response);
+                    var message = '';
+                    if (discount > 0 && totalPrice > 0) {
+                        message = 'Coupon applied successfully! Discount: ₹' + discount;
+                        couponDiscount = discount;
+                        updateTotal();
+                    } else if (discount === -1) {
+                        message = 'Invalid coupon code. Please try again.';
+                    } else if (discount === -2) {
+                        message = 'No coupon code provided.';
+                    } else {
+                        message = 'Unexpected response from the server.';
+                    }
+                    $('#coupon-message').text(message);
+                },
+                error: function() {
+                    $('#coupon-message').text('An error occurred. Please try again.');
+                }
+            });
+        } else {
+            $('#coupon-message').text('Coupon code already applied');
+        }
+    });
+
+    $('#cancel-coupon').click(function() {
+        if (currentCoupon) {
+            $('#coupon-code').val('');
+            $('#coupon-message').text('');
+            couponDiscount = 0;
+            currentCoupon = '';
+            updateTotal();
+        } else {
+            $('#coupon-message').text('No coupon code applied to cancel.');
+        }
+    });
+
+    function updateTotal() {
+        totalPrice = 0.00;
+        const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
+        const couponCode = document.getElementById('coupon-code').value.trim();
+        const couponDiscounts = {
+            'early-birds': 0.10,
+            'group': 0.15,
+            'general': 0.05
+        };
+
+        const prices = {
+            'seminar': 20000,
+            'Competition': 10000,
+            'Master Class': 30000,
+            'Expo': 15000,
+        };
+
+        let seminarSelected = false;
+
+        checkboxes.forEach(checkbox => {
+            const value = checkbox.value;
+            if (value === 'seminar') {
+                seminarSelected = true;
+            } else {
+                totalPrice += prices[value] || 0.00;
+            }
+        });
+
+        const packageSelection = document.getElementById('package-selection');
+        packageSelection.style.display = seminarSelected ? 'block' : 'none';
+
+        if (seminarSelected) {
+            const selectedPackage = document.querySelector('input[name="package-type"]:checked');
+            const packageFee = parseFloat(selectedPackage ? selectedPackage.dataset.fee : 0.00);
+            totalPrice += packageFee;
+        }
+
+        // Calculate advance payment based on original total before applying any coupon discount
+        const advancePayment = (totalPrice * 50) / 100;
+        const remainingAmount = Math.max(0, totalPrice - advancePayment);
+
+        let paymentTotal = totalPrice;
+        if (couponDiscount > 0) {
+            paymentTotal -= couponDiscount;
+        }
+
+        let netPayableTotal = paymentTotal;
+
+        calculate(advancePayment, remainingAmount, netPayableTotal);
+    }
+
+    function calculate(advanceAmount, remainingAmount, netPayableTotal) {
+        const paymentTotalSpan = document.getElementById('payment_total');
+        const netPayableTotalSpan = document.getElementById('net-payable-total');
+        const advanceAmountSpan = document.getElementById('Advance');
+        const remainingAmountSpan = document.getElementById('remaining_amount');
+
+        paymentTotalSpan.textContent = totalPrice.toFixed(2);
+        netPayableTotalSpan.textContent = netPayableTotal.toFixed(2);
+        advanceAmountSpan.textContent = advanceAmount.toFixed(2);
+        remainingAmountSpan.textContent = remainingAmount.toFixed(2);
+
+        document.querySelector('input[name="total_amount"]').value = totalPrice;
+        document.querySelector('input[name="advance_amount"]').value = advanceAmount;
+        document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
+    }
+
+    document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
+        checkbox.addEventListener('change', updateTotal);
+    });
+
+    document.querySelectorAll('input[name="package-type"]').forEach(radio => {
+        radio.addEventListener('change', updateTotal);
+    });
+
+    document.querySelectorAll('input[name="discount"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.getElementById('coupon-container').style.display = 'block';
+            updateTotal();
+        });
+    });
+
+    document.getElementById('download-qr').addEventListener('click', function() {
+        var qrCodeUrl = 'QR-Code.png';
+        var link = document.createElement('a');
+        link.href = qrCodeUrl;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+    document.getElementById('file-upload').addEventListener('change', function(event) {
+        const files = event.target.files;
+        const selectedFilesContainer = document.getElementById('selected-files');
+        selectedFilesContainer.innerHTML = '';
+
+        Array.from(files).forEach(file => {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = file.name;
+                    img.title = file.name;
+                    img.style.maxWidth = '150px';
+                    img.style.maxHeight = '150px';
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = 'Remove';
+                    removeBtn.className = 'remove-btn';
+                    removeBtn.onclick = function() {
+                        selectedFilesContainer.removeChild(img);
+                        selectedFilesContainer.removeChild(removeBtn);
+
+                        if (selectedFilesContainer.children.length === 0) {
+                            document.getElementById('file-upload').value = '';
                         }
-                    });
-                } else {
-                    $('#coupon-message').text('Coupon code already applied');
-                }
-            });
+                    };
 
-            $('#cancel-coupon').click(function() {
-                if (currentCoupon) {
-                    $('#coupon-code').val('');
-                    $('#coupon-message').text('');
-                    couponDiscount = 0;
-                    currentCoupon = '';
-                    updateTotal();
-                } else {
-                    $('#coupon-message').text('No coupon code applied to cancel.');
-                }
-            });
-
-            function updateTotal() {
-                totalPrice = 0.00;
-                const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
-                const couponCode = document.getElementById('coupon-code').value.trim();
-                const couponDiscounts = {
-                    'early-birds': 0.10,
-                    'group': 0.15,
-                    'general': 0.05
+                    selectedFilesContainer.appendChild(img);
+                    selectedFilesContainer.appendChild(removeBtn);
                 };
-
-                const prices = {
-                    'seminar': 20000,
-                    'Competition': 10000,
-                    'Master Class': 30000,
-                    'Expo': 15000,
-                };
-
-                let seminarSelected = false;
-
-                checkboxes.forEach(checkbox => {
-                    const value = checkbox.value;
-                    if (value === 'seminar') {
-                        seminarSelected = true;
-                    } else {
-                        totalPrice += prices[value] || 0.00;
-                    }
-                });
-
-                const packageSelection = document.getElementById('package-selection');
-                packageSelection.style.display = seminarSelected ? 'block' : 'none';
-
-                if (seminarSelected) {
-                    const selectedPackage = document.querySelector('input[name="package-type"]:checked');
-                    const packageFee = parseFloat(selectedPackage ? selectedPackage.dataset.fee : 0.00);
-                    totalPrice += packageFee;
-                }
-
-
-                const selectedDiscount = document.querySelector('input[name="discount"]:checked');
-                if (selectedDiscount) {
-                    const discountType = selectedDiscount.value;
-                    const discount = couponDiscounts[discountType] || 0;
-                    totalPrice -= totalPrice * discount;
-                }
-
-
-                let paymentTotal = totalPrice;
-                if (couponDiscount > 0) {
-                    paymentTotal -= couponDiscount;
-                }
-
-
-                let netPayableTotal = paymentTotal;
-
-                calculate(paymentTotal, netPayableTotal);
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select an image file.');
             }
+        });
+    });
 
-            function calculate(paymentTotal, netPayableTotal) {
-                const paymentTotalSpan = document.getElementById('payment_total');
-                const netPayableTotalSpan = document.getElementById('net-payable-total');
-                const advanceAmountSpan = document.getElementById('Advance');
-                const remainingAmountSpan = document.getElementById('remaining_amount');
+    document.addEventListener('DOMContentLoaded', function() {
+        const areaInterestSelect = document.getElementById('area-interest');
+        const areaInterestOthersInput = document.getElementById('category-others');
 
-                let advancePayment = (netPayableTotal * 50) / 100;
-
-
-                if (advancePayment > netPayableTotal) {
-                    advancePayment = netPayableTotal;
-                }
-
-                const remainingAmount = Math.max(0, netPayableTotal - advancePayment);
-
-                paymentTotalSpan.textContent = paymentTotal.toFixed(2);
-                netPayableTotalSpan.textContent = netPayableTotal.toFixed(2);
-                advanceAmountSpan.textContent = advancePayment.toFixed(2);
-                remainingAmountSpan.textContent = remainingAmount.toFixed(2);
-
-                document.querySelector('input[name="total_amount"]').value = paymentTotal;
-                document.querySelector('input[name="advance_amount"]').value = advancePayment;
-                document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
+        areaInterestSelect.addEventListener('change', function() {
+            if (this.value === 'Others') {
+                areaInterestOthersInput.style.display = 'block';
+            } else {
+                areaInterestOthersInput.style.display = 'none';
+                areaInterestOthersInput.value = '';
             }
-
-
-            document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
-                checkbox.addEventListener('change', updateTotal);
-            });
-
-            document.querySelectorAll('input[name="package-type"]').forEach(radio => {
-                radio.addEventListener('change', updateTotal);
-            });
-
-            document.querySelectorAll('input[name="discount"]').forEach(radio => {
-                radio.addEventListener('change', function() {
-                    document.getElementById('coupon-container').style.display = 'block';
-                    updateTotal();
-                });
-            });
-
-            document.getElementById('download-qr').addEventListener('click', function() {
-                var qrCodeUrl = 'QR-Code.png';
-                var link = document.createElement('a');
-                link.href = qrCodeUrl;
-                link.download = '';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-
-            document.getElementById('file-upload').addEventListener('change', function(event) {
-                const files = event.target.files;
-                const selectedFilesContainer = document.getElementById('selected-files');
-                selectedFilesContainer.innerHTML = '';
-
-                Array.from(files).forEach(file => {
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.alt = file.name;
-                            img.title = file.name;
-                            img.style.maxWidth = '150px';
-                            img.style.maxHeight = '150px';
-
-                            const removeBtn = document.createElement('button');
-                            removeBtn.textContent = 'Remove';
-                            removeBtn.className = 'remove-btn';
-                            removeBtn.onclick = function() {
-                                selectedFilesContainer.removeChild(img);
-                                selectedFilesContainer.removeChild(removeBtn);
-
-                                if (selectedFilesContainer.children.length === 0) {
-                                    document.getElementById('file-upload').value = '';
-                                }
-                            };
-
-                            selectedFilesContainer.appendChild(img);
-                            selectedFilesContainer.appendChild(removeBtn);
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        alert('Please select an image file.');
-                    }
-                });
-            });
         });
 
+        const leadSourceSelect = document.getElementById('lead-source');
+        const leadSourceOthersInput = document.getElementById('lead-source-others');
 
-
-
-        document.addEventListener('DOMContentLoaded', function() {
-
-            const areaInterestSelect = document.getElementById('area-interest');
-            const areaInterestOthersInput = document.getElementById('category-others');
-
-            areaInterestSelect.addEventListener('change', function() {
-                if (this.value === 'Others') {
-                    areaInterestOthersInput.style.display = 'block';
-                } else {
-                    areaInterestOthersInput.style.display = 'none';
-                    areaInterestOthersInput.value = '';
-                }
-            });
-
-
-            const leadSourceSelect = document.getElementById('lead-source');
-            const leadSourceOthersInput = document.getElementById('lead-source-others');
-
-            leadSourceSelect.addEventListener('change', function() {
-                if (this.value === 'Others') {
-                    leadSourceOthersInput.style.display = 'block';
-                } else {
-                    leadSourceOthersInput.style.display = 'none';
-                    leadSourceOthersInput.value = '';
-                }
-            });
+        leadSourceSelect.addEventListener('change', function() {
+            if (this.value === 'Others') {
+                leadSourceOthersInput.style.display = 'block';
+            } else {
+                leadSourceOthersInput.style.display = 'none';
+                leadSourceOthersInput.value = '';
+            }
         });
+    });
+});
     </script>
 
 </body>
