@@ -64,7 +64,7 @@ else {
 <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
         body {
-             font-family: "Raleway", sans-serif;
+            font-family: "Open Sans", system-ui;
             font-optical-sizing: auto;
             font-weight: 600;
             font-style: normal;
@@ -142,14 +142,19 @@ else {
             color: #fff;
             align-items: center;
         }
-
+        .required-icon{
+            color:red;
+        }
+          input:read-only {
+            background-color: #f0f0f0; /* Change this color as needed */
+        }
     </style>
 </head>
 
 <body>
     <div class="container-fluid">
         <div class="row content">
-            <div class="col-md-6 sidenav">
+            <div class="col-md-5 sidenav">
                 <div class="greebie_image" >
                     <img src="logo-gwm.jpg" style="width:10%;">
                     &nbsp; &nbsp;<h2> Event Registration Form</h2>
@@ -163,68 +168,161 @@ else {
                     <p><strong>Contact No:</strong> +91 9820490762 / +91 9820490460</p>
                     <p><strong>Email:</strong> <a href="mailto:jayeshpatel.muskowl@gmail.com">jayeshpatel.muskowl@gmail.com</a></p>
                 </div>
+                    <div class="img greebie_image" >
+                        <img src="freebie2.png" style="width:100%;">
+                    </div>
                    <div class="event-details">
-                    <h4> Bank Details</h4>
-                    <p><strong>Bank Name:</strong>  ICICI Bank</p>
-                    <p><strong>Account Number:</strong> 004501560103</p>
-                    <p><strong>IFSC:</strong> ICIC0000045</p>
-                    <p><strong>Branch:</strong> Madhuban, Udaipur</p>
+                        <h4> Bank Details</h4>
+                        <p><strong>Bank Name:</strong>  ICICI Bank</p>
+                        <p><strong>Account Number:</strong> 004501560103</p>
+                        <p><strong>IFSC:</strong> ICIC0000045</p>
+                        <p><strong>Branch:</strong> Madhuban, Udaipur</p>
+                    </div>
                     
-                </div>
                
             </div>
-            <div class="col-md-6">
-                 <div class="img greebie_image" >
-                    <img src="freebie1.jpg" style="width:100%;">
-                </div>
-                <h2>Event Registration Form</h2>
+            <div class="col-md-7 p-3">
+                 <!-- <div class="img greebie_image" >
+                    <img src="freebie2.png" style="width:100%;">
+                </div> -->
+                <h2 >Event Registration Form</h2>
                 <hr>
                 <form action="#" method="POST">
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label for="gender">Gender <span class="required-icon">*</span></label>
-                            <select id="gender" name="gender" class="form-control" required>
-                                <option value="" disabled selected>Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="name">Company Name <span class="required-icon">*</span></label>
-                            <input type="text" id="name" name="name" placeholder="Enter Company Name" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label for="state">State <span class="required-icon">*</span></label>
-                            <input type="text" id="state" name="state" placeholder="Enter your state"  class="form-control" required>
-                        </div>
-                        <div class="col-md-6">
-                                <label for="category-type">Category Type <span class="required-icon">*</span></label>
-                                <select id="category-type" name="category-type" class="form-control" required>
-                                <option value="" disabled selected>Select your category</option>
-                                <option value="Salon">Salon</option>
-                                <option value="Spa">Spa</option>
-                                <option value="Nail Studio">Nail Studio</option>
-                                <option value="Parlour">Parlour</option>
-                                <option value="Association">Association</option>
-                                <option value="Manufacturer">Manufacturer</option>
-                                <option value="Distributor">Distributor</option>
-                                <option value="Wholesaler">Wholesaler</option>
-                                <option value="Retailer">Retailer</option>
-                                <option value="Freelancer">Freelancer</option>
-                                <option value="Academy">Academy</option>
-                                <option value="Others">Others</option>
-                                </select>
-                                <input type="text" id="other" name="category-others" style="display: none;" class="form-control">
+                       <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="gender">Participant Name</label>
+                                <input type="text" id="name" name="name" placeholder="Enter Company Name" class="form-control" value="Prakash Sharma" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name">Email </label>    
+                                <input type="text"  name="email" placeholder="Enter Email " class="form-control" value="prakash@muskowl.com" readonly>
                             </div>
                         </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="gender">Mobile Number </label>
+                                <input type="text"  name="mobile" placeholder="Enter Mobile" class="form-control" value="9664100138" readonly>
+                            </div>
+                            <div class="col-md-6">
+                               <label for="gender">Gender <span class="required-icon">*</span></label>
+                               <div>
+                                    <input type="radio"  name="gender" value="Male"> Male 
+                                    &nbsp; &nbsp; &nbsp;
+                                    <input type="radio"  name="gender" value="Female"> Female
+                                </div>
+                            </div>
+                        </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label for="category-type">Category <span class="required-icon">*</span></label>
+                            <select id="category-type" name="category_type" class="form-control" required>
+                            <option value="" disabled selected>Choose Category</option>
+                            <option value="Salon">Salon</option>
+                            <option value="Spa">Spa</option>
+                            <option value="Nail Studio">Nail Studio</option>
+                            <option value="Parlour">Parlour</option>
+                            <option value="Association">Association</option>
+                            <option value="Manufacturer">Manufacturer</option>
+                            <option value="Distributor">Distributor</option>
+                            <option value="Wholesaler">Wholesaler</option>
+                            <option value="Retailer">Retailer</option>
+                            <option value="Freelancer">Freelancer</option>
+                            <option value="Academy">Academy</option>
+                            <option value="Others">Others</option>
+                            </select>
+                            <input type="text" id="other" name="category-others" style="display: none;" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="category-type">Sub Category <span class="required-icon">*</span></label>
+                            <select id="category-type" name="subcategory_type" class="form-control" required>
+                            <option value="" disabled selected>Choose Sub Category</option>
+                            <option value="Salon">Salon</option>
+                            <option value="Spa">Spa</option>
+                            <option value="Nail Studio">Nail Studio</option>
+                            <option value="Parlour">Parlour</option>
+                            <option value="Association">Association</option>
+                            <option value="Manufacturer">Manufacturer</option>
+                            <option value="Distributor">Distributor</option>
+                            <option value="Wholesaler">Wholesaler</option>
+                            <option value="Retailer">Retailer</option>
+                            <option value="Freelancer">Freelancer</option>
+                            <option value="Academy">Academy</option>
+                            <option value="Others">Others</option>
+                            </select>
+                            <input type="text" id="other" name="category-others" style="display: none;" class="form-control">
+                        </div>
                     </div>
-                </form> 
-            </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label for="name">Company Name </label>
+                            <input type="text" name="company_name" placeholder="Enter Company Name" class="form-control" >
+                        </div>
+                        <div class="col-md-6">
+                            <label for="state">City <span class="required-icon">*</span></label>
+                            <input type="text"  name="city" placeholder="Enter City"  class="form-control" required>
+                        </div>
+                    </div>
+                     <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label for="name">State </label>
+                            <select name="indian-states" id="indian-states" class="form-control">
+                                <option value="">Choose State</option>
+                                <option value="andhra-pradesh">Andhra Pradesh</option>
+                                <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                                <option value="assam">Assam</option>
+                                <option value="bihar">Bihar</option>
+                                <option value="chhattisgarh">Chhattisgarh</option>
+                                <option value="goa">Goa</option>
+                                <option value="gujarat">Gujarat</option>
+                                <option value="haryana">Haryana</option>
+                                <option value="himachal-pradesh">Himachal Pradesh</option>
+                                <option value="jharkhand">Jharkhand</option>
+                                <option value="karnataka">Karnataka</option>
+                                <option value="kerala">Kerala</option>
+                                <option value="madhya-pradesh">Madhya Pradesh</option>
+                                <option value="maharashtra">Maharashtra</option>
+                                <option value="manipur">Manipur</option>
+                                <option value="meghalaya">Meghalaya</option>
+                                <option value="mizoram">Mizoram</option>
+                                <option value="nagaland">Nagaland</option>
+                                <option value="odisha">Odisha</option>
+                                <option value="punjab">Punjab</option>
+                                <option value="rajasthan">Rajasthan</option>
+                                <option value="sikkim">Sikkim</option>
+                                <option value="tamil-nadu">Tamil Nadu</option>
+                                <option value="telangana">Telangana</option>
+                                <option value="tripura">Tripura</option>
+                                <option value="uttar-pradesh">Uttar Pradesh</option>
+                                <option value="uttarakhand">Uttarakhand</option>
+                                <option value="west-bengal">West Bengal</option>
+
+                                <!-- Union Territories -->
+                                <option value="andaman-nicobar">Andaman and Nicobar Islands</option>
+                                <option value="chandigarh">Chandigarh</option>
+                                <option value="dadra-nagar-haveli-daman-diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                <option value="delhi">Delhi</option>
+                                <option value="lakshadweep">Lakshadweep</option>
+                                <option value="puducherry">Puducherry</option>
+                                <option value="ladakh">Ladakh</option>
+                                <option value="jammu-kashmir">Jammu and Kashmir</option>
+                            </select>
+                        </div>
+                    </div>
+                    <hr>
+                     <div class="row mb-2">
+                        <div class="col-md-6">
+                            <label for="category-type">Choose Event Type <span class="required-icon">*</span></label>
+                            <select id="category-type" name="category_type" class="form-control" required>
+                            <option value="" disabled selected>Choose Category</option>
+                            <option value="Salon">Salon</option>
+                        </div>
+                    </div>
+                </div>
+            </form> 
         </div>
     </div>
+</div>
     
     <footer class="container-fluid">
     <p>Footer Text</p>
