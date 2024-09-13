@@ -1009,21 +1009,20 @@ $(document).ready(function() {
     let currentCoupon = "";
     let couponDiscount = 0;
 
+    // Apply coupon button click handler
     $('#apply-coupon').click(function() {
-        var couponCode = $('#coupon-code').val().trim();
+        const couponCode = $('#coupon-code').val().trim();
         if (couponCode !== currentCoupon) {
             currentCoupon = couponCode;
             $.ajax({
                 url: 'verify_coupon.php',
                 type: 'GET',
-                data: {
-                    code: couponCode
-                },
+                data: { code: couponCode },
                 success: function(response) {
-                    var discount = parseFloat(response);
-                    var message = '';
+                    const discount = parseFloat(response);
+                    let message = '';
                     if (discount > 0 && totalPrice > 0) {
-                        message = 'Coupon applied successfully! Discount: ₹' + discount;
+                        message = `Coupon applied successfully! Discount: ₹${discount}`;
                         couponDiscount = discount;
                         updateTotal();
                     } else if (discount === -1) {
@@ -1044,6 +1043,7 @@ $(document).ready(function() {
         }
     });
 
+    // Cancel coupon button click handler
     $('#cancel-coupon').click(function() {
         if (currentCoupon) {
             $('#coupon-code').val('');
@@ -1056,21 +1056,15 @@ $(document).ready(function() {
         }
     });
 
+    // Function to update total price and payments
     function updateTotal() {
         totalPrice = 0.00;
         const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
-        const couponCode = document.getElementById('coupon-code').value.trim();
-        const couponDiscounts = {
-            'early-birds': 0.10,
-            'group': 0.15,
-            'general': 0.05
-        };
-
         const prices = {
             'seminar': 20000,
             'Competition': 10000,
             'Master Class': 30000,
-            'Expo': 15000,
+            'Expo': 15000
         };
 
         let seminarSelected = false;
@@ -1093,7 +1087,6 @@ $(document).ready(function() {
             totalPrice += packageFee;
         }
 
-        // Calculate advance payment based on original total before applying any coupon discount
         const advancePayment = (totalPrice * 50) / 100;
         const remainingAmount = Math.max(0, totalPrice - advancePayment);
 
@@ -1102,11 +1095,12 @@ $(document).ready(function() {
             paymentTotal -= couponDiscount;
         }
 
-        let netPayableTotal = paymentTotal;
+        const netPayableTotal = paymentTotal;
 
         calculate(advancePayment, remainingAmount, netPayableTotal);
     }
 
+    // Function to calculate and update payment details
     function calculate(advanceAmount, remainingAmount, netPayableTotal) {
         const paymentTotalSpan = document.getElementById('payment_total');
         const netPayableTotalSpan = document.getElementById('net-payable-total');
@@ -1123,6 +1117,7 @@ $(document).ready(function() {
         document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
     }
 
+    // Event listeners for checkboxes and radios
     document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
         checkbox.addEventListener('change', updateTotal);
     });
@@ -1138,9 +1133,10 @@ $(document).ready(function() {
         });
     });
 
+    // Download QR code button handler
     document.getElementById('download-qr').addEventListener('click', function() {
-        var qrCodeUrl = 'QR-Code.png';
-        var link = document.createElement('a');
+        const qrCodeUrl = 'QR-Code.png';
+        const link = document.createElement('a');
         link.href = qrCodeUrl;
         link.download = '';
         document.body.appendChild(link);
@@ -1148,6 +1144,7 @@ $(document).ready(function() {
         document.body.removeChild(link);
     });
 
+    // File upload handler
     document.getElementById('file-upload').addEventListener('change', function(event) {
         const files = event.target.files;
         const selectedFilesContainer = document.getElementById('selected-files');
@@ -1186,32 +1183,24 @@ $(document).ready(function() {
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const areaInterestSelect = document.getElementById('area-interest');
+    // Change handlers for select elements
+    document.getElementById('area-interest').addEventListener('change', function() {
         const areaInterestOthersInput = document.getElementById('category-others');
+        areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+        if (this.value !== 'Others') {
+            areaInterestOthersInput.value = '';
+        }
+    });
 
-        areaInterestSelect.addEventListener('change', function() {
-            if (this.value === 'Others') {
-                areaInterestOthersInput.style.display = 'block';
-            } else {
-                areaInterestOthersInput.style.display = 'none';
-                areaInterestOthersInput.value = '';
-            }
-        });
-
-        const leadSourceSelect = document.getElementById('lead-source');
+    document.getElementById('lead-source').addEventListener('change', function() {
         const leadSourceOthersInput = document.getElementById('lead-source-others');
-
-        leadSourceSelect.addEventListener('change', function() {
-            if (this.value === 'Others') {
-                leadSourceOthersInput.style.display = 'block';
-            } else {
-                leadSourceOthersInput.style.display = 'none';
-                leadSourceOthersInput.value = '';
-            }
-        });
+        leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+        if (this.value !== 'Others') {
+            leadSourceOthersInput.value = '';
+        }
     });
 });
+
     </script>
 
 </body>
