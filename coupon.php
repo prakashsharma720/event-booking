@@ -819,47 +819,52 @@
                     </div>
                 </div>
 
-                <div class="field-container">
-                    <label for="event-type">Event Type <span class="required-icon">*</span></label>
-                    <div class="checkbox-container">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="seminar" name="event-type" value="seminar">
-                            <label for="seminar">Seminar - ₹20,000.00</label>
-                        </div>
-                        <div class="package-selection" id="package-selection">
-                            <div class="checkbox-item">
-                                <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="2000.00">
-                                <label for="package-vip">VIP - ₹2000.00</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="1500.00">
-                                <label for="package-gold">Gold - ₹1500.00</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="1000.00">
-                                <label for="package-silver">Silver - ₹1000.00</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="radio" id="package-none" name="package-type" value="None" data-fee="0.00" checked>
-                                <label for="package-none">None - ₹0.00</label>
-                            </div>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="Competition" name="event-type" value="Competition">
-                            <label for="Competition">Competition - ₹10,000.00</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="Master Class" name="event-type" value="Master Class">
-                            <label for="Master Class">Master Class - ₹30,000.00</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="Expo" name="event-type" value="Expo">
-                            <label for="Expo">Expo - ₹15,000.00</label>
-                        </div>
+        
+<div class="field-container">
+    <label for="event-type">Event Type <span class="required-icon">*</span></label>
+    <div class="checkbox-container">
+        <div class="checkbox-item">
+            <input type="checkbox" id="seminar" name="event-type" value="seminar" onclick="toggleTerms()">
+            <label for="seminar">Seminar - ₹20,000.00</label>
+        </div>
+        <div class="package-selection" id="package-selection">
+            <div class="checkbox-item">
+                <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="2000.00">
+                <label for="package-vip">VIP - ₹2000.00</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="1500.00">
+                <label for="package-gold">Gold - ₹1500.00</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="1000.00">
+                <label for="package-silver">Silver - ₹1000.00</label>
+            </div>
+            <div class="checkbox-item">
+                <input type="radio" id="package-none" name="package-type" value="None" data-fee="0.00" checked>
+                <label for="package-none">None - ₹0.00</label>
+            </div>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="Competition" name="event-type" value="Competition" onclick="toggleTerms()">
+            <label for="Competition">Competition - ₹10,000.00</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="Master Class" name="event-type" value="Master Class" onclick="toggleTerms()">
+            <label for="Master Class">Master Class - ₹30,000.00</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="Expo" name="event-type" value="Expo" onclick="toggleTerms()">
+            <label for="Expo">Expo - ₹15,000.00</label>
+        </div>
+    </div>
+    <div id="terms-section" style="display: none;">
+    <h5>Terms And Conditions</h5>
+    <p>Insert your Terms and Conditions here.</p>
+</div>
+</div>
+<!-- Modal -->
 
-
-                    </div>
-                </div>
 
                 <div class="total-area">
 
@@ -896,7 +901,7 @@
                         <label for="coupon-code">Enter Coupon Code<span class="required-icon">*</span></label>
                         <div class="row">
                             <div class="col-6">
-                                <input type="text" id="coupon-code" name="coupon-code" placeholder="Enter coupon code">
+                                <input type="text" id="coupon-code" name="coupon-code" placeholder="Enter coupon code" class="form-control">
                             </div>
                             <div class="col-3 button">
                                 <button type="button" id="apply-coupon" class="btn btn-primary">Apply</button>
@@ -934,7 +939,7 @@
                 <div class="field-container">
                     <div class="field">
                         <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
-                        <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" required>
+                        <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" class="form-control" required>
                     </div>
                 </div>
                 <br>
@@ -1088,16 +1093,15 @@ $(document).ready(function() {
         }
 
         const advancePayment = (totalPrice * 50) / 100;
-        const remainingAmount = Math.max(0, totalPrice - advancePayment);
-
         let paymentTotal = totalPrice;
+
         if (couponDiscount > 0) {
             paymentTotal -= couponDiscount;
         }
 
-        const netPayableTotal = paymentTotal;
+        const remainingAmount = Math.max(0, paymentTotal - advancePayment);
 
-        calculate(advancePayment, remainingAmount, netPayableTotal);
+        calculate(advancePayment, remainingAmount, paymentTotal);
     }
 
     // Function to calculate and update payment details
@@ -1201,7 +1205,21 @@ $(document).ready(function() {
     });
 });
 
+function toggleTerms() {
+    const termsSection = document.getElementById('terms-section');
+    // Show the Terms and Conditions section if any event type checkbox is selected
+    const anyEventSelected = document.querySelectorAll('input[name="event-type"]:checked').length > 0;
+    termsSection.style.display = anyEventSelected ? 'block' : 'none';
+}
+
+
+
+
+
+
     </script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 

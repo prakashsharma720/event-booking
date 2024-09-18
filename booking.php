@@ -62,6 +62,8 @@ if ($data['status'] == "true") {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
         body {
             font-family: "Open Sans", system-ui;
@@ -113,10 +115,51 @@ if ($data['status'] == "true") {
         }
 
         .event-details {
-            color: #333;
+            padding: 20px;
             background-color: #fff;
-            padding: 45px;
-            margin: 20px auto;
+            border-radius: 8px;
+
+            margin: 20px 0;
+        }
+
+        .event-details h4 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .event-details p {
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .event-details .qr-code-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .event-details .qr-code-container img {
+            max-width: 90%;
+            height: auto;
+            max-height: 200px;
+            margin-top: -171px;
+            margin-left: 7px;
+        }
+
+        /* Adjust if necessary */
+
+
+        @media (max-width: 768px) {
+            .event-details {
+                padding: 15px;
+            }
+
+            .event-details h4 {
+                font-size: 1.25rem;
+            }
+
+            .event-details p {
+                font-size: 0.9rem;
+            }
         }
 
         .event-details:hover {
@@ -232,10 +275,7 @@ if ($data['status'] == "true") {
             transform: scale(1.2);
         }
 
-        .button {
-            flex: 0 0 auto;
-            width: 30%;
-        }
+
 
         #coupon-container .field {
             margin-top: 10px;
@@ -252,7 +292,7 @@ if ($data['status'] == "true") {
         }
 
         #coupon-container .btn {
-            margin-left: 8px;
+            margin-left: -13px;
         }
 
         .qr-code-container img {
@@ -389,6 +429,84 @@ if ($data['status'] == "true") {
             margin-right: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+        }
+
+        .sms {
+            margin: 8px;
+
+        }
+
+        .sms p {
+            padding: 10px;
+            border-radius: 4px;
+
+            margin-top: 10px;
+
+            display: none;
+
+        }
+
+        .sms #coupon-message.show {
+            display: block;
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
+
+        .sms #coupon-alert.show {
+            display: block;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
+
+        footer {
+            margin-top: 1019px;
+        }
+
+        .jay {
+            flex: 0 0 auto;
+            width: 58%;
+        }
+
+        #coupon-container {
+            margin-top: 20px;
+        }
+
+        .field {
+            margin-bottom: 20px;
+        }
+
+        .required-icon {
+            color: red;
+        }
+
+        .btn {
+            margin-right: 24px;
+        }
+
+        .col-9 input {
+            border-radius: 8px;
+        }
+
+        .col-3 .btn {
+            width: 115%;
+        }
+
+        .col-3 {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        @media (max-width: 576px) {
+
+            .col-9,
+            .col-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .col-3 .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -554,27 +672,10 @@ if ($data['status'] == "true") {
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <label for="area-interest">Area of Interest <span class="required-icon">*</span></label>
-                            <select id="area-interest" name="area-interest" class="form-control" required>
-                                <option value="" disabled selected>Select area of interest</option>
-                                <option value="Competitions">Competitions</option>
-                                <option value="Discounts">Discounts</option>
-                                <option value="B2B Meetings / Networking">B2B Meetings / Networking</option>
-                                <option value="Salon & Spa">Salon & Spa</option>
-                                <option value="Equipment Supply Chain">Equipment Supply Chain</option>
-                                <option value="Products Supply Chain">Products Supply Chain</option>
-                                <option value="Make-up">Make-up</option>
-                                <option value="Skin Care">Skin Care</option>
-                                <option value="Products Branding & Marketing">Products Branding & Marketing</option>
-                                <option value="Product Knowledge">Product Knowledge</option>
-                                <option value="Product Awareness">Product Awareness</option>
-                                <option value="Education">Education</option>
-                                <option value="Hair Care">Hair Care</option>
-                                <option value="Nail Art">Nail Art</option>
-                                <option value="Others">Others</option>
-                            </select>
-                            <input type="text" id="category-others" name="category-others" style="display: none;" class="form-control" placeholder="Please specify">
+                            <label for="pincode">Pincode <span class="required-icon">*</span></label>
+                            <input type="text" name="pincode" id="pincode" placeholder="Enter Pincode" class="form-control" required>
                         </div>
+
                     </div>
 
                     <div class="row mb-2">
@@ -602,162 +703,174 @@ if ($data['status'] == "true") {
                             </select>
                             <input type="text" id="lead-source-others" name="lead-source-others" style="display: none;" class="form-control" placeholder="Please specify">
                         </div>
+                        <div class="col-md-6">
+                            <label for="area-interest">Area of Interest <span class="required-icon">*</span></label>
+                            <select id="area-interest" name="area-interest" class="form-control" required>
+                                <option value="" disabled selected>Select area of interest</option>
+                                <option value="Competitions">Competitions</option>
+                                <option value="Discounts">Discounts</option>
+                                <option value="B2B Meetings / Networking">B2B Meetings / Networking</option>
+                                <option value="Salon & Spa">Salon & Spa</option>
+                                <option value="Equipment Supply Chain">Equipment Supply Chain</option>
+                                <option value="Products Supply Chain">Products Supply Chain</option>
+                                <option value="Make-up">Make-up</option>
+                                <option value="Skin Care">Skin Care</option>
+                                <option value="Products Branding & Marketing">Products Branding & Marketing</option>
+                                <option value="Product Knowledge">Product Knowledge</option>
+                                <option value="Product Awareness">Product Awareness</option>
+                                <option value="Education">Education</option>
+                                <option value="Hair Care">Hair Care</option>
+                                <option value="Nail Art">Nail Art</option>
+                                <option value="Others">Others</option>
+                            </select>
+                            <input type="text" id="category-others" name="category-others" style="display: none;" class="form-control" placeholder="Please specify">
+                        </div>
                     </div>
                     <hr>
                     <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="field-container">
-                                <label for="event-type">Event Type <span class="required-icon">*</span></label>
-                                <div class="checkbox-container">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="seminar" name="event-type" value="seminar">
-                                        <label for="seminar">Seminar - ₹20,000.00</label>
-                                    </div>
-                                    <div class="package-selection" id="package-selection">
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="2000.00">
-                                            <label for="package-vip">VIP - ₹2000.00</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="1500.00">
-                                            <label for="package-gold">Gold - ₹1500.00</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="1000.00">
-                                            <label for="package-silver">Silver - ₹1000.00</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-none" name="package-type" value="None" data-fee="0.00" checked>
-                                            <label for="package-none">None - ₹0.00</label>
-                                        </div>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="Competition" name="event-type" value="Competition">
-                                        <label for="Competition">Competition - ₹10,000.00</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="Master Class" name="event-type" value="Master Class">
-                                        <label for="Master Class">Master Class - ₹30,000.00</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="Expo" name="event-type" value="Expo">
-                                        <label for="Expo">Expo - ₹15,000.00</label>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="total-area">
-
-                                <div class="amounts">
-                                    <div class="amount-item">
-                                        <span class="label">Total:</span>
-                                        ₹<span id="payment_total">0.00</span>
-                                        <input type="hidden" name="total_amount">
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-                            
-
-                            <div class="col-md-9">
-                                <div id="coupon-container">
-                                    <div class="field">
-                                        <label for="coupon-code">Enter Coupon Code<span class="required-icon">*</span></label>
-
-                                        <div class="row">
-                                            
-                                            <div class="col-9">
-                                                <input type="text" id="coupon-code" name="coupon-code" class="form-control" placeholder="Enter coupon code">
-                                            </div>
-                                            <div class="col-3 d-flex align-items-center">
-                                                <button type="button" id="apply-coupon" class="btn btn-primary">Apply</button>
-                                                <button type="button" id="cancel-coupon" class="btn btn-danger ml-2">
-                                                    <i class="bi bi-x-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-3 d-flex">
-
-                                        <p id="coupon-message" style="color: green;"></p>
-
-                                    </div>
-                                </div>
-                                
-                                <div class="row mb-2">
-                                    <div class="col-md-6">
-                                        <div class="total-area">
-                                            <p>(Including Advance Payment of 50%):</p>
-                                            <div class="amounts">
-                                                <div class="amount-item">
-                                                    <span class="label">Net payable Total:</span>
-                                                    ₹<span id="net-payable-total">0.00</span>
-                                                </div>
-                                                <div class="amount-item">
-                                                    <span class="label">Advance:</span>
-                                                    ₹<span id="Advance">0.00</span>
-                                                    <input type="hidden" name="advance_amount">
-                                                </div>
-                                                <div class="amount-item">
-                                                    <span class="label">Remaining:</span>
-                                                    ₹<span id="remaining_amount">0.00</span>
-                                                    <input type="hidden" name="remaining_amount">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-9">
-                                <div class="field-container">
-                                    <div class="field">
-                                        <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
-                                        <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" class="form-control" required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row mb-2">
-                            <div class="col-md-9">
-                            <div class="file-upload-container">
-                    <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span></h3>
-                    <div class="file-upload-area">
-                        <input type="file" id="file-upload" name="file-upload" multiple accept="image/*" required>
-                        <label for="file-upload" class="upload-button">
-                            <span>Add file</span>
-                        </label>
-                        <div id="selected-files" class="selected-files"></div>
-                    </div>
-
+    <div class="col-md-6">
+        <div class="field-container">
+            <label for="event-type">Event Type <span class="required-icon">*</span></label>
+            <div class="checkbox-container">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="seminar" name="event-type" value="seminar" onclick="toggleTerms()">
+                    <label for="seminar">Seminar - ₹20,000.00</label>
                 </div>
-
-                            </div>
-                            </div>
-
-
-                </form>
-
-
-
+                <div class="package-selection" id="package-selection">
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="2000.00">
+                        <label for="package-vip">VIP - ₹2000.00</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="1500.00">
+                        <label for="package-gold">Gold - ₹1500.00</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="1000.00">
+                        <label for="package-silver">Silver - ₹1000.00</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-none" name="package-type" value="None" data-fee="0.00" checked>
+                        <label for="package-none">None - ₹0.00</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="Competition" name="event-type" value="Competition" onclick="toggleTerms()">
+                    <label for="Competition">Competition - ₹10,000.00</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="Master Class" name="event-type" value="Master Class" onclick="toggleTerms()">
+                    <label for="Master Class">Master Class - ₹30,000.00</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="Expo" name="event-type" value="Expo" onclick="toggleTerms()">
+                    <label for="Expo">Expo - ₹15,000.00</label>
+                </div>
             </div>
-
         </div>
-        <footer class="container-fluid">
-            <p>Footer Text</p>
-        </footer>
+    </div>
+    <div class="col-md-6">
+   
+            <div id="terms-section" style="display: none;">
+                <h5>Terms And Conditions</h5>
+                <p>Insert your Terms and Conditions here. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor facilis ex amet. Non, aspernatur.Insert your Terms and Conditions here. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor facilis ex amet. Non, aspernatur.</p>
+            </div>
+       
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-6">
+        <div class="total-area">
+            <div class="amounts">
+                <div class="amount-item">
+                    <span class="label">Total:</span>
+                    ₹<span id="payment_total">0.00</span>
+                    <input type="hidden" name="total_amount">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="coupon-container" >
+            <div class="field">
+                <label for="coupon-code">Enter Coupon Code<span class="required-icon">*</span></label>
+                <div class="row">
+                    <div class="col-9 jay">
+                        <input type="text" id="coupon-code" name="coupon-code" class="form-control" placeholder="Enter coupon code">
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <button type="button" id="apply-coupon" class="btn btn-primary mr-2">Apply</button>
+                        <button type="button" id="cancel-coupon" class="btn btn-danger">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sms">
+            <p id="coupon-message"></p>
+        </div>
+        <div class="sms">
+            <p id="coupon-alert"></p>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-6">
+        <div class="total-area mb-2">
+            <p>(Including Advance Payment of 50%):</p>
+            <div class="amounts">
+                <div class="amount-item">
+                    <span class="label">Net payable Total:</span>
+                    ₹<span id="net-payable-total">0.00</span>
+                </div>
+                <div class="amount-item">
+                    <span class="label">Advance:</span>
+                    ₹<span id="Advance">0.00</span>
+                    <input type="hidden" name="advance_amount">
+                </div>
+                <div class="amount-item">
+                    <span class="label">Remaining:</span>
+                    ₹<span id="remaining_amount">0.00</span>
+                    <input type="hidden" name="remaining_amount">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-9">
+        <div class="field">
+            <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
+            <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" class="form-control" required>
+        </div>
     </div>
 
+    <div class="col-md-9 mt-5">
+        <div class="file-upload-container">
+            <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span></h3>
+            <div class="file-upload-area">
+                <input type="file" id="file-upload" name="file-upload" multiple accept="image/*" required class="form-control">
+                <label for="file-upload" class="upload-button">
+                    <span>Add file</span>
+                </label>
+                <div id="selected-files" class="selected-files"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
+                </form>
+            </div>
+        </div>
+    </div>
+    <footer class="container-fluid">
+        <p>Footer Text</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz4fnFO9bU0DGRpS2L90m0cH0n2AnXL7jF1C2DBcBxrmQ1o5OS7Y3ELDDa" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-Tc5G3sS0u5S7nH6j27blOg9Q71GmA0m1m4U2F2mvDlV8z7F3Km/rI4b3r8ewpPpY" crossorigin="anonymous"></script>
@@ -781,43 +894,56 @@ if ($data['status'] == "true") {
                         },
                         success: function(response) {
                             const discount = parseFloat(response);
-                            let message = '';
+                            let successMessage = '';
+                            let errorMessage = '';
+
                             if (discount > 0 && totalPrice > 0) {
-                                message = `Coupon applied successfully! Discount: ₹${discount}`;
+                                successMessage = `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
                                 couponDiscount = discount;
                                 updateTotal();
                             } else if (discount === -1) {
-                                message = 'Invalid coupon code. Please try again.';
+                                errorMessage = 'Invalid coupon code. Please try again.';
                             } else if (discount === -2) {
-                                message = 'No coupon code provided.';
+                                errorMessage = 'No coupon code provided.';
                             } else {
-                                message = 'Unexpected response from the server.';
+                                errorMessage = 'Unexpected response from the server.';
                             }
-                            $('#coupon-message').text(message);
+
+                            if (successMessage) {
+                                $('#coupon-message').text(successMessage).addClass('show');
+                                $('#coupon-alert').text('').removeClass('show');
+                            } else if (errorMessage) {
+                                $('#coupon-alert').text(errorMessage).addClass('show');
+                                $('#coupon-message').text('').removeClass('show');
+                            }
                         },
                         error: function() {
-                            $('#coupon-message').text('An error occurred. Please try again.');
+                            $('#coupon-alert').text('An error occurred. Please try again.').addClass('show');
+                            $('#coupon-message').text('').removeClass('show');
                         }
                     });
                 } else {
-                    $('#coupon-message').text('Coupon code already applied');
+                    $('#coupon-alert').text('Coupon code already applied').addClass('show');
+                    $('#coupon-message').text('').removeClass('show');
                 }
             });
 
-            // Cancel coupon button click handler
+
             $('#cancel-coupon').click(function() {
                 if (currentCoupon) {
                     $('#coupon-code').val('');
-                    $('#coupon-message').text('');
+                    $('#coupon-message').text('').removeClass('show');
+                    $('#coupon-alert').text('').removeClass('show');
                     couponDiscount = 0;
                     currentCoupon = '';
                     updateTotal();
                 } else {
-                    $('#coupon-message').text('No coupon code applied to cancel.');
+                    $('#coupon-alert').text('No coupon code applied to cancel.').addClass('show');
+                    $('#coupon-message').text('').removeClass('show');
                 }
             });
 
-            // Function to update total price and payments
+
             function updateTotal() {
                 totalPrice = 0.00;
                 const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
@@ -849,16 +975,15 @@ if ($data['status'] == "true") {
                 }
 
                 const advancePayment = (totalPrice * 50) / 100;
-                const remainingAmount = Math.max(0, totalPrice - advancePayment);
-
                 let paymentTotal = totalPrice;
+
                 if (couponDiscount > 0) {
                     paymentTotal -= couponDiscount;
                 }
 
-                const netPayableTotal = paymentTotal;
+                const remainingAmount = Math.max(0, paymentTotal - advancePayment);
 
-                calculate(advancePayment, remainingAmount, netPayableTotal);
+                calculate(advancePayment, remainingAmount, paymentTotal);
             }
 
             // Function to calculate and update payment details
@@ -961,6 +1086,12 @@ if ($data['status'] == "true") {
                 }
             });
         });
+
+        function toggleTerms() {
+            const termsSection = document.getElementById('terms-section');
+            const anyEventSelected = document.querySelectorAll('input[name="event-type"]:checked').length > 0;
+            termsSection.style.display = anyEventSelected ? 'block' : 'none';
+        }
     </script>
 
 
