@@ -2,6 +2,8 @@
 $code = $_GET['code'];
 $curl = curl_init();
 
+// base url 
+// https://gwmadmin.muskowl.com/index.php/api/Events_api/index.php
 curl_setopt_array($curl, array(
     CURLOPT_URL => 'http://localhost/CI/event-portal/index.php/api/Events_api/EvtD',
     CURLOPT_RETURNTRANSFER => true,
