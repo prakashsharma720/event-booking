@@ -605,6 +605,7 @@ else {
                             <div class="field-container">
                                 <label for="event-type">Event Type <span class="required-icon">*</span></label>
                                 <div class="checkbox-container">
+<<<<<<< HEAD
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="seminar" name="event-type" value="seminar">
                                         <label for="seminar">Seminar - ₹20,000.00</label>
@@ -638,6 +639,52 @@ else {
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="Expo" name="event-type" value="Expo">
                                         <label for="Expo">Expo - ₹15,000.00</label>
+=======
+                                    <?php foreach ($result['event_types_details'] as $event_type_array) { ?>
+
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="seminar" name="event-type" value="seminar" onclick="toggleTerms()">
+                                            <label for="seminar"> <?php echo $event_type_array['event_type']; ?>
+                                                ₹
+                                                <?php if ($event_type_array['package_available'] == 'No') {
+                                                    echo $event_type_array['single_price'];
+                                                } ?>
+
+                                            </label>
+                                        </div>
+                                        <?php if ($event_type_array['package_available'] == 'Yes') { ?>
+                                            <div class="package-selection" id="package-selection">
+                                                <?php if (!empty($event_type_array['vip_row_price'])) { ?>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="<?= $event_type_array['vip_row_price'] ?>000.00">
+                                                        <label for="package-vip">VIP - ₹ <?= $event_type_array['vip_row_price'] ?></label>
+                                                    </div>
+                                                <?php } ?>
+
+
+                                                <?php if (!empty($event_type_array['gold_row_price'])) { ?>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="<?= $event_type_array['gold_row_price'] ?>000.00">
+                                                        <label for="package-gold">Gold - ₹ <?= $event_type_array['gold_row_price'] ?></label>
+                                                    </div>
+                                                <?php } ?>
+
+
+                                                <?php if (!empty($event_type_array['silver_row_price'])) { ?>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="<?= $event_type_array['silver_row_price'] ?>000.00">
+                                                        <label for="package-silver">Silver - ₹ <?= $event_type_array['silver_row_price'] ?></label>
+                                                    </div>
+                                                <?php } ?>
+
+                                            </div>
+                                        <?php } ?>
+                                    <?php } ?>
+
+                                    <!-- <div class="checkbox-item">
+                                        <input type="checkbox" id="Competition" name="event-type" value="Competition" onclick="toggleTerms()">
+                                        <label for="Competition"> competition - ₹30,000.00</label>  
+>>>>>>> parent of d6d2ed7 (dg)
                                     </div>
                                 </div>
 
@@ -917,14 +964,14 @@ else {
 
                 checkboxes.forEach(checkbox => {
                     const value = checkbox.value;
-                    if (value === 'Seminar') {
+                    if (value === 'seminar') {
                         seminarSelected = true;
                     } else {
                         totalPrice += prices[value] || 0.00;
                     }
                 });
 
-                const packageSelection = document.getElementById('checkbox_Seminar');
+                const packageSelection = document.getElementById('package-selection');
                 packageSelection.style.display = seminarSelected ? 'block' : 'none';
 
                 if (seminarSelected) {
