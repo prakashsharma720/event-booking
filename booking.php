@@ -774,11 +774,12 @@ if ($data['status'] == "true") {
 
                                             </div>
                                         <?php } ?>
-                                    <?php } ?>
+                                        <?php } ?>
 
                                     <!-- <div class="checkbox-item">
                                         <input type="checkbox" id="Competition" name="event-type" value="Competition" onclick="toggleTerms()">
-                                        <label for="Competition"> competition - ₹30,000.00</label>  
+                                        <label for="Competition"> <?php echo $event_type_array['event_type']; ?>
+                                    </label>
                                     </div>
                                       -->
                                     <!-- <div class="checkbox-item">
