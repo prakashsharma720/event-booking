@@ -596,6 +596,7 @@ if ($data['status'] == "true") {
                                 <option value="Academy">Academy</option>
                                 <option value="Others">Others</option>
                             </select>
+                            
                             <input type="text" id="other" name="category-others" style="display: none;" class="form-control">
                         </div>
                         <div class="col-md-6">
@@ -684,7 +685,7 @@ if ($data['status'] == "true") {
                         <div class="col-md-6">
 
                             <label for="lead-source">Lead Source Master <span class="required-icon">*</span></label>
-                            <select id="lead-source" name="lead-source" class="form-control" required>
+                            <select id="lead-source" name="lead-source" class="form-control mb-2" required>
                                 <option value="" disabled selected>Select an option</option>
                                 <option value="Friends Reference">Friends Reference</option>
                                 <option value="GWM Instagram Page">GWM Instagram Page</option>
@@ -707,7 +708,7 @@ if ($data['status'] == "true") {
                         </div>
                         <div class="col-md-6">
                             <label for="area-interest">Area of Interest <span class="required-icon">*</span></label>
-                            <select id="area-interest" name="area-interest" class="form-control" required>
+                            <select id="area-interest" name="area-interest" class="form-control  mb-2" required>
                                 <option value="" disabled selected>Select area of interest</option>
                                 <option value="Competitions">Competitions</option>
                                 <option value="Discounts">Discounts</option>
@@ -736,7 +737,6 @@ if ($data['status'] == "true") {
                                 <label for="event-type">Event Type <span class="required-icon">*</span></label>
                                 <div class="checkbox-container">
                                     <?php foreach ($result['event_types_details'] as $event_type_array) { ?>
-
                                         <div class="checkbox-item">
                                             <input type="checkbox" id="checkbox_<?php echo $event_type_array['event_type']; ?>" name="event-type" value="<?php echo $event_type_array['event_type']; ?>" onclick="toggleTerms()">
                                             <label for="seminar"> <?php echo $event_type_array['event_type']; ?>
