@@ -1014,20 +1014,21 @@ $(document).ready(function() {
     let currentCoupon = "";
     let couponDiscount = 0;
 
-    // Apply coupon button click handler
     $('#apply-coupon').click(function() {
-        const couponCode = $('#coupon-code').val().trim();
+        var couponCode = $('#coupon-code').val().trim();
         if (couponCode !== currentCoupon) {
             currentCoupon = couponCode;
             $.ajax({
                 url: 'verify_coupon.php',
                 type: 'GET',
-                data: { code: couponCode },
+                data: {
+                    code: couponCode
+                },
                 success: function(response) {
-                    const discount = parseFloat(response);
-                    let message = '';
+                    var discount = parseFloat(response);
+                    var message = '';
                     if (discount > 0 && totalPrice > 0) {
-                        message = `Coupon applied successfully! Discount: ₹${discount}`;
+                        message = 'Coupon applied successfully! Discount: ₹' + discount;
                         couponDiscount = discount;
                         updateTotal();
                     } else if (discount === -1) {
@@ -1048,7 +1049,6 @@ $(document).ready(function() {
         }
     });
 
-    // Cancel coupon button click handler
     $('#cancel-coupon').click(function() {
         if (currentCoupon) {
             $('#coupon-code').val('');
@@ -1061,15 +1061,21 @@ $(document).ready(function() {
         }
     });
 
-    // Function to update total price and payments
     function updateTotal() {
         totalPrice = 0.00;
         const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
+        const couponCode = document.getElementById('coupon-code').value.trim();
+        const couponDiscounts = {
+            'early-birds': 0.10,
+            'group': 0.15,
+            'general': 0.05
+        };
+
         const prices = {
             'seminar': 20000,
             'Competition': 10000,
             'Master Class': 30000,
-            'Expo': 15000
+            'Expo': 15000,
         };
 
         let seminarSelected = false;
@@ -1092,6 +1098,7 @@ $(document).ready(function() {
             totalPrice += packageFee;
         }
 
+        // Calculate advance payment based on original total before applying any coupon discount
         const advancePayment = (totalPrice * 50) / 100;
         let paymentTotal = totalPrice;
 
@@ -1099,12 +1106,15 @@ $(document).ready(function() {
             paymentTotal -= couponDiscount;
         }
 
+<<<<<<< HEAD
         const remainingAmount = Math.max(0, paymentTotal - advancePayment);
+=======
+        let netPayableTotal = paymentTotal;
+>>>>>>> parent of e8dd2c6 (booking.php)
 
         calculate(advancePayment, remainingAmount, paymentTotal);
     }
 
-    // Function to calculate and update payment details
     function calculate(advanceAmount, remainingAmount, netPayableTotal) {
         const paymentTotalSpan = document.getElementById('payment_total');
         const netPayableTotalSpan = document.getElementById('net-payable-total');
@@ -1121,7 +1131,6 @@ $(document).ready(function() {
         document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
     }
 
-    // Event listeners for checkboxes and radios
     document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
         checkbox.addEventListener('change', updateTotal);
     });
@@ -1137,10 +1146,9 @@ $(document).ready(function() {
         });
     });
 
-    // Download QR code button handler
     document.getElementById('download-qr').addEventListener('click', function() {
-        const qrCodeUrl = 'QR-Code.png';
-        const link = document.createElement('a');
+        var qrCodeUrl = 'QR-Code.png';
+        var link = document.createElement('a');
         link.href = qrCodeUrl;
         link.download = '';
         document.body.appendChild(link);
@@ -1148,7 +1156,6 @@ $(document).ready(function() {
         document.body.removeChild(link);
     });
 
-    // File upload handler
     document.getElementById('file-upload').addEventListener('change', function(event) {
         const files = event.target.files;
         const selectedFilesContainer = document.getElementById('selected-files');
@@ -1187,23 +1194,33 @@ $(document).ready(function() {
         });
     });
 
-    // Change handlers for select elements
-    document.getElementById('area-interest').addEventListener('change', function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        const areaInterestSelect = document.getElementById('area-interest');
         const areaInterestOthersInput = document.getElementById('category-others');
-        areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-        if (this.value !== 'Others') {
-            areaInterestOthersInput.value = '';
-        }
-    });
 
-    document.getElementById('lead-source').addEventListener('change', function() {
+        areaInterestSelect.addEventListener('change', function() {
+            if (this.value === 'Others') {
+                areaInterestOthersInput.style.display = 'block';
+            } else {
+                areaInterestOthersInput.style.display = 'none';
+                areaInterestOthersInput.value = '';
+            }
+        });
+
+        const leadSourceSelect = document.getElementById('lead-source');
         const leadSourceOthersInput = document.getElementById('lead-source-others');
-        leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-        if (this.value !== 'Others') {
-            leadSourceOthersInput.value = '';
-        }
+
+        leadSourceSelect.addEventListener('change', function() {
+            if (this.value === 'Others') {
+                leadSourceOthersInput.style.display = 'block';
+            } else {
+                leadSourceOthersInput.style.display = 'none';
+                leadSourceOthersInput.value = '';
+            }
+        });
     });
 });
+<<<<<<< HEAD
 
 function toggleTerms() {
     const termsSection = document.getElementById('terms-section');
@@ -1217,6 +1234,8 @@ function toggleTerms() {
 
 
 
+=======
+>>>>>>> parent of e8dd2c6 (booking.php)
     </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
