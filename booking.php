@@ -980,6 +980,31 @@ $(document).ready(function() {
         calculate(advancePayment, remainingAmount, paymentTotal);
     }
 
+     function toggleTerms(eventTypeId) {
+        alert(eventTypeId);
+    const checkbox = document.getElementById('event-' + eventTypeId);
+    const packageSelection = document.getElementById('package-selection-' + eventTypeId);
+    const termsSection = document.getElementById('terms-section-' + eventTypeId);
+
+    if (checkbox.checked) {
+        if (packageSelection) {
+            packageSelection.style.display = 'block'; // Show package selection if applicable
+        }
+        if (termsSection) {
+            termsSection.style.display = 'block'; // Show TNC section
+        }
+    } else {
+        if (packageSelection) {
+            packageSelection.style.display = 'none'; // Hide package selection
+        }
+        if (termsSection) {
+            termsSection.style.display = 'none'; // Hide TNC section
+        }
+    }
+
+    // updateTotal(); // Update total price and other details
+}
+
     // Event listeners for checkboxes
     document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
         checkbox.addEventListener('change', updateTotal);
@@ -1072,6 +1097,8 @@ $(document).ready(function() {
             leadSourceOthersInput.value = '';
         }
     });
+   
+
 });
 </script>
 
