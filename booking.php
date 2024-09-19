@@ -112,51 +112,10 @@ else {
         }
 
         .event-details {
-            padding: 20px;
+            color: #333;
             background-color: #fff;
-            border-radius: 8px;
-
-            margin: 20px 0;
-        }
-
-        .event-details h4 {
-            margin-bottom: 15px;
-            font-size: 1.5rem;
-        }
-
-        .event-details p {
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-
-        .event-details .qr-code-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .event-details .qr-code-container img {
-            max-width: 90%;
-            height: auto;
-            max-height: 200px;
-            margin-top: -171px;
-            margin-left: 7px;
-        }
-
-        /* Adjust if necessary */
-
-
-        @media (max-width: 768px) {
-            .event-details {
-                padding: 15px;
-            }
-
-            .event-details h4 {
-                font-size: 1.25rem;
-            }
-
-            .event-details p {
-                font-size: 0.9rem;
-            }
+            padding: 45px;
+            margin: 20px auto;
         }
 
         .event-details:hover {
@@ -427,84 +386,6 @@ else {
             margin-right: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
-        }
-
-        .sms {
-            margin: 8px;
-
-        }
-
-        .sms p {
-            padding: 10px;
-            border-radius: 4px;
-
-            margin-top: 10px;
-
-            display: none;
-
-        }
-
-        .sms #coupon-message.show {
-            display: block;
-            border: 1px solid #28a745;
-            color: #28a745;
-        }
-
-        .sms #coupon-alert.show {
-            display: block;
-            border: 1px solid #dc3545;
-            color: #dc3545;
-        }
-
-        footer {
-            margin-top: 1019px;
-        }
-
-        .jay {
-            flex: 0 0 auto;
-            width: 58%;
-        }
-
-        #coupon-container {
-            margin-top: 20px;
-        }
-
-        .field {
-            margin-bottom: 20px;
-        }
-
-        .required-icon {
-            color: red;
-        }
-
-        .btn {
-            margin-right: 24px;
-        }
-
-        .col-9 input {
-            border-radius: 8px;
-        }
-
-        .col-3 .btn {
-            width: 115%;
-        }
-
-        .col-3 {
-            display: flex;
-            justify-content: flex-start;
-        }
-
-        @media (max-width: 576px) {
-
-            .col-9,
-            .col-3 {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
-            .col-3 .btn {
-                width: 100%;
-            }
         }
     </style>
 </head>
@@ -901,29 +782,20 @@ else {
                                 couponDiscount = discount;
                                 updateTotal();
                             } else if (discount === -1) {
-                                errorMessage = 'Invalid coupon code. Please try again.';
+                                message = 'Invalid coupon code. Please try again.';
                             } else if (discount === -2) {
-                                errorMessage = 'No coupon code provided.';
+                                message = 'No coupon code provided.';
                             } else {
-                                errorMessage = 'Unexpected response from the server.';
+                                message = 'Unexpected response from the server.';
                             }
-
-                            if (successMessage) {
-                                $('#coupon-message').text(successMessage).addClass('show');
-                                $('#coupon-alert').text('').removeClass('show');
-                            } else if (errorMessage) {
-                                $('#coupon-alert').text(errorMessage).addClass('show');
-                                $('#coupon-message').text('').removeClass('show');
-                            }
+                            $('#coupon-message').text(message);
                         },
                         error: function() {
-                            $('#coupon-alert').text('An error occurred. Please try again.').addClass('show');
-                            $('#coupon-message').text('').removeClass('show');
+                            $('#coupon-message').text('An error occurred. Please try again.');
                         }
                     });
                 } else {
-                    $('#coupon-alert').text('Coupon code already applied').addClass('show');
-                    $('#coupon-message').text('').removeClass('show');
+                    $('#coupon-message').text('Coupon code already applied');
                 }
             });
 
@@ -936,8 +808,7 @@ else {
                     currentCoupon = '';
                     updateTotal();
                 } else {
-                    $('#coupon-alert').text('No coupon code applied to cancel.').addClass('show');
-                    $('#coupon-message').text('').removeClass('show');
+                    $('#coupon-message').text('No coupon code applied to cancel.');
                 }
             });
 
@@ -1025,12 +896,6 @@ else {
                 document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
             }
         });
-
-        function toggleTerms() {
-            const termsSection = document.getElementById('terms-section');
-            const anyEventSelected = document.querySelectorAll('input[name="event-type"]:checked').length > 0;
-            termsSection.style.display = anyEventSelected ? 'block' : 'none';
-        }
     </script>
 
 
