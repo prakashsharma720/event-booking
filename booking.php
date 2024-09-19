@@ -738,7 +738,7 @@ if ($data['status'] == "true") {
                                     <?php foreach ($result['event_types_details'] as $event_type_array) { ?>
 
                                         <div class="checkbox-item">
-                                            <input type="checkbox" id="seminar" name="event-type" value="seminar" onclick="toggleTerms()">
+                                            <input type="checkbox" id="checkbox_<?php echo $event_type_array['event_type']; ?>" name="event-type" value="<?php echo $event_type_array['event_type']; ?>" onclick="toggleTerms()">
                                             <label for="seminar"> <?php echo $event_type_array['event_type']; ?>
                                                 ₹
                                                 <?php if ($event_type_array['package_available'] == 'No') {
@@ -748,7 +748,7 @@ if ($data['status'] == "true") {
                                             </label>
                                         </div>
                                         <?php if ($event_type_array['package_available'] == 'Yes') { ?>
-                                            <div class="package-selection" id="package-selection">
+                                            <div class="package-selection" id="package_selection_<?php echo $event_type_array['event_type']; ?>">
                                                 <?php if (!empty($event_type_array['vip_row_price'])) { ?>
                                                     <div class="checkbox-item">
                                                         <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="<?= $event_type_array['vip_row_price'] ?>000.00">
@@ -983,14 +983,14 @@ if ($data['status'] == "true") {
 
                 checkboxes.forEach(checkbox => {
                     const value = checkbox.value;
-                    if (value === 'seminar') {
+                    if (value === 'Seminar') {
                         seminarSelected = true;
                     } else {
                         totalPrice += prices[value] || 0.00;
                     }
                 });
 
-                const packageSelection = document.getElementById('package-selection');
+                const packageSelection = document.getElementById('checkbox_Seminar');
                 packageSelection.style.display = seminarSelected ? 'block' : 'none';
 
                 if (seminarSelected) {
