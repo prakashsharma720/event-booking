@@ -600,6 +600,7 @@ else {
                     </div>
                     <hr>
                     <div class="row mb-2">
+<<<<<<< HEAD
                         <div class="col-md-6">
                             <div class="field-container">
                                 <label for="event-type">Event Type <span class="required-icon">*</span></label>
@@ -733,6 +734,88 @@ else {
                         </label>
                         <div id="selected-files" class="selected-files"></div>
                     </div>
+=======
+    <div class="col-md-6">
+        <div class="field-container">
+            <label for="event-type">Event Type <span class="required-icon">*</span></label>
+            <div class="checkbox-container">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="seminar" name="event-type" value="seminar" onclick="toggleTerms()">
+                    <label for="seminar">Seminar - ₹20,000.00</label>
+                </div>
+                <div class="package-selection" id="package-selection">
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="2000.00">
+                        <label for="package-vip">VIP - ₹2000.00</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="1500.00">
+                        <label for="package-gold">Gold - ₹1500.00</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="1000.00">
+                        <label for="package-silver">Silver - ₹1000.00</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="radio" id="package-none" name="package-type" value="None" data-fee="0.00" checked>
+                        <label for="package-none">None - ₹0.00</label>
+                    </div>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="Competition" name="event-type" value="Competition" onclick="toggleTerms()">
+                    <label for="Competition">Competition - ₹10,000.00</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="Master Class" name="event-type" value="Master Class" onclick="toggleTerms()">
+                    <label for="Master Class">Master Class - ₹30,000.00</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="Expo" name="event-type" value="Expo" onclick="toggleTerms()">
+                    <label for="Expo">Expo - ₹15,000.00</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+   
+            <div id="terms-section" style="display: none;">
+                <h5>Terms And Conditions</h5>
+                <p>Insert your Terms and Conditions here. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor facilis ex amet. Non, aspernatur.Insert your Terms and Conditions here. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor facilis ex amet. Non, aspernatur.</p>
+            </div>
+       
+    </div>
+</div>
+
+<div class="row mb-2">
+    <div class="col-md-6">
+        <div class="total-area">
+            <div class="amounts">
+                <div class="amount-item">
+                    <span class="label">Total:</span>
+                    ₹<span id="payment_total">0.00</span>
+                    <input type="hidden" name="total_amount">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="coupon-container" >
+            <div class="field">
+                <label for="coupon-code">Enter Coupon Code<span class="required-icon">*</span></label>
+                <div class="row">
+                    <div class="col-9 jay">
+                        <input type="text" id="coupon-code" name="coupon-code" class="form-control" placeholder="Enter coupon code">
+                    </div>
+                    <div class="col-3 d-flex align-items-center">
+                        <button type="button" id="apply-coupon" class="btn btn-primary mr-2">Apply</button>
+                        <button type="button" id="cancel-coupon" class="btn btn-danger">
+                            <i class="bi bi-x-circle-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+>>>>>>> parent of 39ddc14 (Update booking.php)
 
                 </div>
 
