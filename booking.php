@@ -5,7 +5,7 @@ $curl = curl_init();
 // base url 
 // https://gwmadmin.muskowl.com/index.php/api/Events_api/index.php
 curl_setopt_array($curl, array(
-    CURLOPT_URL => 'http://localhost/CI/event-portal/index.php/api/Events_api/EvtD',
+    CURLOPT_URL => 'https://gwmadmin.muskowl.com/index.php/api/Events_api/EvtD',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -730,63 +730,70 @@ if ($data['status'] == "true") {
                     </div>
                     <hr>
                     <div class="row mb-2">
-                       
+
                         <div class="col-md-6">
                             <div class="field-container">
                                 <label for="event-type">Event Type <span class="required-icon">*</span></label>
                                 <div class="checkbox-container">
-                                     <?php foreach($result['event_types_details'] as $event_type_array){ ?>
+                                    <?php foreach ($result['event_types_details'] as $event_type_array) { ?>
 
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="seminar" name="event-type" value="seminar" onclick="toggleTerms()">
-                                        <label for="seminar"> <?php echo $event_type_array['event_type'];?> 
-                                        ₹
-                                        <?php if($event_type_array['package_available'] == 'No'){
-                                            echo $event_type_array['single_price'];
-                                        } ?>
-                                    
-                                    </label>
-                                    </div>
-                                    <?php if($event_type_array['package_available'] == 'Yes'){ ?>
-                                    <div class="package-selection" id="package-selection">
-                                          <?php if(!empty($event_type_array['vip_row_price'])){ ?>
                                         <div class="checkbox-item">
-                                            <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="<?= $event_type_array['vip_row_price'] ?>000.00">
-                                            <label for="package-vip">VIP - ₹ <?= $event_type_array['vip_row_price'] ?></label>
+                                            <input type="checkbox" id="seminar" name="event-type" value="seminar" onclick="toggleTerms()">
+                                            <label for="seminar"> <?php echo $event_type_array['event_type']; ?>
+                                                ₹
+                                                <?php if ($event_type_array['package_available'] == 'No') {
+                                                    echo $event_type_array['single_price'];
+                                                } ?>
+
+                                            </label>
                                         </div>
+                                        <?php if ($event_type_array['package_available'] == 'Yes') { ?>
+                                            <div class="package-selection" id="package-selection">
+                                                <?php if (!empty($event_type_array['vip_row_price'])) { ?>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-vip" name="package-type" value="VIP" data-fee="<?= $event_type_array['vip_row_price'] ?>000.00">
+                                                        <label for="package-vip">VIP - ₹ <?= $event_type_array['vip_row_price'] ?></label>
+                                                    </div>
+                                                <?php } ?>
+
+
+                                                <?php if (!empty($event_type_array['gold_row_price'])) { ?>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="<?= $event_type_array['gold_row_price'] ?>000.00">
+                                                        <label for="package-gold">Gold - ₹ <?= $event_type_array['gold_row_price'] ?></label>
+                                                    </div>
+                                                <?php } ?>
+
+
+                                                <?php if (!empty($event_type_array['silver_row_price'])) { ?>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="<?= $event_type_array['silver_row_price'] ?>000.00">
+                                                        <label for="package-silver">Silver - ₹ <?= $event_type_array['silver_row_price'] ?></label>
+                                                    </div>
+                                                <?php } ?>
+
+                                            </div>
                                         <?php } ?>
-
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-gold" name="package-type" value="Gold" data-fee="1500.00">
-                                            <label for="package-gold">Gold - ₹1500.00</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-silver" name="package-type" value="Silver" data-fee="1000.00">
-                                            <label for="package-silver">Silver - ₹1000.00</label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-none" name="package-type" value="None" data-fee="0.00" checked>
-                                            <label for="package-none">None - ₹0.00</label>
-                                        </div>
-                                    </div>
                                     <?php } ?>
-                                     <?php } ?>
+
                                     <!-- <div class="checkbox-item">
                                         <input type="checkbox" id="Competition" name="event-type" value="Competition" onclick="toggleTerms()">
-                                        <label for="Competition">Competition - ₹10,000.00</label>
+                                        <label for="Competition"> competition - ₹30,000.00</label>  
                                     </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="Master Class" name="event-type" value="Master Class" onclick="toggleTerms()">
-                                        <label for="Master Class">Master Class - ₹30,000.00</label>
-                                    </div>
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="Expo" name="event-type" value="Expo" onclick="toggleTerms()">
-                                        <label for="Expo">Expo - ₹15,000.00</label>
-                                    </div> -->
+                                      -->
+                                    <!-- <div class="checkbox-item">
+                                                <input type="checkbox" id="Master Class" name="event-type" value="Master Class" onclick="toggleTerms()">
+                                                <label for="Master Class">Master Class - ₹30,000.00</label>
+                                            </div>
+                                            <div class="checkbox-item">
+                                                <input type="checkbox" id="Expo" name="event-type" value="Expo" onclick="toggleTerms()">
+                                                <label for="Expo">Expo - ₹15,000.00</label>
+                                            </div> -->
                                 </div>
                             </div>
+
                         </div>
-                         
+
                         <div class="col-md-6">
                             <div id="terms-section" style="display: none;">
                                 <h5>Terms And Conditions</h5>
@@ -795,90 +802,91 @@ if ($data['status'] == "true") {
                         </div>
                     </div>
 
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <div class="total-area">
-                            <div class="amounts">
-                                <div class="amount-item">
-                                    <span class="label">Total:</span>
-                                    ₹<span id="payment_total">0.00</span>
-                                    <input type="hidden" name="total_amount">
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="total-area">
+                                <div class="amounts">
+                                    <div class="amount-item">
+                                        <span class="label">Total:</span>
+                                        ₹<span id="payment_total">0.00</span>
+                                        <input type="hidden" name="total_amount">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div id="coupon-container">
+                                <div class="field">
+                                    <label for="coupon-code">Enter Coupon Code<span class="required-icon">*</span></label>
+                                    <div class="row">
+                                        <div class="col-9 jay">
+                                            <input type="text" id="coupon-code" name="coupon-code" class="form-control" placeholder="Enter coupon code">
+                                        </div>
+                                        <div class="col-3 d-flex align-items-center">
+                                            <button type="button" id="apply-coupon" class="btn btn-primary mr-2">Apply</button>
+                                            <button type="button" id="cancel-coupon" class="btn btn-danger">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="sms">
+                                <p id="coupon-message"></p>
+                            </div>
+                            <div class="sms">
+                                <p id="coupon-alert"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="total-area mb-2">
+                                <p>(Including Advance Payment of 50%):</p>
+                                <div class="amounts">
+                                    <div class="amount-item">
+                                        <span class="label">Net payable Total:</span>
+                                        ₹<span id="net-payable-total">0.00</span>
+                                    </div>
+                                    <div class="amount-item">
+                                        <span class="label">Advance:</span>
+                                        ₹<span id="Advance">0.00</span>
+                                        <input type="hidden" name="advance_amount">
+                                    </div>
+                                    <div class="amount-item">
+                                        <span class="label">Remaining:</span>
+                                        ₹<span id="remaining_amount">0.00</span>
+                                        <input type="hidden" name="remaining_amount">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-    <div class="col-md-6">
-        <div id="coupon-container" >
-            <div class="field">
-                <label for="coupon-code">Enter Coupon Code<span class="required-icon">*</span></label>
-                <div class="row">
-                    <div class="col-9 jay">
-                        <input type="text" id="coupon-code" name="coupon-code" class="form-control" placeholder="Enter coupon code">
+                    <br>
+                    <div class="row ">
+                        <div class="col-md-5">
+                            <div class="col-md-11">
+                                <div class="field">
+                                    <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
+                                    <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" class="form-control" required>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="file-upload-container">
+                            <h3 class="upload-heading">Payment Screenshot <span class="required-marker"> *</span></h3>
+                            <div class="file-upload-area">
+                                <input type="file" id="file-upload" name="file-upload" multiple accept="image/*" required class="form-control">
+                                <label for="file-upload" class="upload-button">
+                                    <span>Add file</span>
+                                </label>
+                                <div id="selected-files" class="selected-files"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-3 d-flex align-items-center">
-                        <button type="button" id="apply-coupon" class="btn btn-primary mr-2">Apply</button>
-                        <button type="button" id="cancel-coupon" class="btn btn-danger">
-                            <i class="bi bi-x-circle-fill"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="sms">
-            <p id="coupon-message"></p>
-        </div>
-        <div class="sms">
-            <p id="coupon-alert"></p>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-2">
-    <div class="col-md-6">
-        <div class="total-area mb-2">
-            <p>(Including Advance Payment of 50%):</p>
-            <div class="amounts">
-                <div class="amount-item">
-                    <span class="label">Net payable Total:</span>
-                    ₹<span id="net-payable-total">0.00</span>
-                </div>
-                <div class="amount-item">
-                    <span class="label">Advance:</span>
-                    ₹<span id="Advance">0.00</span>
-                    <input type="hidden" name="advance_amount">
-                </div>
-                <div class="amount-item">
-                    <span class="label">Remaining:</span>
-                    ₹<span id="remaining_amount">0.00</span>
-                    <input type="hidden" name="remaining_amount">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row mb-2">
-    <div class="col-md-9">
-        <div class="field">
-            <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
-            <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" class="form-control" required>
-        </div>
-    </div>
-
-    <div class="col-md-9 mt-5">
-        <div class="file-upload-container">
-            <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span></h3>
-            <div class="file-upload-area">
-                <input type="file" id="file-upload" name="file-upload" multiple accept="image/*" required class="form-control">
-                <label for="file-upload" class="upload-button">
-                    <span>Add file</span>
-                </label>
-                <div id="selected-files" class="selected-files"></div>
-            </div>
-        </div>
-    </div>
-</div>
 
                 </form>
             </div>
