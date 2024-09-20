@@ -1,6 +1,20 @@
 <?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "gwm_events";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+if (!$conn) {
+    die("" . mysqli_error($conn));
+}
+
 $code = $_GET['code'];
+
 $curl = curl_init();
+
+
 
 curl_setopt_array($curl, array(
     CURLOPT_URL => 'https://gwmadmin.muskowl.com/index.php/api/Events_api/EvtD',
@@ -23,6 +37,38 @@ curl_close($curl);
 $data = json_decode($response, true);
 if ($data['status'] == "true") {
     $result = $data['result'];
+    $bank_arr = json_decode($result['bank_master_ids'], true);;
+
+    // print_r($bank_arr['0']);exit;
+    
+        // Query to select data from discounts_master table
+        $sql = "SELECT * FROM banks_master WHERE flag = '0'";
+
+        // Execute the query
+        $result1 = $conn->query($sql);
+
+        // Check if the query was successful
+        if ($result1) {
+            // Check if any rows were returned
+            if (mysqli_num_rows($result1) > 0) {
+                // Fetch the result
+                  $rows = [];
+
+                // Loop through each row and store it in the $rows array
+                while ($row = $result1->fetch_assoc()) {
+                    $rows[] = $row;
+                }
+
+            } else {
+                // Return -1 for an invalid coupon code
+                echo -1;
+            }
+        } else {
+            // Handle query error
+            echo 'Query error: ' . $conn->error;
+        }
+        // echo "<pre>";print_r($rows);exit;
+
 } else {
     echo "Error: Unable to retrieve event details.";
 }
@@ -66,15 +112,24 @@ if ($data['status'] == "true") {
 
     <style>
         body {
-            font-family: "Open Sans", system-ui;
-            font-optical-sizing: auto;
-            font-weight: 600;
-            font-style: normal;
-            font-variation-settings:
-                "wdth" 100;
-            background-color 0.5s ease;
-
-        }
+                font-family: "Raleway", system-ui;
+                font-optical-sizing: auto;
+                font-weight: 600;
+                font-style: normal;
+                font-variation-settings:
+                    "wdth" 100;
+                background-color 0.5s ease;
+            }
+            .form-control{
+                font-weight: 600;
+            }
+            p{
+                color:#5a5757;
+            }
+            *, ::after, ::before {
+                box-sizing: border-box;
+                font-weight: 600;
+            }
 
         /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
         .row.content {
@@ -531,18 +586,21 @@ if ($data['status'] == "true") {
                 <div class="img greebie_image">
                     <img src="freebie2.png" style="width:100%;">
                 </div>
-                <div class="event-details">
-                    <h4> Bank Details</h4>
-                    <p><strong>Bank Name:</strong> ICICI Bank</p>
-                    <p><strong>Account Number:</strong> 004501560103</p>
-                    <p><strong>IFSC:</strong> ICIC0000045</p>
-                    <p><strong>Branch:</strong> Madhuban, Udaipur</p>
-                    <div class="qr-code-container " id="qr-code" name="qr-code">
-                        <img src="QR-Code.png" id="download-qr">
+                <hr>
+                <h4> Bank Details</h4>
+                <hr>
+                <?php foreach($rows as $bank_master) { ?>
+                    <div class="event-details">
+                        <p><strong>Bank Name:</strong> <?= $bank_master['bank_name']?></p>
+                        <p><strong>Account Number:</strong> <?= $bank_master['account_no']?></p>
+                        <p><strong>IFSC:</strong> <?= $bank_master['ifsc']?></p>
+                        <p><strong>Branch:</strong><?= $bank_master['branch_address']?></p>
+                        <p><strong>UPI Id:</strong><?= $bank_master['upi_id']?></p>
+                        <div class="qr-code-container " id="qr-code" name="qr-code">
+                            <img src="https://gwmadmin.muskowl.com/<?= $bank_master['qr_code']?>" id="download-qr">
+                        </div>
                     </div>
-                </div>
-
-
+                    <?php } ?>
             </div>
             <div class="col-md-7 p-3">
                 <!-- <div class="img greebie_image" >
@@ -735,7 +793,7 @@ if ($data['status'] == "true") {
                             <div class="field-container">
                                 <div class="checkbox-container">
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>" name="event-type" value="<?= $event_type_arr['event_type'] ?>" onclick="toggleTerms(<?= $event_type_arr['id'] ?>)">
+                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>" name="event-type" value="<?= $event_type_arr['event_type'] ?>" >
                                         <label for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?> - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
                                     </div>
 
@@ -763,7 +821,7 @@ if ($data['status'] == "true") {
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <div id="terms-section-<?= $event_type_arr['id'] ?>" style="display: none; font-size: 12px; height: 200px; overflow-y: scroll;">
+                            <div id="terms-section-<?= $event_type_arr['id'] ?>" style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;">
                                 <h5>Terms And Conditions</h5>
                                 <p><?php echo $event_type_arr['tnc']; ?></p>
                             </div>
@@ -820,9 +878,7 @@ if ($data['status'] == "true") {
                                     </div>
                                     <div class="col-3 d-flex align-items-center">
                                         <button type="button" id="apply-coupon" class="btn btn-primary mr-2">Apply</button>
-                                        <button type="button" id="cancel-coupon" class="btn btn-danger">
-                                            <i class="bi bi-x-circle-fill"></i>
-                                        </button>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -836,16 +892,15 @@ if ($data['status'] == "true") {
                         </div>
                     </div>
                 </div>
-
-                <div class="row mb-2">
-                    <div class="col-md-6">
-                        <div class="field">
-                            <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
-                            <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" class="form-control" required>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="field">
+                                <label for="payment-ref-no">Payment Reference No <span class="required-icon">*</span></label>
+                                <input type="text" id="payment-ref-no" name="payment_ref_no" placeholder="Enter Payment Reference No" class="form-control" required>
+                            </div>
                         </div>
-                    </div>
 
-                        <div class="col-md-6 mt-5">
+                        <div class="col-md-6">
                             <div class="file-upload-container">
                                 <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span></h3>
                                 <div class="file-upload-area">
@@ -950,7 +1005,7 @@ $(document).ready(function() {
             if (eventPrice) {
                 totalPrice += parseFloat(eventPrice[1]);
             }
-
+            console.log("Event Type Id : "+eventTypeId);
             // Check if the event type has a package available
             const packageSelection = document.getElementById('package-selection-' + eventTypeId);
             if (packageSelection) {
@@ -980,30 +1035,7 @@ $(document).ready(function() {
         calculate(advancePayment, remainingAmount, paymentTotal);
     }
 
-     function toggleTerms(eventTypeId) {
-        alert(eventTypeId);
-    const checkbox = document.getElementById('event-' + eventTypeId);
-    const packageSelection = document.getElementById('package-selection-' + eventTypeId);
-    const termsSection = document.getElementById('terms-section-' + eventTypeId);
-
-    if (checkbox.checked) {
-        if (packageSelection) {
-            packageSelection.style.display = 'block'; // Show package selection if applicable
-        }
-        if (termsSection) {
-            termsSection.style.display = 'block'; // Show TNC section
-        }
-    } else {
-        if (packageSelection) {
-            packageSelection.style.display = 'none'; // Hide package selection
-        }
-        if (termsSection) {
-            termsSection.style.display = 'none'; // Hide TNC section
-        }
-    }
-
-    // updateTotal(); // Update total price and other details
-}
+    
 
     // Event listeners for checkboxes
     document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
@@ -1030,6 +1062,37 @@ $(document).ready(function() {
         document.querySelector('input[name="advance_amount"]').value = advanceAmount;
         document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
     }
+    // console.log(eventTypeId);
+    function toggleTerms(eventTypeId) 
+        {
+            const checkbox = document.getElementById('event-' + eventTypeId);
+            const packageSelection = document.getElementById('package-selection-' + eventTypeId);
+            const termsSection = document.getElementById('terms-section-' + eventTypeId);
+
+            if (checkbox.checked) {
+                if (packageSelection) {
+                    packageSelection.style.display = 'block'; // Show package selection if applicable
+                }
+                if (termsSection) {
+                    termsSection.style.display = 'block'; // Show TNC section
+                }
+            } else {
+                if (packageSelection) {
+                    packageSelection.style.display = 'none'; // Hide package selection
+                }
+                if (termsSection) {
+                    termsSection.style.display = 'none'; // Hide TNC section
+                }
+            }
+        }
+
+        // Event listeners for checkboxes
+        document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                toggleTerms(this.id.split('-')[1]); // Extract eventTypeId from checkbox ID
+                updateTotal();
+            });
+        });
 
     // Download QR code button handler
     document.getElementById('download-qr').addEventListener('click', function() {
@@ -1097,6 +1160,7 @@ $(document).ready(function() {
             leadSourceOthersInput.value = '';
         }
     });
+    
    
 
 });
