@@ -1,13 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "gwm_events";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-if (!$conn) {
-    die("" . mysqli_error($conn));
-}
+include('db.php');
 
 if (isset($_GET['code'])) {
     $couponCode = $conn->real_escape_string($_GET['code']); // Sanitize input
