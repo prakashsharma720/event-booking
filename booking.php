@@ -3,8 +3,8 @@ include('db.php');
 $code = $_GET['code'];
 $curl = curl_init();
 
-// $base_url = 'https://gwmadmin.muskowl.com';
-$base_url = 'http://localhost/CI/event-portal';
+$base_url = 'https://gwmadmin.muskowl.com';
+// $base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
     CURLOPT_URL => $base_url.'/index.php/api/Events_api/EvtD',
@@ -81,475 +81,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <style>
-    body {
-        font-family: "Raleway", system-ui;
-        font-optical-sizing: auto;
-        font-weight: 600;
-        font-style: normal;
-        font-variation-settings:
-            "wdth"100;
-        background-color 0.5s ease;
-    }
-
-    .form-control {
-        font-weight: 600;
-    }
-
-    p {
-        color: #5a5757;
-    }
-    *,
-    ::after,
-    ::before {
-        box-sizing: border-box;
-        font-weight: 600;
-    }
-
-    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {
-        height: auto;
-    }
-
-    /* Set gray background color and 100% height */
-    .sidenav {
-        background-color: #f1f1f1;
-        height: 100%;
-        padding: 10px;
-    }
-
-    /* Set black background color, white text and some padding */
-    footer {
-        background-color: #555;
-        color: white;
-        padding: 30px;
-    }
-    a {
-        color:white;
-    }
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-        .sidenav {
-            height: auto;
-            padding: 15px;
-        }
-
-        .row.content {
-            height: auto;
-        }
-    }
-
-
-    h1 {
-        text-align: center;
-        color: #007bff;
-        margin-top: 20px;
-    }
-
-    .event-details {
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-
-        margin: 20px 0;
-    }
-
-    .event-details h4 {
-        margin-bottom: 15px;
-        font-size: 1.5rem;
-    }
-
-    .event-details p {
-        margin-bottom: 10px;
-        font-size: 1rem;
-    }
-
-    .event-details .qr-code-container {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .event-details .qr-code-container img {
-        max-width: 90%;
-        height: auto;
-        max-height: 200px;
-        margin-top: -171px;
-        margin-left: 7px;
-    }
-
-    /* Adjust if necessary */
-
-
-    @media (max-width: 768px) {
-        .event-details {
-            padding: 15px;
-        }
-
-        .event-details h4 {
-            font-size: 1.25rem;
-        }
-
-        .event-details p {
-            font-size: 0.9rem;
-        }
-    }
-
-    .event-details:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    .event-details p {
-        margin: 12px 0;
-    }
-
-    .event-details strong {
-        color: #555;
-    }
-
-    .event-details a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .event-details a:hover {
-        text-decoration: underline;
-    }
-
-    .greebie_image {
-        display: inline-flex;
-        padding: 10px;
-        background: #000;
-        color: #fff;
-        align-items: center;
-    }
-
-    .required-icon {
-        color: red;
-    }
-
-    input:read-only {
-        background-color: #f0f0f0;
-        /* Change this color as needed */
-    }
-
-    .total-area {
-        background-color: #ffffff;
-        transition: box-shadow 0.3s ease;
-        border-radius: 8px;
-        padding: 10px;
-        /* width: 300px; */
-        text-align: left;
-    }
-
-    .total-area:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .total-area p {
-        font-weight: bold;
-        margin: 0 0 10px 0;
-    }
-
-    .amounts {
-        border-top: 1px solid #ddd;
-        padding-top: 10px;
-    }
-
-    .amount-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-    }
-
-    .field-container {
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #fff;
-        position: relative;
-        transition: box-shadow 0.3s ease;
-    }
-
-    .field-container:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .checkbox-item {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 10px;
-        transition: background-color 0.3s ease;
-    }
-
-    .package-selection {
-        display: none;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .checkbox-item input[type="checkbox"] {
-        margin-right: 10px;
-        transform: scale(1.2);
-        cursor: pointer;
-    }
-
-    .package-selection .checkbox-item {
-        display: flex;
-        margin-bottom: 3px;
-        padding: 9px;
-        background-color: #f9f9f9;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-    }
-
-    .package-selection input[type="radio"] {
-        margin-right: 10px;
-        transform: scale(1.2);
-    }
-
-
-
-    #coupon-container .field {
-        margin-top: 10px;
-    }
-
-    #coupon-container .row {
-        display: flex;
-        align-items: center;
-    }
-
-    #coupon-container .form-control {
-        width: 100%;
-
-    }
-
-    #coupon-container .btn {
-        margin-left: -13px;
-    }
-
-    .qr-code-container img {
-
-        max-width: 150px;
-        height: auto;
-    }
-
-    .qr-code-container {
-        text-align: center;
-        margin-top: -159px;
-        margin-left: 270px;
-    }
-
-    .file-upload-container {
-        background-color: #ffffff;
-        transition: box-shadow 0.3s ease;
-        padding: 20px;
-
-        max-width: 400px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    .file-upload-container:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .upload-heading {
-        font-size: 20px;
-        color: #0056b3;
-        margin-bottom: 10px;
-    }
-
-    .required-marker {
-        color: #ff0000;
-        font-size: 18px;
-    }
-
-    .upload-instructions {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 20px;
-    }
-
-    .file-upload-area {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: -5px;
-    }
-
-    input[type="file"] {
-        display: none;
-    }
-
-    .upload-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 89px;
-        height: 43px;
-        border: 2px solid #007bff;
-        border-radius: 4px;
-        background-color: #e9f1ff;
-        color: #007bff;
-        font-weight: 500;
-        cursor: pointer;
-        margin-bottom: 15px;
-    }
-
-    .upload-button svg {
-        margin-right: 10px;
-    }
-
-    .upload-button span {
-        font-size: 16px;
-    }
-
-    .selected-files {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #333;
-    }
-
-
-    .upload-submit-button {
-        background-color: #007bff;
-        color: #ffffff;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .upload-submit-button:hover {
-        background-color: #0056b3;
-    }
-
-    .button {
-        flex: 0 0 auto;
-        width: 30%;
-    }
-
-    .file-upload-container {
-        margin-bottom: 20px;
-    }
-
-    .file-upload-area {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .upload-button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        text-align: center;
-    }
-
-    .selected-files {
-        margin-top: 10px;
-    }
-
-    .selected-files img {
-        max-width: 100px;
-        max-height: 100px;
-        margin-right: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
-
-    .sms {
-        margin: 8px;
-
-    }
-
-    .sms p {
-        padding: 10px;
-        border-radius: 4px;
-
-        margin-top: 10px;
-
-        display: none;
-
-    }
-
-    .sms #coupon-message.show {
-        display: block;
-        border: 1px solid #28a745;
-        color: #28a745;
-    }
-
-    .sms #coupon-alert.show {
-        display: block;
-        border: 1px solid #dc3545;
-        color: #dc3545;
-    }
-
-    /* footer {
-            margin-top: 1019px;
-        } */
-
-    .jay {
-        flex: 0 0 auto;
-        width: 58%;
-    }
-
-    #coupon-container {
-        margin-top: 20px;
-    }
-
-    .field {
-        margin-bottom: 20px;
-    }
-
-    .required-icon {
-        color: red;
-    }
-
-    .btn {
-        margin-right: 24px;
-    }
-
-    .col-9 input {
-        border-radius: 8px;
-    }
-
-    .col-3 .btn {
-        width: 115%;
-    }
-
-    .col-3 {
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    @media (max-width: 576px) {
-
-        .col-9,
-        .col-3 {
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-
-        .col-3 .btn {
-            width: 100%;
-        }
-    }
-    
-    
-    </style>
 </head>
 
 <body>
@@ -600,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h2>Event Registration Form</h2>
                 <hr>
                 <form action="#" method="POST">
-                    <input type="hidden" name="event_code" value="<?= $code ?>" >
+                    <input type="hidden" name="event_code" value="<?= $code ?>">
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <label for="gender">Participant Name</label>
@@ -791,8 +329,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="field-container">
                                 <div class="checkbox-container">
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>" name="event_type"
-                                            value="<?= $event_type_arr['event_type'] ?>">
+                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
+                                            name="event_type[<?= $event_type_arr['id'] ?>]" value="<?= $event_type_arr['event_type'] ?>">
                                         <label
                                             for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
                                             - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
@@ -803,31 +341,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         style="display: none;">
                                         <div class="checkbox-item">
                                             <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="VIP"
+                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="VIP"
                                                 data-fee="<?= $event_type_arr['vip_row_price'] ?>">
                                             <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
                                                 ₹<?= $event_type_arr['vip_row_price'] ?></label>
                                         </div>
                                         <div class="checkbox-item">
                                             <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="Gold"
+                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="Gold"
                                                 data-fee="<?= $event_type_arr['gold_row_price'] ?>">
                                             <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
                                                 ₹<?= $event_type_arr['gold_row_price'] ?></label>
                                         </div>
                                         <div class="checkbox-item">
                                             <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="Silver"
+                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="Silver"
                                                 data-fee="<?= $event_type_arr['silver_row_price'] ?>">
                                             <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
                                                 ₹<?= $event_type_arr['silver_row_price'] ?></label>
                                         </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-none-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="None"
-                                                data-fee="0.00" checked>
-                                            <label for="package-none-<?= $event_type_arr['id'] ?>">None - ₹0.00</label>
-                                        </div>
+                                        
                                     </div>
                                     <?php } ?>
                                 </div>
@@ -867,19 +400,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="amounts">
                                     <div class="amount-item">
                                         <span class="label">Net payable Total:</span>
-                                        ₹ 
-                                        <input type="text" id="net-payable-total" name="net-payable-total" value=""  class="form-control" style="width:30%;" readonly>
+                                        ₹
+                                        <input type="text" id="net-payable-total" name="net-payable-total" value=""
+                                            class="form-control" style="width:30%;" readonly>
                                         <!-- <span id="">0.00</span> -->
                                     </div>
                                     <div class="amount-item">
                                         <span class="label">Advance:</span>
-                                        ₹<input type="text" id="Advance" value=""  class="form-control" name="Advance" style="width:30%;" readonly>
+                                        ₹<input type="text" id="Advance" value="" class="form-control" name="Advance"
+                                            style="width:30%;" readonly>
 
                                         <input type="hidden" name="advance_amount">
                                     </div>
                                     <div class="amount-item">
                                         <span class="label">Remaining:</span>
-                                        ₹<input type="text" id="remaining_amount" value=""  name="remaining_amount" class="form-control" style="width:30%;" readonly>
+                                        ₹<input type="text" id="remaining_amount" value="" name="remaining_amount"
+                                            class="form-control" style="width:30%;" readonly>
                                         <!-- <input type="hidden" name="remaining_amount"> -->
                                     </div>
                                 </div>
@@ -898,9 +434,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="col-3 d-flex align-items-center">
                                             <button type="button" id="apply-coupon"
                                                 class="btn btn-primary mr-2">Apply</button>
-                                                 <button type="button" id="cancel-coupon" class="btn btn-danger hide">
-                                                    <i class="bi bi-x-circle-fill"></i>
-                                                </button>
+                                            <button type="button" id="cancel-coupon" class="btn btn-danger hide">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -914,7 +450,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <div class="row mb-2">
                         <div class="col-md-6">
@@ -941,8 +477,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </div>
-                     <div class="row mb-2">
-                        <button type="submit"  class="btn btn-primary"> Submit</button>
+                    <div class="row mb-2">
+                        <button type="submit" class="btn btn-primary"> Submit</button>
                     </div>
                 </form>
             </div>
@@ -969,13 +505,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <ul style="color:white">
                                     <li>
                                         <a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank"
-                                            rel="noopener">Terms &amp; conditions</a></li>
+                                            rel="noopener">Terms &amp; conditions</a>
+                                    </li>
                                     <li>
                                         <a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank"
-                                            rel="noopener">Privacy Policy</a></li>
+                                            rel="noopener">Privacy Policy</a>
+                                    </li>
                                     <li>
                                         <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank"
-                                            rel="noopener">Legal Disclaimer</a></li>
+                                            rel="noopener">Legal Disclaimer</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -1024,6 +563,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         let currentCoupon = "";
         let couponDiscount = 0;
 
+        // Update the total calculation based on selections
+        function updateTotal() {
+            totalPrice = 0.00;
+
+            // Loop through selected event types and add their prices
+            $('input[name^="event_type"]:checked').each(function() {
+                const eventTypeId = $(this).attr('id').split('-')[1]; // Extract event type ID from checkbox ID
+
+                // Get single price if package is not available
+                const label = $(this).closest('.checkbox-item').find('label').text();
+                const eventPriceMatch = label.match(/₹(\d+)/);
+                if (eventPriceMatch) {
+                    totalPrice += parseFloat(eventPriceMatch[1]);
+                }
+
+                // Check if the event type has a package available
+                const packageSelection = $('#package-selection-' + eventTypeId);
+                if (packageSelection.length > 0) {
+                    packageSelection.show(); // Show package selection
+
+                    // Add the selected package fee to the total price
+                    const selectedPackage = $('input[name^="package_selection[' + eventTypeId + ']"]:checked');
+                    if (selectedPackage.length > 0) {
+                        totalPrice += parseFloat(selectedPackage.data('fee'));
+                    }
+                }
+            });
+
+            // Calculate advance payment
+            const advancePayment = (totalPrice * 50) / 100;
+            let paymentTotal = totalPrice;
+            
+            console.log('couponDiscount'+couponDiscount);
+            // Apply coupon discount if available
+            if (couponDiscount > 0) {
+                paymentTotal -= couponDiscount;
+            }
+
+            // Calculate remaining amount
+            const remainingAmount = Math.max(0, paymentTotal - advancePayment);
+
+            // Update the payment details on the page
+            $('#payment_total').val(totalPrice.toFixed(2));
+            $('input[name="net-payable-total"]').val(paymentTotal.toFixed(2));
+            $('input[name="Advance"]').val(advancePayment.toFixed(2));
+            $('input[name="remaining_amount"]').val(remainingAmount.toFixed(2));
+            $('input[name="total_amount"]').val(totalPrice);
+            $('input[name="advance_amount"]').val(advancePayment);
+            $('input[name="remaining_amount"]').val(remainingAmount);
+        }
+
+        // Toggle visibility of package selection and terms and conditions based on event type checkbox state
+        function toggleTerms(eventTypeId) {
+            const checkbox = $('#event-' + eventTypeId);
+            const packageSelection = $('#package-selection-' + eventTypeId);
+            const termsSection = $('#terms-section-' + eventTypeId);
+
+            if (checkbox.is(':checked')) {
+                packageSelection.show(); // Show package selection if applicable
+                termsSection.show(); // Show TNC section
+            } else {
+                packageSelection.hide(); // Hide package selection
+                termsSection.hide(); // Hide TNC section
+            }
+        }
+
         // Apply coupon button click handler
         $('#apply-coupon').click(function() {
             const couponCode = $('#coupon-code').val().trim();
@@ -1041,9 +646,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         let errorMessage = '';
 
                         if (discount > 0 && totalPrice > 0) {
-                            successMessage =
-                                `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
+                            successMessage = `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
                             couponDiscount = discount;
+                            
                             updateTotal();
                         } else if (discount === -1) {
                             errorMessage = 'Invalid coupon code. Please try again.';
@@ -1057,16 +662,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $('#coupon-message').text(successMessage).addClass('show');
                             $('#coupon-alert').text('').removeClass('show');
                             $('#cancel-coupon').removeClass('hide');
-
                         } else if (errorMessage) {
                             $('#coupon-alert').text(errorMessage).addClass('show');
                             $('#coupon-message').text('').removeClass('show');
-                             $('#cancel-coupon').addClass('show');
+                            $('#cancel-coupon').addClass('show');
                         }
                     },
                     error: function() {
-                        $('#coupon-alert').text('An error occurred. Please try again.')
-                            .addClass('show');
+                        $('#coupon-alert').text('An error occurred. Please try again.').addClass('show');
                         $('#coupon-message').text('').removeClass('show');
                     }
                 });
@@ -1076,7 +679,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-     
+        // Cancel coupon button click handler
         $('#cancel-coupon').click(function() {
             if (currentCoupon) {
                 $('#coupon-code').val('');
@@ -1093,109 +696,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-            function updateTotal() {
-                totalPrice = 0.00;
+        // Event listeners for checkboxes and radio buttons
+        $('input[name^="event_type"]').on('change', function() {
+            const eventTypeId = $(this).attr('id').split('-')[1];
+            toggleTerms(eventTypeId);
+            updateTotal();
+        });
 
-                // Loop through selected event types and add their prices
-                const checkboxes = document.querySelectorAll('input[name="event_type"]:checked');
-                checkboxes.forEach(checkbox => {
-                    const eventTypeId = checkbox.id.split('-')[1]; // Extract event type ID from checkbox ID
-                    const eventType = checkbox.value;
+        $('input[name^="package_selection"]').on('change', updateTotal);
 
-                    // Get single price if package is not available
-                    const eventPrice = checkbox.closest('.checkbox-item').querySelector('label').textContent
-                        .match(/₹(\d+)/);
-                    if (eventPrice) {
-                        totalPrice += parseFloat(eventPrice[1]);
-                    }
-                    console.log("Event Type Id : " + eventTypeId);
-                    // Check if the event type has a package available
-                    const packageSelection = document.getElementById('package-selection-' + eventTypeId);
-                    if (packageSelection) {
-                        packageSelection.style.display = 'block'; // Show package selection
+        // Initialize page state
+        // $('input[name^="event_type"]').each(function() {
+        //     const eventTypeId = $(this).attr('id').split('-')[1];
+        //     toggleTerms(eventTypeId);
+        // });
+    
 
-                        // Add the selected package fee to the total price
-                        const selectedPackage = document.querySelector('input[name="package-type-' +
-                            eventTypeId + '"]:checked');
-                        if (selectedPackage) {
-                            totalPrice += parseFloat(selectedPackage.dataset.fee);
-                        }
-                    }
-                });
-
-                // Calculate advance payment
-                const advancePayment = (totalPrice * 50) / 100;
-                let paymentTotal = totalPrice;
-
-                // Apply coupon discount if available
-                if (couponDiscount > 0) {
-                    paymentTotal -= couponDiscount;
-                }
-
-                // Calculate remaining amount
-                const remainingAmount = Math.max(0, paymentTotal - advancePayment);
-
-                // Update the payment details on the page
-                calculate(advancePayment, remainingAmount, paymentTotal);
-            }
-
-
-
-            // Event listeners for checkboxes
-            document.querySelectorAll('input[name="event_type"]').forEach(checkbox => {
-                checkbox.addEventListener('change', updateTotal);
-            });
-
-            // Event listeners for radio buttons with dynamic names
-            document.querySelectorAll('input[type="radio"]').forEach(radio => {
-                radio.addEventListener('change', updateTotal);
-            });
-
-            function calculate(advanceAmount, remainingAmount, netPayableTotal) {
-                const paymentTotalSpan = document.getElementById('payment_total');
-                const netPayableTotalSpan = document.getElementById('net-payable-total');
-                const advanceAmountSpan = document.getElementById('Advance');
-                const remainingAmountSpan = document.getElementById('remaining_amount');
-
-                paymentTotalSpan.val = totalPrice.toFixed(2);
-                document.querySelector('input[name="net-payable-total"]').value = netPayableTotal.toFixed(2);
-            document.querySelector('input[name="Advance"]').value  = advanceAmount.toFixed(2);
-                document.querySelector('input[name="remaining_amount"]').value = remainingAmount.toFixed(2);
-
-                document.querySelector('input[name="total_amount"]').value = totalPrice;
-                document.querySelector('input[name="advance_amount"]').value = advanceAmount;
-                document.querySelector('input[name="remaining_amount"]').value = remainingAmount;
-            }
-            // console.log(eventTypeId);
-            function toggleTerms(eventTypeId) {
-                const checkbox = document.getElementById('event-' + eventTypeId);
-                const packageSelection = document.getElementById('package-selection-' + eventTypeId);
-                const termsSection = document.getElementById('terms-section-' + eventTypeId);
-
-                if (checkbox.checked) {
-                    if (packageSelection) {
-                        packageSelection.style.display = 'block'; // Show package selection if applicable
-                    }
-                    if (termsSection) {
-                        termsSection.style.display = 'block'; // Show TNC section
-                    }
-                } else {
-                    if (packageSelection) {
-                        packageSelection.style.display = 'none'; // Hide package selection
-                    }
-                    if (termsSection) {
-                        termsSection.style.display = 'none'; // Hide TNC section
-                    }
-                }
-            }
-
-            // Event listeners for checkboxes
-            document.querySelectorAll('input[name="event_type"]').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    toggleTerms(this.id.split('-')[1]); // Extract eventTypeId from checkbox ID
-                    updateTotal();
-                });
-            });
 
         // Download QR code button handler
         document.getElementById('download-qr').addEventListener('click', function() {
