@@ -17,17 +17,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $password = trim($_POST['password']);
       $mobile = trim($_POST['mobile']);
       $user_type = trim($_POST['user_type']);
+      $event_code = trim($_POST['event_code']);
       $verify_status = isset($_POST['otp_verify']) && $_POST['otp_verify'] == 1 ? 1 : 0;
       $role_id = ($user_type == 'participant') ? 2 : 3;
 
       $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-      $stmt = $conn->prepare("INSERT INTO users (name, email, password, mobile, user_type, mobile_verify, role_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-      $stmt->bind_param('sssssis', $name, $email, $hashed_password, $mobile, $user_type, $verify_status, $role_id);
+      $stmt = $conn->prepare("INSERT INTO users (name, email, password, mobile, user_type, mobile_verify, role_id,event_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+
+      $stmt->bind_param('sssssiss', $name, $email, $hashed_password, $mobile, $user_type, $verify_status, $role_id,$event_code);
 
       if ($stmt->execute()) {
-         header('Location: old_code.php');
+         session_start();
+         $_SESSION['name'] =  $name;
+         $_SESSION['email'] = $email;
+         $_SESSION['mobile'] = $mobile;
+         $_SESSION['user_type'] = $user_type;
+         if($user_type == 'participant'){
+         header('Location: booking.php?code='.$event_code);
          exit();
+         }else{
+           echo "You have registered successfully." ;
+            exit();
+         }
+
       } else {
          echo json_encode(['status' => 'error', 'message' => 'Registration failed: ' . $stmt->error]);
       }
@@ -66,6 +79,7 @@ $conn->close();
       </div>
       <div class="field">
          <input type="password" name="password" placeholder="Password" required>
+         <input type="hidden" name="event_code"  value="<?= $code ?>">
       </div>
 
       <div class="send-otp-container">
