@@ -791,7 +791,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <div class="field-container">
                                 <div class="checkbox-container">
                                     <div class="checkbox-item">
-                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>" name="event_type[<?= $event_type_arr['id'] ?>]"
+                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>" name="event_type"
                                             value="<?= $event_type_arr['event_type'] ?>">
                                         <label
                                             for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
@@ -1097,7 +1097,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 totalPrice = 0.00;
 
                 // Loop through selected event types and add their prices
-                const checkboxes = document.querySelectorAll('input[name="event-type"]:checked');
+                const checkboxes = document.querySelectorAll('input[name="event_type"]:checked');
                 checkboxes.forEach(checkbox => {
                     const eventTypeId = checkbox.id.split('-')[1]; // Extract event type ID from checkbox ID
                     const eventType = checkbox.value;
@@ -1142,7 +1142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
             // Event listeners for checkboxes
-            document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
+            document.querySelectorAll('input[name="event_type"]').forEach(checkbox => {
                 checkbox.addEventListener('change', updateTotal);
             });
 
@@ -1190,7 +1190,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             // Event listeners for checkboxes
-            document.querySelectorAll('input[name="event-type"]').forEach(checkbox => {
+            document.querySelectorAll('input[name="event_type"]').forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
                     toggleTerms(this.id.split('-')[1]); // Extract eventTypeId from checkbox ID
                     updateTotal();
