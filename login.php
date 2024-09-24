@@ -25,14 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          $stmt->fetch();
 
          if (password_verify($password, $hashed_password)) {
-            
-            
-            if ($user_type == 'Participant') {
-               header("Location: details.php");
-            } elseif ($user_type == 'Visitor') {
-               header("Location: login.php");
+            // Redirect based on user type
+            if ($user_type === 'Participant') {
+               header("Location: booking.php");
+            } elseif ($user_type === 'Visitor') {
+               header("Location: booking.php"); // Change this to the appropriate visitor page
             } else {
-               header("Location: unknown_user.php");
+               echo json_encode(['status' => 'error', 'message' => 'Unknown user type.']);
             }
             exit();
          } else {
@@ -52,7 +51,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
-
 
 
 <!DOCTYPE html>

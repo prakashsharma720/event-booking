@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $stmt->bind_param('sssssis', $name, $email, $hashed_password, $mobile, $user_type, $verify_status, $role_id);
 
       if ($stmt->execute()) {
-         header('Location: details.php');
+         header('Location: old_code.php');
          exit();
       } else {
          echo json_encode(['status' => 'error', 'message' => 'Registration failed: ' . $stmt->error]);
