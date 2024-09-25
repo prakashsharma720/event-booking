@@ -119,16 +119,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h4> Bank Details</h4>
                 <hr>
                 <?php foreach ($rows as $bank_master) { ?>
-                    <div class="event-details">
-                        <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
-                        <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
-                        <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
-                        <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
-                        <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
-                        <div class="qr-code-container " id="qr-code" name="qr-code">
-                            <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
-                        </div>
+                <div class="event-details">
+                    <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
+                    <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
+                    <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
+                    <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
+                    <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
+                    <div class="qr-code-container " id="qr-code" name="qr-code">
+                        <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
                     </div>
+                </div>
                 <?php } ?>
             </div>
             <div class="col-md-7 p-3">
@@ -330,7 +330,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="checkbox-container">
                                     <div class="checkbox-item">
                                         <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
-                                            name="event_type[<?= $event_type_arr['id'] ?>]" value="<?= $event_type_arr['event_type'] ?>">
+                                            name="event_type[<?= $event_type_arr['id'] ?>]"
+                                            value="<?= $event_type_arr['event_type'] ?>">
                                         <label
                                             for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
                                             - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
@@ -360,23 +361,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
                                                 ₹<?= $event_type_arr['silver_row_price'] ?></label>
                                         </div>
-                                        
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div id="terms-section-<?= $event_type_arr['id'] ?>"
-                                    style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
-                                    <h5>Terms And Conditions</h5>
-                                    <p><?php echo $event_type_arr['tnc']; ?></p>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div id="terms-section-<?= $event_type_arr['id'] ?>"
+                                style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
+                                <h5>Terms And Conditions</h5>
+                                <p><?php echo $event_type_arr['tnc']; ?></p>
+                            </div>
+                        </div>
+                    </div>
                     <?php } ?>
 
 
 
-                    <!-- <div class="row mb-2">
+                        <!-- <div class="row mb-2">
                     <div class="col-md-6">
                         <div class="total-area">
                             <div class="amounts">
@@ -390,94 +392,94 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div> -->
 
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="total-area mb-2">
-                                <input type="hidden" name="total_amount" id="payment_total">
-                                <p>(Including Advance Payment of 50%):</p>
-                                <div class="amounts">
-                                    <div class="amount-item">
-                                        <span class="label">Net payable Total:</span>
-                                        ₹
-                                        <input type="text" id="net-payable-total" name="net-payable-total" value=""
-                                            class="form-control" style="width:30%;" readonly>
-                                        <!-- <span id="">0.00</span> -->
-                                    </div>
-                                    <div class="amount-item">
-                                        <span class="label">Advance:</span>
-                                        ₹<input type="text" id="Advance" value="" class="form-control" name="Advance"
-                                            style="width:30%;" readonly>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="total-area mb-2">
+                                    <input type="hidden" name="total_amount" id="payment_total">
+                                    <p>(Including Advance Payment of 50%):</p>
+                                    <div class="amounts">
+                                        <div class="amount-item">
+                                            <span class="label">Net payable Total:</span>
+                                            ₹
+                                            <input type="text" id="net-payable-total" name="net-payable-total" value=""
+                                                class="form-control" style="width:30%;" readonly>
+                                            <!-- <span id="">0.00</span> -->
+                                        </div>
+                                        <div class="amount-item">
+                                            <span class="label">Advance:</span>
+                                            ₹<input type="text" id="Advance" value="" class="form-control"
+                                                name="Advance" style="width:30%;" readonly>
 
-                                        <input type="hidden" name="advance_amount">
-                                    </div>
-                                    <div class="amount-item">
-                                        <span class="label">Remaining:</span>
-                                        ₹<input type="text" id="remaining_amount" value="" name="remaining_amount"
-                                            class="form-control" style="width:30%;" readonly>
-                                        <!-- <input type="hidden" name="remaining_amount"> -->
+                                            <input type="hidden" name="advance_amount">
+                                        </div>
+                                        <div class="amount-item">
+                                            <span class="label">Remaining:</span>
+                                            ₹<input type="text" id="remaining_amount" value="" name="remaining_amount"
+                                                class="form-control" style="width:30%;" readonly>
+                                            <!-- <input type="hidden" name="remaining_amount"> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div id="coupon-container">
+                                    <div class="field">
+                                        <label for="coupon-code">Enter Coupon Code<span
+                                                class="required-icon">*</span></label>
+                                        <div class="row">
+                                            <div class="col-9 jay">
+                                                <input type="text" id="coupon-code" name="coupon-code"
+                                                    class="form-control" placeholder="Enter coupon code">
+                                            </div>
+                                            <div class="col-3 d-flex align-items-center">
+                                                <button type="button" id="apply-coupon"
+                                                    class="btn btn-primary mr-2">Apply</button>
+                                                <button type="button" id="cancel-coupon" class="btn btn-danger hide">
+                                                    <i class="bi bi-x-circle-fill"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="sms">
+                                    <p id="coupon-message"></p>
+                                </div>
+                                <div class="sms">
+                                    <p id="coupon-alert"></p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <div id="coupon-container">
+
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
                                 <div class="field">
-                                    <label for="coupon-code">Enter Coupon Code<span
+                                    <label for="payment-ref-no">Payment Reference No <span
                                             class="required-icon">*</span></label>
-                                    <div class="row">
-                                        <div class="col-9 jay">
-                                            <input type="text" id="coupon-code" name="coupon-code" class="form-control"
-                                                placeholder="Enter coupon code">
-                                        </div>
-                                        <div class="col-3 d-flex align-items-center">
-                                            <button type="button" id="apply-coupon"
-                                                class="btn btn-primary mr-2">Apply</button>
-                                            <button type="button" id="cancel-coupon" class="btn btn-danger hide">
-                                                <i class="bi bi-x-circle-fill"></i>
-                                            </button>
-                                        </div>
+                                    <input type="text" id="payment-ref-no" name="payment_ref_no"
+                                        placeholder="Enter Payment Reference No" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="file-upload-container">
+                                    <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span>
+                                    </h3>
+                                    <div class="file-upload-area">
+                                        <input type="file" id="file-upload" name="file-upload" multiple accept="image/*"
+                                            required class="form-control">
+                                        <label for="file-upload" class="upload-button">
+                                            <span>Add file</span>
+                                        </label>
+                                        <div id="selected-files" class="selected-files"></div>
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="sms">
-                                <p id="coupon-message"></p>
-                            </div>
-                            <div class="sms">
-                                <p id="coupon-alert"></p>
-                            </div>
                         </div>
-                    </div>
-
-
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="field">
-                                <label for="payment-ref-no">Payment Reference No <span
-                                        class="required-icon">*</span></label>
-                                <input type="text" id="payment-ref-no" name="payment_ref_no"
-                                    placeholder="Enter Payment Reference No" class="form-control" required>
-                            </div>
+                        <div class="row mb-2">
+                            <button type="submit" class="btn btn-primary"> Submit</button>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="file-upload-container">
-                                <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span>
-                                </h3>
-                                <div class="file-upload-area">
-                                    <input type="file" id="file-upload" name="file-upload" multiple accept="image/*"
-                                        required class="form-control">
-                                    <label for="file-upload" class="upload-button">
-                                        <span>Add file</span>
-                                    </label>
-                                    <div id="selected-files" class="selected-files"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <button type="submit" class="btn btn-primary"> Submit</button>
-                    </div>
                 </form>
             </div>
         </div>
@@ -556,10 +558,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            let totalPrice = 0.00;
-            let currentCoupon = "";
-            let couponDiscount = 0;
+    $(document).ready(function() {
+        let totalPrice = 0.00;
+        let currentCoupon = "";
+        let couponDiscount = 0;
 
         // Update the total calculation based on selections
         function updateTotal() {
@@ -567,7 +569,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Loop through selected event types and add their prices
             $('input[name^="event_type"]:checked').each(function() {
-                const eventTypeId = $(this).attr('id').split('-')[1]; // Extract event type ID from checkbox ID
+                const eventTypeId = $(this).attr('id').split('-')[
+                1]; // Extract event type ID from checkbox ID
 
                 // Get single price if package is not available
                 const label = $(this).closest('.checkbox-item').find('label').text();
@@ -582,7 +585,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     packageSelection.show(); // Show package selection
 
                     // Add the selected package fee to the total price
-                    const selectedPackage = $('input[name^="package_selection[' + eventTypeId + ']"]:checked');
+                    const selectedPackage = $('input[name^="package_selection[' + eventTypeId +
+                        ']"]:checked');
                     if (selectedPackage.length > 0) {
                         totalPrice += parseFloat(selectedPackage.data('fee'));
                     }
@@ -592,8 +596,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Calculate advance payment
             const advancePayment = (totalPrice * 50) / 100;
             let paymentTotal = totalPrice;
-            
-            console.log('couponDiscount'+couponDiscount);
+
+            console.log('couponDiscount' + couponDiscount);
             // Apply coupon discount if available
             if (couponDiscount > 0) {
                 paymentTotal -= couponDiscount;
@@ -644,9 +648,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         let errorMessage = '';
 
                         if (discount > 0 && totalPrice > 0) {
-                            successMessage = `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
+                            successMessage =
+                                `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
                             couponDiscount = discount;
-                            
+
                             updateTotal();
                         } else if (discount === -1) {
                             errorMessage = 'Invalid coupon code. Please try again.';
@@ -667,7 +672,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         }
                     },
                     error: function() {
-                        $('#coupon-alert').text('An error occurred. Please try again.').addClass('show');
+                        $('#coupon-alert').text('An error occurred. Please try again.')
+                            .addClass('show');
                         $('#coupon-message').text('').removeClass('show');
                     }
                 });
@@ -708,79 +714,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //     const eventTypeId = $(this).attr('id').split('-')[1];
         //     toggleTerms(eventTypeId);
         // });
-    
-
-
-            // Download QR code button handler
-            document.getElementById('download-qr').addEventListener('click', function() {
-                const qrCodeUrl = 'QR-Code.png';
-                const link = document.createElement('a');
-                link.href = qrCodeUrl;
-                link.download = '';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            });
-
-            // File upload handler
-            document.getElementById('file-upload').addEventListener('change', function(event) {
-                const files = event.target.files;
-                const selectedFilesContainer = document.getElementById('selected-files');
-                selectedFilesContainer.innerHTML = '';
-
-                Array.from(files).forEach(file => {
-                    if (file.type.startsWith('image/')) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            const img = document.createElement('img');
-                            img.src = e.target.result;
-                            img.alt = file.name;
-                            img.title = file.name;
-                            img.style.maxWidth = '150px';
-                            img.style.maxHeight = '150px';
-
-                            const removeBtn = document.createElement('button');
-                            removeBtn.textContent = 'Remove';
-                            removeBtn.className = 'remove-btn';
-                            removeBtn.onclick = function() {
-                                selectedFilesContainer.removeChild(img);
-                                selectedFilesContainer.removeChild(removeBtn);
-
-                                if (selectedFilesContainer.children.length === 0) {
-                                    document.getElementById('file-upload').value = '';
-                                }
-                            };
-
-                            selectedFilesContainer.appendChild(img);
-                            selectedFilesContainer.appendChild(removeBtn);
-                        };
-                        reader.readAsDataURL(file);
-                    } else {
-                        alert('Please select an image file.');
-                    }
-                });
-            });
-
-            // Change handlers for select elements
-            document.getElementById('area-interest').addEventListener('change', function() {
-                const areaInterestOthersInput = document.getElementById('category-others');
-                areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-                if (this.value !== 'Others') {
-                    areaInterestOthersInput.value = '';
-                }
-            });
-
-            document.getElementById('lead-source').addEventListener('change', function() {
-                const leadSourceOthersInput = document.getElementById('lead-source-others');
-                leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-                if (this.value !== 'Others') {
-                    leadSourceOthersInput.value = '';
-                }
-            });
 
 
 
+        // Download QR code button handler
+        document.getElementById('download-qr').addEventListener('click', function() {
+            const qrCodeUrl = 'QR-Code.png';
+            const link = document.createElement('a');
+            link.href = qrCodeUrl;
+            link.download = '';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         });
+
+        // File upload handler
+        document.getElementById('file-upload').addEventListener('change', function(event) {
+            const files = event.target.files;
+            const selectedFilesContainer = document.getElementById('selected-files');
+            selectedFilesContainer.innerHTML = '';
+
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = file.name;
+                        img.title = file.name;
+                        img.style.maxWidth = '150px';
+                        img.style.maxHeight = '150px';
+
+                        const removeBtn = document.createElement('button');
+                        removeBtn.textContent = 'Remove';
+                        removeBtn.className = 'remove-btn';
+                        removeBtn.onclick = function() {
+                            selectedFilesContainer.removeChild(img);
+                            selectedFilesContainer.removeChild(removeBtn);
+
+                            if (selectedFilesContainer.children.length === 0) {
+                                document.getElementById('file-upload').value = '';
+                            }
+                        };
+
+                        selectedFilesContainer.appendChild(img);
+                        selectedFilesContainer.appendChild(removeBtn);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('Please select an image file.');
+                }
+            });
+        });
+
+        // Change handlers for select elements
+        document.getElementById('area-interest').addEventListener('change', function() {
+            const areaInterestOthersInput = document.getElementById('category-others');
+            areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+            if (this.value !== 'Others') {
+                areaInterestOthersInput.value = '';
+            }
+        });
+
+        document.getElementById('lead-source').addEventListener('change', function() {
+            const leadSourceOthersInput = document.getElementById('lead-source-others');
+            leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+            if (this.value !== 'Others') {
+                leadSourceOthersInput.value = '';
+            }
+        });
+
+
+
+    });
     </script>
 
 

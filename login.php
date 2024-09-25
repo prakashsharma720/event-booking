@@ -1,6 +1,7 @@
 <?php
 include 'db.php';
 $code = $_GET['code'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $required_fields = ['mobile', 'password'];
    $missing_fields = [];
@@ -59,7 +60,7 @@ $conn->close();
 <head>
    <meta charset="utf-8">
    <title>Login and Signup Forms | GWM</title>
-   <link rel="stylesheet" href="style.css"> <!-- Link to external CSS file -->
+   <link rel="stylesheet" href="login.css"> <!-- Link to external CSS file -->
 
    <!-- OTPLESS SDK -->
 
@@ -72,7 +73,7 @@ $conn->close();
    <div class="wrapper login-wrapper active">
       <div class="title">Login Form</div>
 
-      <form action="login.php" method="POST">
+      <form action="#" method="POST">
 
          <div class="role-selection">
             <label>
