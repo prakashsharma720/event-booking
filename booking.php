@@ -7,7 +7,7 @@ $base_url = 'https://gwmadmin.muskowl.com';
 // $base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => $base_url.'/index.php/api/Events_api/EvtD',
+    CURLOPT_URL => $base_url . '/index.php/api/Events_api/EvtD',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -30,34 +30,33 @@ if ($data['status'] == "true") {
     $bank_arr = json_decode($result['bank_master_ids'], true);;
 
     // print_r($bank_arr['0']);exit;
-    
-        // Query to select data from discounts_master table
-        $sql = "SELECT * FROM banks_master WHERE flag = '0'";
 
-        // Execute the query
-        $result1 = $conn->query($sql);
+    // Query to select data from discounts_master table
+    $sql = "SELECT * FROM banks_master WHERE flag = '0'";
 
-        // Check if the query was successful
-        if ($result1) {
-            // Check if any rows were returned
-            if (mysqli_num_rows($result1) > 0) {
-                // Fetch the result
-                  $rows = [];
+    // Execute the query
+    $result1 = $conn->query($sql);
 
-                // Loop through each row and store it in the $rows array
-                while ($row = $result1->fetch_assoc()) {
-                    $rows[] = $row;
-                }
+    // Check if the query was successful
+    if ($result1) {
+        // Check if any rows were returned
+        if (mysqli_num_rows($result1) > 0) {
+            // Fetch the result
+            $rows = [];
 
-            } else {
-                // Return -1 for an invalid coupon code
-                echo -1;
+            // Loop through each row and store it in the $rows array
+            while ($row = $result1->fetch_assoc()) {
+                $rows[] = $row;
             }
         } else {
-            // Handle query error
-            echo 'Query error: ' . $conn->error;
+            // Return -1 for an invalid coupon code
+            echo -1;
         }
-        // echo "<pre>";print_r($rows);exit;
+    } else {
+        // Handle query error
+        echo 'Query error: ' . $conn->error;
+    }
+    // echo "<pre>";print_r($rows);exit;
 
 } else {
     echo "Error: Unable to retrieve event details.";
@@ -66,8 +65,9 @@ if ($data['status'] == "true") {
 ?>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "<pre>";print_r($_POST);exit;
-
+    echo "<pre>";
+    print_r($_POST);
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -118,17 +118,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <hr>
                 <h4> Bank Details</h4>
                 <hr>
-                <?php foreach($rows as $bank_master) { ?>
-                <div class="event-details">
-                    <p><strong>Bank Name:</strong> <?= $bank_master['bank_name']?></p>
-                    <p><strong>Account Number:</strong> <?= $bank_master['account_no']?></p>
-                    <p><strong>IFSC:</strong> <?= $bank_master['ifsc']?></p>
-                    <p><strong>Branch:</strong><?= $bank_master['branch_address']?></p>
-                    <p><strong>UPI Id:</strong><?= $bank_master['upi_id']?></p>
-                    <div class="qr-code-container " id="qr-code" name="qr-code">
-                        <img src="<?= $base_url.'/'.$bank_master['qr_code']?>" id="download-qr">
+                <?php foreach ($rows as $bank_master) { ?>
+                    <div class="event-details">
+                        <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
+                        <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
+                        <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
+                        <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
+                        <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
+                        <div class="qr-code-container " id="qr-code" name="qr-code">
+                            <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
+                        </div>
                     </div>
-                </div>
                 <?php } ?>
             </div>
             <div class="col-md-7 p-3">
@@ -362,18 +362,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                         
                                     </div>
-                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="terms-section-<?= $event_type_arr['id'] ?>"
+                                    style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
+                                    <h5>Terms And Conditions</h5>
+                                    <p><?php echo $event_type_arr['tnc']; ?></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div id="terms-section-<?= $event_type_arr['id'] ?>"
-                                style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
-                                <h5>Terms And Conditions</h5>
-                                <p><?php echo $event_type_arr['tnc']; ?></p>
-                            </div>
-                        </div>
-                    </div>
                     <?php } ?>
 
 
@@ -558,10 +556,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
-        let totalPrice = 0.00;
-        let currentCoupon = "";
-        let couponDiscount = 0;
+        $(document).ready(function() {
+            let totalPrice = 0.00;
+            let currentCoupon = "";
+            let couponDiscount = 0;
 
         // Update the total calculation based on selections
         function updateTotal() {
@@ -713,76 +711,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 
 
-        // Download QR code button handler
-        document.getElementById('download-qr').addEventListener('click', function() {
-            const qrCodeUrl = 'QR-Code.png';
-            const link = document.createElement('a');
-            link.href = qrCodeUrl;
-            link.download = '';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+            // Download QR code button handler
+            document.getElementById('download-qr').addEventListener('click', function() {
+                const qrCodeUrl = 'QR-Code.png';
+                const link = document.createElement('a');
+                link.href = qrCodeUrl;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
 
-        // File upload handler
-        document.getElementById('file-upload').addEventListener('change', function(event) {
-            const files = event.target.files;
-            const selectedFilesContainer = document.getElementById('selected-files');
-            selectedFilesContainer.innerHTML = '';
+            // File upload handler
+            document.getElementById('file-upload').addEventListener('change', function(event) {
+                const files = event.target.files;
+                const selectedFilesContainer = document.getElementById('selected-files');
+                selectedFilesContainer.innerHTML = '';
 
-            Array.from(files).forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = file.name;
-                        img.title = file.name;
-                        img.style.maxWidth = '150px';
-                        img.style.maxHeight = '150px';
+                Array.from(files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.alt = file.name;
+                            img.title = file.name;
+                            img.style.maxWidth = '150px';
+                            img.style.maxHeight = '150px';
 
-                        const removeBtn = document.createElement('button');
-                        removeBtn.textContent = 'Remove';
-                        removeBtn.className = 'remove-btn';
-                        removeBtn.onclick = function() {
-                            selectedFilesContainer.removeChild(img);
-                            selectedFilesContainer.removeChild(removeBtn);
+                            const removeBtn = document.createElement('button');
+                            removeBtn.textContent = 'Remove';
+                            removeBtn.className = 'remove-btn';
+                            removeBtn.onclick = function() {
+                                selectedFilesContainer.removeChild(img);
+                                selectedFilesContainer.removeChild(removeBtn);
 
-                            if (selectedFilesContainer.children.length === 0) {
-                                document.getElementById('file-upload').value = '';
-                            }
+                                if (selectedFilesContainer.children.length === 0) {
+                                    document.getElementById('file-upload').value = '';
+                                }
+                            };
+
+                            selectedFilesContainer.appendChild(img);
+                            selectedFilesContainer.appendChild(removeBtn);
                         };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please select an image file.');
+                    }
+                });
+            });
 
-                        selectedFilesContainer.appendChild(img);
-                        selectedFilesContainer.appendChild(removeBtn);
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    alert('Please select an image file.');
+            // Change handlers for select elements
+            document.getElementById('area-interest').addEventListener('change', function() {
+                const areaInterestOthersInput = document.getElementById('category-others');
+                areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+                if (this.value !== 'Others') {
+                    areaInterestOthersInput.value = '';
                 }
             });
+
+            document.getElementById('lead-source').addEventListener('change', function() {
+                const leadSourceOthersInput = document.getElementById('lead-source-others');
+                leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+                if (this.value !== 'Others') {
+                    leadSourceOthersInput.value = '';
+                }
+            });
+
+
+
         });
-
-        // Change handlers for select elements
-        document.getElementById('area-interest').addEventListener('change', function() {
-            const areaInterestOthersInput = document.getElementById('category-others');
-            areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-            if (this.value !== 'Others') {
-                areaInterestOthersInput.value = '';
-            }
-        });
-
-        document.getElementById('lead-source').addEventListener('change', function() {
-            const leadSourceOthersInput = document.getElementById('lead-source-others');
-            leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-            if (this.value !== 'Others') {
-                leadSourceOthersInput.value = '';
-            }
-        });
-
-
-
-    });
     </script>
 
 
