@@ -3,11 +3,11 @@ include('db.php');
 $code = $_GET['code'];
 $curl = curl_init();
 
-// $base_url = 'https://gwmadmin.muskowl.com';
-$base_url = 'http://localhost/CI/event-portal';
+$base_url = 'https://gwmadmin.muskowl.com';
+// $base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => $base_url.'/index.php/api/Events_api/EvtD',
+    CURLOPT_URL => $base_url . '/index.php/api/Events_api/EvtD',
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => '',
     CURLOPT_MAXREDIRS => 10,
@@ -30,34 +30,33 @@ if ($data['status'] == "true") {
     $bank_arr = json_decode($result['bank_master_ids'], true);;
 
     // print_r($bank_arr['0']);exit;
-    
-        // Query to select data from discounts_master table
-        $sql = "SELECT * FROM banks_master WHERE flag = '0'";
 
-        // Execute the query
-        $result1 = $conn->query($sql);
+    // Query to select data from discounts_master table
+    $sql = "SELECT * FROM banks_master WHERE flag = '0'";
 
-        // Check if the query was successful
-        if ($result1) {
-            // Check if any rows were returned
-            if (mysqli_num_rows($result1) > 0) {
-                // Fetch the result
-                  $rows = [];
+    // Execute the query
+    $result1 = $conn->query($sql);
 
-                // Loop through each row and store it in the $rows array
-                while ($row = $result1->fetch_assoc()) {
-                    $rows[] = $row;
-                }
+    // Check if the query was successful
+    if ($result1) {
+        // Check if any rows were returned
+        if (mysqli_num_rows($result1) > 0) {
+            // Fetch the result
+            $rows = [];
 
-            } else {
-                // Return -1 for an invalid coupon code
-                echo -1;
+            // Loop through each row and store it in the $rows array
+            while ($row = $result1->fetch_assoc()) {
+                $rows[] = $row;
             }
         } else {
-            // Handle query error
-            echo 'Query error: ' . $conn->error;
+            // Return -1 for an invalid coupon code
+            echo -1;
         }
-        // echo "<pre>";print_r($rows);exit;
+    } else {
+        // Handle query error
+        echo 'Query error: ' . $conn->error;
+    }
+    // echo "<pre>";print_r($rows);exit;
 
 } else {
     echo "Error: Unable to retrieve event details.";
@@ -66,8 +65,9 @@ if ($data['status'] == "true") {
 ?>
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    echo "<pre>";print_r($_POST);exit;
-
+    echo "<pre>";
+    print_r($_POST);
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -88,467 +88,467 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <style>
-    body {
-        font-family: "Raleway", system-ui;
-        font-optical-sizing: auto;
-        font-weight: 600;
-        font-style: normal;
-        font-variation-settings:
-            "wdth"100;
-        background-color 0.5s ease;
-    }
-
-    .form-control {
-        font-weight: 600;
-    }
-
-    p {
-        color: #5a5757;
-    }
-    *,
-    ::after,
-    ::before {
-        box-sizing: border-box;
-        font-weight: 600;
-    }
-
-    /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-    .row.content {
-        height: auto;
-    }
-
-    /* Set gray background color and 100% height */
-    .sidenav {
-        background-color: #f1f1f1;
-        height: 100%;
-        padding: 10px;
-    }
-
-    /* Set black background color, white text and some padding */
-    footer {
-        background-color: #555;
-        color: white;
-        padding: 30px;
-    }
-    a {
-        color:white;
-    }
-
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-        .sidenav {
-            height: auto;
-            padding: 15px;
+        body {
+            font-family: "Raleway", system-ui;
+            font-optical-sizing: auto;
+            font-weight: 600;
+            font-style: normal;
+            font-variation-settings:
+                "wdth" 100;
+            background-color 0.5s ease;
         }
 
+        .form-control {
+            font-weight: 600;
+        }
+
+        p {
+            color: #5a5757;
+        }
+
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+            font-weight: 600;
+        }
+
+        /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
         .row.content {
             height: auto;
         }
-    }
+
+        /* Set gray background color and 100% height */
+        .sidenav {
+            background-color: #f1f1f1;
+            height: 100%;
+            padding: 10px;
+        }
+
+        /* Set black background color, white text and some padding */
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 30px;
+        }
+
+        a {
+            color: white;
+        }
+
+        /* On small screens, set height to 'auto' for sidenav and grid */
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: auto;
+                padding: 15px;
+            }
+
+            .row.content {
+                height: auto;
+            }
+        }
 
 
-    h1 {
-        text-align: center;
-        color: #007bff;
-        margin-top: 20px;
-    }
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-top: 20px;
+        }
 
-    .event-details {
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 8px;
-
-        margin: 20px 0;
-    }
-
-    .event-details h4 {
-        margin-bottom: 15px;
-        font-size: 1.5rem;
-    }
-
-    .event-details p {
-        margin-bottom: 10px;
-        font-size: 1rem;
-    }
-
-    .event-details .qr-code-container {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .event-details .qr-code-container img {
-        max-width: 90%;
-        height: auto;
-        max-height: 200px;
-        margin-top: -171px;
-        margin-left: 7px;
-    }
-
-    /* Adjust if necessary */
-
-
-    @media (max-width: 768px) {
         .event-details {
-            padding: 15px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+
+            margin: 20px 0;
         }
 
         .event-details h4 {
-            font-size: 1.25rem;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
         }
 
         .event-details p {
-            font-size: 0.9rem;
+            margin-bottom: 10px;
+            font-size: 1rem;
         }
-    }
 
-    .event-details:hover {
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    }
+        .event-details .qr-code-container {
+            text-align: center;
+            margin-top: 20px;
+        }
 
-    .event-details p {
-        margin: 12px 0;
-    }
+        .event-details .qr-code-container img {
+            max-width: 90%;
+            height: auto;
+            max-height: 200px;
+            margin-top: -171px;
+            margin-left: 7px;
+        }
 
-    .event-details strong {
-        color: #555;
-    }
-
-    .event-details a {
-        color: #007bff;
-        text-decoration: none;
-    }
-
-    .event-details a:hover {
-        text-decoration: underline;
-    }
-
-    .greebie_image {
-        display: inline-flex;
-        padding: 10px;
-        background: #000;
-        color: #fff;
-        align-items: center;
-    }
-
-    .required-icon {
-        color: red;
-    }
-
-    input:read-only {
-        background-color: #f0f0f0;
-        /* Change this color as needed */
-    }
-
-    .total-area {
-        background-color: #ffffff;
-        transition: box-shadow 0.3s ease;
-        border-radius: 8px;
-        padding: 10px;
-        /* width: 300px; */
-        text-align: left;
-    }
-
-    .total-area:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .total-area p {
-        font-weight: bold;
-        margin: 0 0 10px 0;
-    }
-
-    .amounts {
-        border-top: 1px solid #ddd;
-        padding-top: 10px;
-    }
-
-    .amount-item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-    }
-
-    .field-container {
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #fff;
-        position: relative;
-        transition: box-shadow 0.3s ease;
-    }
-
-    .field-container:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .checkbox-item {
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        margin-bottom: 10px;
-        transition: background-color 0.3s ease;
-    }
-
-    .package-selection {
-        display: none;
-        margin-top: 20px;
-        margin-bottom: 20px;
-    }
-
-    .checkbox-item input[type="checkbox"] {
-        margin-right: 10px;
-        transform: scale(1.2);
-        cursor: pointer;
-    }
-
-    .package-selection .checkbox-item {
-        display: flex;
-        margin-bottom: 3px;
-        padding: 9px;
-        background-color: #f9f9f9;
-        transition: background-color 0.3s ease;
-        cursor: pointer;
-    }
-
-    .package-selection input[type="radio"] {
-        margin-right: 10px;
-        transform: scale(1.2);
-    }
+        /* Adjust if necessary */
 
 
+        @media (max-width: 768px) {
+            .event-details {
+                padding: 15px;
+            }
 
-    #coupon-container .field {
-        margin-top: 10px;
-    }
+            .event-details h4 {
+                font-size: 1.25rem;
+            }
 
-    #coupon-container .row {
-        display: flex;
-        align-items: center;
-    }
+            .event-details p {
+                font-size: 0.9rem;
+            }
+        }
 
-    #coupon-container .form-control {
-        width: 100%;
+        .event-details:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
 
-    }
+        .event-details p {
+            margin: 12px 0;
+        }
 
-    #coupon-container .btn {
-        margin-left: -13px;
-    }
+        .event-details strong {
+            color: #555;
+        }
 
-    .qr-code-container img {
+        .event-details a {
+            color: #007bff;
+            text-decoration: none;
+        }
 
-        max-width: 150px;
-        height: auto;
-    }
+        .event-details a:hover {
+            text-decoration: underline;
+        }
 
-    .qr-code-container {
-        text-align: center;
-        margin-top: -159px;
-        margin-left: 270px;
-    }
+        .greebie_image {
+            display: inline-flex;
+            padding: 10px;
+            background: #000;
+            color: #fff;
+            align-items: center;
+        }
 
-    .file-upload-container {
-        background-color: #ffffff;
-        transition: box-shadow 0.3s ease;
-        padding: 20px;
+        .required-icon {
+            color: red;
+        }
 
-        max-width: 400px;
-        margin: 0 auto;
-        text-align: center;
-    }
+        input:read-only {
+            background-color: #f0f0f0;
+            /* Change this color as needed */
+        }
 
-    .file-upload-container:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .total-area {
+            background-color: #ffffff;
+            transition: box-shadow 0.3s ease;
+            border-radius: 8px;
+            padding: 10px;
+            /* width: 300px; */
+            text-align: left;
+        }
 
-    .upload-heading {
-        font-size: 20px;
-        color: #0056b3;
-        margin-bottom: 10px;
-    }
+        .total-area:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .required-marker {
-        color: #ff0000;
-        font-size: 18px;
-    }
+        .total-area p {
+            font-weight: bold;
+            margin: 0 0 10px 0;
+        }
 
-    .upload-instructions {
-        font-size: 14px;
-        color: #666;
-        margin-bottom: 20px;
-    }
+        .amounts {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
 
-    .file-upload-area {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: -5px;
-    }
+        .amount-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
 
-    input[type="file"] {
-        display: none;
-    }
+        .field-container {
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fff;
+            position: relative;
+            transition: box-shadow 0.3s ease;
+        }
 
-    .upload-button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 89px;
-        height: 43px;
-        border: 2px solid #007bff;
-        border-radius: 4px;
-        background-color: #e9f1ff;
-        color: #007bff;
-        font-weight: 500;
-        cursor: pointer;
-        margin-bottom: 15px;
-    }
+        .field-container:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-    .upload-button svg {
-        margin-right: 10px;
-    }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
 
-    .upload-button span {
-        font-size: 16px;
-    }
+        .package-selection {
+            display: none;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
 
-    .selected-files {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #333;
-    }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .package-selection .checkbox-item {
+            display: flex;
+            margin-bottom: 3px;
+            padding: 9px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .package-selection input[type="radio"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
 
 
-    .upload-submit-button {
-        background-color: #007bff;
-        color: #ffffff;
-        border: none;
-        padding: 12px 24px;
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
 
-    .upload-submit-button:hover {
-        background-color: #0056b3;
-    }
+        #coupon-container .field {
+            margin-top: 10px;
+        }
 
-    .button {
-        flex: 0 0 auto;
-        width: 30%;
-    }
+        #coupon-container .row {
+            display: flex;
+            align-items: center;
+        }
 
-    .file-upload-container {
-        margin-bottom: 20px;
-    }
+        #coupon-container .form-control {
+            width: 100%;
 
-    .file-upload-area {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-    }
+        }
 
-    .upload-button {
-        background-color: #007bff;
-        color: white;
-        padding: 10px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-        text-align: center;
-    }
+        #coupon-container .btn {
+            margin-left: -13px;
+        }
 
-    .selected-files {
-        margin-top: 10px;
-    }
+        .qr-code-container img {
 
-    .selected-files img {
-        max-width: 100px;
-        max-height: 100px;
-        margin-right: 10px;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-    }
+            max-width: 150px;
+            height: auto;
+        }
 
-    .sms {
-        margin: 8px;
+        .qr-code-container {
+            text-align: center;
+            margin-top: -159px;
+            margin-left: 270px;
+        }
 
-    }
+        .file-upload-container {
+            background-color: #ffffff;
+            transition: box-shadow 0.3s ease;
+            padding: 20px;
 
-    .sms p {
-        padding: 10px;
-        border-radius: 4px;
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
 
-        margin-top: 10px;
+        .file-upload-container:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-        display: none;
+        .upload-heading {
+            font-size: 20px;
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
 
-    }
+        .required-marker {
+            color: #ff0000;
+            font-size: 18px;
+        }
 
-    .sms #coupon-message.show {
-        display: block;
-        border: 1px solid #28a745;
-        color: #28a745;
-    }
+        .upload-instructions {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
 
-    .sms #coupon-alert.show {
-        display: block;
-        border: 1px solid #dc3545;
-        color: #dc3545;
-    }
+        .file-upload-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: -5px;
+        }
 
-    /* footer {
+        input[type="file"] {
+            display: none;
+        }
+
+        .upload-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 89px;
+            height: 43px;
+            border: 2px solid #007bff;
+            border-radius: 4px;
+            background-color: #e9f1ff;
+            color: #007bff;
+            font-weight: 500;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .upload-button svg {
+            margin-right: 10px;
+        }
+
+        .upload-button span {
+            font-size: 16px;
+        }
+
+        .selected-files {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+
+        .upload-submit-button {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-submit-button:hover {
+            background-color: #0056b3;
+        }
+
+        .button {
+            flex: 0 0 auto;
+            width: 30%;
+        }
+
+        .file-upload-container {
+            margin-bottom: 20px;
+        }
+
+        .file-upload-area {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .upload-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .selected-files {
+            margin-top: 10px;
+        }
+
+        .selected-files img {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .sms {
+            margin: 8px;
+
+        }
+
+        .sms p {
+            padding: 10px;
+            border-radius: 4px;
+
+            margin-top: 10px;
+
+            display: none;
+
+        }
+
+        .sms #coupon-message.show {
+            display: block;
+            border: 1px solid #28a745;
+            color: #28a745;
+        }
+
+        .sms #coupon-alert.show {
+            display: block;
+            border: 1px solid #dc3545;
+            color: #dc3545;
+        }
+
+        /* footer {
             margin-top: 1019px;
         } */
 
-    .jay {
-        flex: 0 0 auto;
-        width: 58%;
-    }
+        .jay {
+            flex: 0 0 auto;
+            width: 58%;
+        }
 
-    #coupon-container {
-        margin-top: 20px;
-    }
+        #coupon-container {
+            margin-top: 20px;
+        }
 
-    .field {
-        margin-bottom: 20px;
-    }
+        .field {
+            margin-bottom: 20px;
+        }
 
-    .required-icon {
-        color: red;
-    }
+        .required-icon {
+            color: red;
+        }
 
-    .btn {
-        margin-right: 24px;
-    }
+        .btn {
+            margin-right: 24px;
+        }
 
-    .col-9 input {
-        border-radius: 8px;
-    }
-
-    .col-3 .btn {
-        width: 115%;
-    }
-
-    .col-3 {
-        display: flex;
-        justify-content: flex-start;
-    }
-
-    @media (max-width: 576px) {
-
-        .col-9,
-        .col-3 {
-            flex: 0 0 100%;
-            max-width: 100%;
+        .col-9 input {
+            border-radius: 8px;
         }
 
         .col-3 .btn {
-            width: 100%;
+            width: 115%;
         }
-    }
-    
-    
+
+        .col-3 {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        @media (max-width: 576px) {
+
+            .col-9,
+            .col-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .col-3 .btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -580,17 +580,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <hr>
                 <h4> Bank Details</h4>
                 <hr>
-                <?php foreach($rows as $bank_master) { ?>
-                <div class="event-details">
-                    <p><strong>Bank Name:</strong> <?= $bank_master['bank_name']?></p>
-                    <p><strong>Account Number:</strong> <?= $bank_master['account_no']?></p>
-                    <p><strong>IFSC:</strong> <?= $bank_master['ifsc']?></p>
-                    <p><strong>Branch:</strong><?= $bank_master['branch_address']?></p>
-                    <p><strong>UPI Id:</strong><?= $bank_master['upi_id']?></p>
-                    <div class="qr-code-container " id="qr-code" name="qr-code">
-                        <img src="<?= $base_url.'/'.$bank_master['qr_code']?>" id="download-qr">
+                <?php foreach ($rows as $bank_master) { ?>
+                    <div class="event-details">
+                        <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
+                        <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
+                        <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
+                        <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
+                        <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
+                        <div class="qr-code-container " id="qr-code" name="qr-code">
+                            <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
+                        </div>
                     </div>
-                </div>
                 <?php } ?>
             </div>
             <div class="col-md-7 p-3">
@@ -600,7 +600,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h2>Event Registration Form</h2>
                 <hr>
                 <form action="#" method="POST">
-                    <input type="hidden" name="event_code" value="<?= $code ?>" >
+                    <input type="hidden" name="event_code" value="<?= $code ?>">
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <label for="gender">Participant Name</label>
@@ -786,61 +786,61 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <h2>Event Type </h2>
                     <hr>
                     <?php foreach ($result['event_types_details'] as $event_type_arr) { ?>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="field-container">
-                                <div class="checkbox-container">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>" name="event_type[<?= $event_type_arr['id'] ?>]"
-                                            value="<?= $event_type_arr['event_type'] ?>">
-                                        <label
-                                            for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
-                                            - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
-                                    </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="field-container">
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>" name="event_type[<?= $event_type_arr['id'] ?>]"
+                                                value="<?= $event_type_arr['event_type'] ?>">
+                                            <label
+                                                for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
+                                                - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
+                                        </div>
 
-                                    <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
-                                    <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
-                                        style="display: none;">
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="VIP"
-                                                data-fee="<?= $event_type_arr['vip_row_price'] ?>">
-                                            <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
-                                                ₹<?= $event_type_arr['vip_row_price'] ?></label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="Gold"
-                                                data-fee="<?= $event_type_arr['gold_row_price'] ?>">
-                                            <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
-                                                ₹<?= $event_type_arr['gold_row_price'] ?></label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="Silver"
-                                                data-fee="<?= $event_type_arr['silver_row_price'] ?>">
-                                            <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
-                                                ₹<?= $event_type_arr['silver_row_price'] ?></label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-none-<?= $event_type_arr['id'] ?>"
-                                                name="package-type-<?= $event_type_arr['id'] ?>" value="None"
-                                                data-fee="0.00" checked>
-                                            <label for="package-none-<?= $event_type_arr['id'] ?>">None - ₹0.00</label>
-                                        </div>
+                                        <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
+                                            <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
+                                                style="display: none;">
+                                                <div class="checkbox-item">
+                                                    <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
+                                                        name="package-type-<?= $event_type_arr['id'] ?>" value="VIP"
+                                                        data-fee="<?= $event_type_arr['vip_row_price'] ?>">
+                                                    <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
+                                                        ₹<?= $event_type_arr['vip_row_price'] ?></label>
+                                                </div>
+                                                <div class="checkbox-item">
+                                                    <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
+                                                        name="package-type-<?= $event_type_arr['id'] ?>" value="Gold"
+                                                        data-fee="<?= $event_type_arr['gold_row_price'] ?>">
+                                                    <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
+                                                        ₹<?= $event_type_arr['gold_row_price'] ?></label>
+                                                </div>
+                                                <div class="checkbox-item">
+                                                    <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
+                                                        name="package-type-<?= $event_type_arr['id'] ?>" value="Silver"
+                                                        data-fee="<?= $event_type_arr['silver_row_price'] ?>">
+                                                    <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
+                                                        ₹<?= $event_type_arr['silver_row_price'] ?></label>
+                                                </div>
+                                                <div class="checkbox-item">
+                                                    <input type="radio" id="package-none-<?= $event_type_arr['id'] ?>"
+                                                        name="package-type-<?= $event_type_arr['id'] ?>" value="None"
+                                                        data-fee="0.00" checked>
+                                                    <label for="package-none-<?= $event_type_arr['id'] ?>">None - ₹0.00</label>
+                                                </div>
+                                            </div>
+                                        <?php } ?>
                                     </div>
-                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="terms-section-<?= $event_type_arr['id'] ?>"
+                                    style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
+                                    <h5>Terms And Conditions</h5>
+                                    <p><?php echo $event_type_arr['tnc']; ?></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div id="terms-section-<?= $event_type_arr['id'] ?>"
-                                style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
-                                <h5>Terms And Conditions</h5>
-                                <p><?php echo $event_type_arr['tnc']; ?></p>
-                            </div>
-                        </div>
-                    </div>
                     <?php } ?>
 
 
@@ -867,19 +867,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="amounts">
                                     <div class="amount-item">
                                         <span class="label">Net payable Total:</span>
-                                        ₹ 
-                                        <input type="text" id="net-payable-total" name="net-payable-total" value=""  class="form-control" style="width:30%;" readonly>
+                                        ₹
+                                        <input type="text" id="net-payable-total" name="net-payable-total" value="" class="form-control" style="width:30%;" readonly>
                                         <!-- <span id="">0.00</span> -->
                                     </div>
                                     <div class="amount-item">
                                         <span class="label">Advance:</span>
-                                        ₹<input type="text" id="Advance" value=""  class="form-control" name="Advance" style="width:30%;" readonly>
+                                        ₹<input type="text" id="Advance" value="" class="form-control" name="Advance" style="width:30%;" readonly>
 
                                         <input type="hidden" name="advance_amount">
                                     </div>
                                     <div class="amount-item">
                                         <span class="label">Remaining:</span>
-                                        ₹<input type="text" id="remaining_amount" value=""  name="remaining_amount" class="form-control" style="width:30%;" readonly>
+                                        ₹<input type="text" id="remaining_amount" value="" name="remaining_amount" class="form-control" style="width:30%;" readonly>
                                         <!-- <input type="hidden" name="remaining_amount"> -->
                                     </div>
                                 </div>
@@ -898,9 +898,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <div class="col-3 d-flex align-items-center">
                                             <button type="button" id="apply-coupon"
                                                 class="btn btn-primary mr-2">Apply</button>
-                                                 <button type="button" id="cancel-coupon" class="btn btn-danger hide">
-                                                    <i class="bi bi-x-circle-fill"></i>
-                                                </button>
+                                            <button type="button" id="cancel-coupon" class="btn btn-danger hide">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -914,7 +914,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </div>
-                    
+
 
                     <div class="row mb-2">
                         <div class="col-md-6">
@@ -941,8 +941,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </div>
-                     <div class="row mb-2">
-                        <button type="submit"  class="btn btn-primary"> Submit</button>
+                    <div class="row mb-2">
+                        <button type="submit" class="btn btn-primary"> Submit</button>
                     </div>
                 </form>
             </div>
@@ -969,13 +969,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <ul style="color:white">
                                     <li>
                                         <a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank"
-                                            rel="noopener">Terms &amp; conditions</a></li>
+                                            rel="noopener">Terms &amp; conditions</a>
+                                    </li>
                                     <li>
                                         <a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank"
-                                            rel="noopener">Privacy Policy</a></li>
+                                            rel="noopener">Privacy Policy</a>
+                                    </li>
                                     <li>
                                         <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank"
-                                            rel="noopener">Legal Disclaimer</a></li>
+                                            rel="noopener">Legal Disclaimer</a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -1019,79 +1022,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
-        let totalPrice = 0.00;
-        let currentCoupon = "";
-        let couponDiscount = 0;
+        $(document).ready(function() {
+            let totalPrice = 0.00;
+            let currentCoupon = "";
+            let couponDiscount = 0;
 
-        // Apply coupon button click handler
-        $('#apply-coupon').click(function() {
-            const couponCode = $('#coupon-code').val().trim();
-            if (couponCode !== currentCoupon) {
-                currentCoupon = couponCode;
-                $.ajax({
-                    url: 'verify_coupon.php',
-                    type: 'GET',
-                    data: {
-                        code: couponCode
-                    },
-                    success: function(response) {
-                        const discount = parseFloat(response);
-                        let successMessage = '';
-                        let errorMessage = '';
+            // Apply coupon button click handler
+            $('#apply-coupon').click(function() {
+                const couponCode = $('#coupon-code').val().trim();
+                if (couponCode !== currentCoupon) {
+                    currentCoupon = couponCode;
+                    $.ajax({
+                        url: 'verify_coupon.php',
+                        type: 'GET',
+                        data: {
+                            code: couponCode
+                        },
+                        success: function(response) {
+                            const discount = parseFloat(response);
+                            let successMessage = '';
+                            let errorMessage = '';
 
-                        if (discount > 0 && totalPrice > 0) {
-                            successMessage =
-                                `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
-                            couponDiscount = discount;
-                            updateTotal();
-                        } else if (discount === -1) {
-                            errorMessage = 'Invalid coupon code. Please try again.';
-                        } else if (discount === -2) {
-                            errorMessage = 'No coupon code provided.';
-                        } else {
-                            errorMessage = 'Unexpected response from the server.';
-                        }
+                            if (discount > 0 && totalPrice > 0) {
+                                successMessage =
+                                    `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
+                                couponDiscount = discount;
+                                updateTotal();
+                            } else if (discount === -1) {
+                                errorMessage = 'Invalid coupon code. Please try again.';
+                            } else if (discount === -2) {
+                                errorMessage = 'No coupon code provided.';
+                            } else {
+                                errorMessage = 'Unexpected response from the server.';
+                            }
 
-                        if (successMessage) {
-                            $('#coupon-message').text(successMessage).addClass('show');
-                            $('#coupon-alert').text('').removeClass('show');
-                            $('#cancel-coupon').removeClass('hide');
+                            if (successMessage) {
+                                $('#coupon-message').text(successMessage).addClass('show');
+                                $('#coupon-alert').text('').removeClass('show');
+                                $('#cancel-coupon').removeClass('hide');
 
-                        } else if (errorMessage) {
-                            $('#coupon-alert').text(errorMessage).addClass('show');
+                            } else if (errorMessage) {
+                                $('#coupon-alert').text(errorMessage).addClass('show');
+                                $('#coupon-message').text('').removeClass('show');
+                                $('#cancel-coupon').addClass('show');
+                            }
+                        },
+                        error: function() {
+                            $('#coupon-alert').text('An error occurred. Please try again.')
+                                .addClass('show');
                             $('#coupon-message').text('').removeClass('show');
-                             $('#cancel-coupon').addClass('show');
                         }
-                    },
-                    error: function() {
-                        $('#coupon-alert').text('An error occurred. Please try again.')
-                            .addClass('show');
-                        $('#coupon-message').text('').removeClass('show');
-                    }
-                });
-            } else {
-                $('#coupon-alert').text('Coupon code already applied').addClass('show');
-                $('#coupon-message').text('').removeClass('show');
-            }
-        });
+                    });
+                } else {
+                    $('#coupon-alert').text('Coupon code already applied').addClass('show');
+                    $('#coupon-message').text('').removeClass('show');
+                }
+            });
 
-     
-        $('#cancel-coupon').click(function() {
-            if (currentCoupon) {
-                $('#coupon-code').val('');
-                $('#coupon-message').text('').removeClass('show');
-                $('#coupon-alert').text('').removeClass('show');
-                couponDiscount = 0;
-                currentCoupon = '';
-                updateTotal();
-                $('#cancel-coupon').addClass('hide');
-            } else {
-                $('#coupon-alert').text('No coupon code applied to cancel.').addClass('show');
-                $('#coupon-message').text('').removeClass('show');
-                $('#cancel-coupon').addClass('hide');
-            }
-        });
+
+            $('#cancel-coupon').click(function() {
+                if (currentCoupon) {
+                    $('#coupon-code').val('');
+                    $('#coupon-message').text('').removeClass('show');
+                    $('#coupon-alert').text('').removeClass('show');
+                    couponDiscount = 0;
+                    currentCoupon = '';
+                    updateTotal();
+                    $('#cancel-coupon').addClass('hide');
+                } else {
+                    $('#coupon-alert').text('No coupon code applied to cancel.').addClass('show');
+                    $('#coupon-message').text('').removeClass('show');
+                    $('#cancel-coupon').addClass('hide');
+                }
+            });
 
             function updateTotal() {
                 totalPrice = 0.00;
@@ -1159,7 +1162,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 paymentTotalSpan.val = totalPrice.toFixed(2);
                 document.querySelector('input[name="net-payable-total"]').value = netPayableTotal.toFixed(2);
-            document.querySelector('input[name="Advance"]').value  = advanceAmount.toFixed(2);
+                document.querySelector('input[name="Advance"]').value = advanceAmount.toFixed(2);
                 document.querySelector('input[name="remaining_amount"]').value = remainingAmount.toFixed(2);
 
                 document.querySelector('input[name="total_amount"]').value = totalPrice;
@@ -1197,76 +1200,76 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 });
             });
 
-        // Download QR code button handler
-        document.getElementById('download-qr').addEventListener('click', function() {
-            const qrCodeUrl = 'QR-Code.png';
-            const link = document.createElement('a');
-            link.href = qrCodeUrl;
-            link.download = '';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+            // Download QR code button handler
+            document.getElementById('download-qr').addEventListener('click', function() {
+                const qrCodeUrl = 'QR-Code.png';
+                const link = document.createElement('a');
+                link.href = qrCodeUrl;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
 
-        // File upload handler
-        document.getElementById('file-upload').addEventListener('change', function(event) {
-            const files = event.target.files;
-            const selectedFilesContainer = document.getElementById('selected-files');
-            selectedFilesContainer.innerHTML = '';
+            // File upload handler
+            document.getElementById('file-upload').addEventListener('change', function(event) {
+                const files = event.target.files;
+                const selectedFilesContainer = document.getElementById('selected-files');
+                selectedFilesContainer.innerHTML = '';
 
-            Array.from(files).forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = file.name;
-                        img.title = file.name;
-                        img.style.maxWidth = '150px';
-                        img.style.maxHeight = '150px';
+                Array.from(files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.alt = file.name;
+                            img.title = file.name;
+                            img.style.maxWidth = '150px';
+                            img.style.maxHeight = '150px';
 
-                        const removeBtn = document.createElement('button');
-                        removeBtn.textContent = 'Remove';
-                        removeBtn.className = 'remove-btn';
-                        removeBtn.onclick = function() {
-                            selectedFilesContainer.removeChild(img);
-                            selectedFilesContainer.removeChild(removeBtn);
+                            const removeBtn = document.createElement('button');
+                            removeBtn.textContent = 'Remove';
+                            removeBtn.className = 'remove-btn';
+                            removeBtn.onclick = function() {
+                                selectedFilesContainer.removeChild(img);
+                                selectedFilesContainer.removeChild(removeBtn);
 
-                            if (selectedFilesContainer.children.length === 0) {
-                                document.getElementById('file-upload').value = '';
-                            }
+                                if (selectedFilesContainer.children.length === 0) {
+                                    document.getElementById('file-upload').value = '';
+                                }
+                            };
+
+                            selectedFilesContainer.appendChild(img);
+                            selectedFilesContainer.appendChild(removeBtn);
                         };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please select an image file.');
+                    }
+                });
+            });
 
-                        selectedFilesContainer.appendChild(img);
-                        selectedFilesContainer.appendChild(removeBtn);
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    alert('Please select an image file.');
+            // Change handlers for select elements
+            document.getElementById('area-interest').addEventListener('change', function() {
+                const areaInterestOthersInput = document.getElementById('category-others');
+                areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+                if (this.value !== 'Others') {
+                    areaInterestOthersInput.value = '';
                 }
             });
+
+            document.getElementById('lead-source').addEventListener('change', function() {
+                const leadSourceOthersInput = document.getElementById('lead-source-others');
+                leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+                if (this.value !== 'Others') {
+                    leadSourceOthersInput.value = '';
+                }
+            });
+
+
+
         });
-
-        // Change handlers for select elements
-        document.getElementById('area-interest').addEventListener('change', function() {
-            const areaInterestOthersInput = document.getElementById('category-others');
-            areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-            if (this.value !== 'Others') {
-                areaInterestOthersInput.value = '';
-            }
-        });
-
-        document.getElementById('lead-source').addEventListener('change', function() {
-            const leadSourceOthersInput = document.getElementById('lead-source-others');
-            leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-            if (this.value !== 'Others') {
-                leadSourceOthersInput.value = '';
-            }
-        });
-
-
-
-    });
     </script>
 
 
