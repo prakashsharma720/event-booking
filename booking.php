@@ -27,7 +27,8 @@ curl_close($curl);
 $data = json_decode($response, true);
 if ($data['status'] == "true") {
     $result = $data['result'];
-    $bank_arr = json_decode($result['bank_master_ids'], true);;
+    $bank_arr = json_decode($result['bank_master_ids'], true);
+    ;
 
     // print_r($bank_arr['0']);exit;
 
@@ -323,7 +324,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <hr>
                     <h2>Event Type </h2>
                     <hr>
-                    <?php foreach ($result['event_types_details'] as $event_type_arr) { ?>
+                    <?php $i=0;foreach ($result['event_types_details'] as $event_type_arr) {  $i++;?>
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <div class="field-container">
@@ -335,34 +336,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <label
                                             for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
                                             - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
+                                           
                                     </div>
 
                                     <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
-                                    <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
-                                        style="display: none;">
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
-                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="VIP"
-                                                data-fee="<?= $event_type_arr['vip_row_price'] ?>">
-                                            <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
-                                                ₹<?= $event_type_arr['vip_row_price'] ?></label>
+                                        <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
+                                            style="display: none;">
+                                            <div class="checkbox-item">
+                                                <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
+                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
+                                                    value="<?= $event_type_arr['vip_row_price'] ?>"
+                                                    data-fee="<?= $event_type_arr['vip_row_price'] ?>">
+                                                <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
+                                                    ₹<?= $event_type_arr['vip_row_price'] ?></label>
+                                            </div>
+                                            <div class="checkbox-item">
+                                                <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
+                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
+                                                    value="<?= $event_type_arr  ['gold_row_price'] ?>"
+                                                    data-fee="<?= $event_type_arr['gold_row_price'] ?>">
+                                                <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
+                                                    ₹<?= $event_type_arr['gold_row_price'] ?></label>
+                                            </div>
+                                            <div class="checkbox-item">
+                                                <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
+                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
+                                                    value="<?= $event_type_arr['silver_row_price'] ?>"
+                                                    data-fee="<?= $event_type_arr['silver_row_price'] ?>">
+                                                <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
+                                                    ₹<?= $event_type_arr['silver_row_price'] ?></label>
+                                            </div>
                                         </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
-                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="Gold"
-                                                data-fee="<?= $event_type_arr['gold_row_price'] ?>">
-                                            <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
-                                                ₹<?= $event_type_arr['gold_row_price'] ?></label>
-                                        </div>
-                                        <div class="checkbox-item">
-                                            <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
-                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="Silver"
-                                                data-fee="<?= $event_type_arr['silver_row_price'] ?>">
-                                            <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
-                                                ₹<?= $event_type_arr['silver_row_price'] ?></label>
-                                        </div>
-                                    </div>
-                                    <?php } ?>
+                                    <?php } else { ?>
+                                        <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]" value="<?= $event_type_arr['single_price'] ?>" ?>
+                                        <?php } ?>
                                 </div>
                             </div>
                         </div>
@@ -378,7 +385,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-                        <!-- <div class="row mb-2">
+                    <!-- <div class="row mb-2">
                     <div class="col-md-6">
                         <div class="total-area">
                             <div class="amounts">
@@ -392,94 +399,94 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div> -->
 
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="total-area mb-2">
-                                    <input type="hidden" name="total_amount" id="payment_total">
-                                    <p>(Including Advance Payment of 50%):</p>
-                                    <div class="amounts">
-                                        <div class="amount-item">
-                                            <span class="label">Net payable Total:</span>
-                                            ₹
-                                            <input type="text" id="net-payable-total" name="net-payable-total" value=""
-                                                class="form-control" style="width:30%;" readonly>
-                                            <!-- <span id="">0.00</span> -->
-                                        </div>
-                                        <div class="amount-item">
-                                            <span class="label">Advance:</span>
-                                            ₹<input type="text" id="Advance" value="" class="form-control"
-                                                name="Advance" style="width:30%;" readonly>
-
-                                            <input type="hidden" name="advance_amount">
-                                        </div>
-                                        <div class="amount-item">
-                                            <span class="label">Remaining:</span>
-                                            ₹<input type="text" id="remaining_amount" value="" name="remaining_amount"
-                                                class="form-control" style="width:30%;" readonly>
-                                            <!-- <input type="hidden" name="remaining_amount"> -->
-                                        </div>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="total-area mb-2">
+                                <input type="hidden" name="total_amount" id="payment_total">
+                                <p>(Including Advance Payment of 50%):</p>
+                                <div class="amounts">
+                                    <div class="amount-item">
+                                        <span class="label">Net payable Total:</span>
+                                        ₹
+                                        <input type="text" id="net-payable-total" name="net-payable-total" value=""
+                                            class="form-control" style="width:30%;" readonly>
+                                        <!-- <span id="">0.00</span> -->
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div id="coupon-container">
-                                    <div class="field">
-                                        <label for="coupon-code">Enter Coupon Code<span
-                                                class="required-icon">*</span></label>
-                                        <div class="row">
-                                            <div class="col-9 jay">
-                                                <input type="text" id="coupon-code" name="coupon-code"
-                                                    class="form-control" placeholder="Enter coupon code">
-                                            </div>
-                                            <div class="col-3 d-flex align-items-center">
-                                                <button type="button" id="apply-coupon"
-                                                    class="btn btn-primary mr-2">Apply</button>
-                                                <button type="button" id="cancel-coupon" class="btn btn-danger hide">
-                                                    <i class="bi bi-x-circle-fill"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                    <div class="amount-item">
+                                        <span class="label">Advance:</span>
+                                        ₹<input type="text" id="Advance" value="" class="form-control" name="Advance"
+                                            style="width:30%;" readonly>
 
-                                <div class="sms">
-                                    <p id="coupon-message"></p>
-                                </div>
-                                <div class="sms">
-                                    <p id="coupon-alert"></p>
+                                        <input type="hidden" name="advance_amount">
+                                    </div>
+                                    <div class="amount-item">
+                                        <span class="label">Remaining:</span>
+                                        ₹<input type="text" id="remaining_amount" value="" name="remaining_amount"
+                                            class="form-control" style="width:30%;" readonly>
+                                        <!-- <input type="hidden" name="remaining_amount"> -->
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
-
-                        <div class="row mb-2">
-                            <div class="col-md-6">
+                        <div class="col-md-6">
+                            <div id="coupon-container">
                                 <div class="field">
-                                    <label for="payment-ref-no">Payment Reference No <span
+                                    <label for="coupon-code">Enter Coupon Code<span
                                             class="required-icon">*</span></label>
-                                    <input type="text" id="payment-ref-no" name="payment_ref_no"
-                                        placeholder="Enter Payment Reference No" class="form-control" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="file-upload-container">
-                                    <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span>
-                                    </h3>
-                                    <div class="file-upload-area">
-                                        <input type="file" id="file-upload" name="file-upload" multiple accept="image/*"
-                                            required class="form-control">
-                                        <label for="file-upload" class="upload-button">
-                                            <span>Add file</span>
-                                        </label>
-                                        <div id="selected-files" class="selected-files"></div>
+                                    <div class="row">
+                                        <div class="col-9 jay">
+                                            <input type="text" id="coupon-code" name="coupon-code" class="form-control"
+                                                placeholder="Enter coupon code">
+                                        </div>
+                                        <div class="col-3 d-flex align-items-center">
+                                            <button type="button" id="apply-coupon"
+                                                class="btn btn-primary mr-2">Apply</button>
+                                            <button type="button" id="cancel-coupon" class="btn btn-danger hide">
+                                                <i class="bi bi-x-circle-fill"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="sms">
+                                <p id="coupon-message"></p>
+                            </div>
+                            <div class="sms">
+                                <p id="coupon-alert"></p>
+                            </div>
                         </div>
-                        <div class="row mb-2">
-                            <button type="submit" class="btn btn-primary"> Submit</button>
+                    </div>
+
+
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="field">
+                                <label for="payment-ref-no">Payment Reference No <span
+                                        class="required-icon">*</span></label>
+                                <input type="text" id="payment-ref-no" name="payment_ref_no"
+                                    placeholder="Enter Payment Reference No" class="form-control" required>
+                            </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="file-upload-container">
+                                <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span>
+                                </h3>
+                                <div class="file-upload-area">
+                                    <input type="file" id="file-upload" name="file-upload" multiple accept="image/*"
+                                        required class="form-control">
+                                    <label for="file-upload" class="upload-button">
+                                        <span>Add file</span>
+                                    </label>
+                                    <div id="selected-files" class="selected-files"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <button type="submit" class="btn btn-primary"> Submit</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -570,11 +577,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Loop through selected event types and add their prices
             $('input[name^="event_type"]:checked').each(function() {
                 const eventTypeId = $(this).attr('id').split('-')[
-                1]; // Extract event type ID from checkbox ID
+                    1]; // Extract event type ID from checkbox ID
 
                 // Get single price if package is not available
                 const label = $(this).closest('.checkbox-item').find('label').text();
                 const eventPriceMatch = label.match(/₹(\d+)/);
+                // const single_price = parseFloat(eventPriceMatch[1]);
+                //   $('input[name="single_price"]').val(single_price.toFixed(2));
                 if (eventPriceMatch) {
                     totalPrice += parseFloat(eventPriceMatch[1]);
                 }
@@ -708,14 +717,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
         $('input[name^="package_selection"]').on('change', updateTotal);
-
-        // Initialize page state
-        // $('input[name^="event_type"]').each(function() {
-        //     const eventTypeId = $(this).attr('id').split('-')[1];
-        //     toggleTerms(eventTypeId);
-        // });
-
-
 
         // Download QR code button handler
         document.getElementById('download-qr').addEventListener('click', function() {
