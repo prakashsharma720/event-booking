@@ -65,10 +65,62 @@ if ($data['status'] == "true") {
 
 ?>
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $selected_event_types = $_POST['event_type'];
+    $selected_packages = $_POST['package_selection'] ?? [];
+    $single_prices = $_POST['single_price'] ?? [];
+
+    $final_data = [];
+
+    foreach ($selected_event_types as $event_id => $event_type) {
+        // Check if package is available and selected
+        if (isset($selected_packages[$event_id])) {
+            $final_data[] = [
+                'event_type' => $event_type,
+                'price' => $selected_packages[$event_id],  // The selected package price
+            ];
+        } elseif (isset($single_prices[$event_id])) {
+            // If no package, use the single price
+            $final_data[] = [
+                'event_type' => $event_type,
+                'price' => $single_prices[$event_id],
+            ];
+        }
+    }
+
+    // Output or save final data
     echo "<pre>";
-    print_r($_POST);
-    exit;
+    print_r($final_data);
+    echo "</pre>";exit;
+
+        // echo "<pre>";print_r($_POST);exit;
+    
+    // Validate and sanitize form data
+    $eventCode = isset($_POST['event_code']) ? htmlspecialchars($_POST['event_code']) : '';
+    $name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
+    $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
+    $paymentRefNo = isset($_POST['payment_ref_no']) ? htmlspecialchars($_POST['payment_ref_no']) : '';
+
+    // Handle file upload
+    if (isset($_FILES['file-upload']) && $_FILES['file-upload']['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = 'uploads/'; // Directory for file uploads
+        $fileName = basename($_FILES['file-upload']['name']);
+        $uploadFilePath = $uploadDir . $fileName;
+
+        // Move the uploaded file to the specified directory
+        if (move_uploaded_file($_FILES['file-upload']['tmp_name'], $uploadFilePath)) {
+            echo "File uploaded successfully.";
+        } else {
+            echo "Failed to upload file.";
+        }
+    }
+
+    // Further processing (e.g., saving to the database)
+    // You can redirect the user to a confirmation page or display a success message
+    echo "Form submitted successfully.";
+} else {
+    echo "Invalid request method.";
 }
 ?>
 <!DOCTYPE html>
@@ -171,7 +223,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <label for="category-type">Category <span class="required-icon">*</span></label>
-                            <select id="category-type" name="category_type" class="form-control" required>
+                            <select id="category-type" name="category_type" class="form-control">
                                 <option value="" disabled selected>Choose Category</option>
                                 <option value="Salon">Salon</option>
                                 <option value="Spa">Spa</option>
@@ -188,7 +240,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="col-md-6">
                             <label for="category-type">Sub Category <span class="required-icon">*</span></label>
-                            <select id="category-type" name="subcategory_type" class="form-control" required>
+                            <select id="category-type" name="subcategory_type" class="form-control">
                                 <option value="" disabled selected>Choose Sub Category</option>
                                 <option value="Salon">Salon</option>
                                 <option value="Spa">Spa</option>
@@ -212,7 +264,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="col-md-6">
                             <label for="state">City <span class="required-icon">*</span></label>
-                            <input type="text" name="city" placeholder="Enter City" class="form-control" required>
+                            <input type="text" name="city" placeholder="Enter City" class="form-control">
                         </div>
                     </div>
                     <div class="row mb-2">
@@ -264,7 +316,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-md-6">
                             <label for="pincode">Pincode <span class="required-icon">*</span></label>
                             <input type="text" name="pincode" id="pincode" placeholder="Enter Pincode"
-                                class="form-control" required>
+                                class="form-control">
                         </div>
 
                     </div>
@@ -273,7 +325,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="col-md-6">
 
                             <label for="lead-source">Lead Source Master <span class="required-icon">*</span></label>
-                            <select id="lead-source" name="lead-source" class="form-control mb-2" required>
+                            <select id="lead-source" name="lead-source" class="form-control mb-2">
                                 <option value="" disabled selected>Select an option</option>
                                 <option value="Friends Reference">Friends Reference</option>
                                 <option value="GWM Instagram Page">GWM Instagram Page</option>
@@ -299,7 +351,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="col-md-6">
                             <label for="area-interest">Area of Interest <span class="required-icon">*</span></label>
-                            <select id="area-interest" name="area-interest" class="form-control mb-2" required>
+                            <select id="area-interest" name="area-interest" class="form-control mb-2">
                                 <option value="" disabled selected>Select area of interest</option>
                                 <option value="Competitions">Competitions</option>
                                 <option value="Discounts">Discounts</option>
@@ -333,10 +385,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
                                             name="event_type[<?= $event_type_arr['id'] ?>]"
                                             value="<?= $event_type_arr['event_type'] ?>">
-                                        <label
-                                            for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
-                                            - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
-                                           
+                                        <label for="event-<?= $event_type_arr['id'] ?>">
+                                            <?= $event_type_arr['event_type'] ?>
+                                            <?php if ($event_type_arr['package_available'] != 'Yes') { ?>
+                                            - ₹<?= $event_type_arr['single_price'] ?><?php } ?>
+                                        </label>
                                     </div>
 
                                     <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
@@ -345,7 +398,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="checkbox-item">
                                                 <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
                                                     name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="<?= $event_type_arr['vip_row_price'] ?>"
+                                                    value="VIP"
                                                     data-fee="<?= $event_type_arr['vip_row_price'] ?>">
                                                 <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
                                                     ₹<?= $event_type_arr['vip_row_price'] ?></label>
@@ -353,7 +406,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="checkbox-item">
                                                 <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
                                                     name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="<?= $event_type_arr  ['gold_row_price'] ?>"
+                                                    value="Gold"
                                                     data-fee="<?= $event_type_arr['gold_row_price'] ?>">
                                                 <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
                                                     ₹<?= $event_type_arr['gold_row_price'] ?></label>
@@ -361,12 +414,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="checkbox-item">
                                                 <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
                                                     name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="<?= $event_type_arr['silver_row_price'] ?>"
+                                                    value="Silver"
                                                     data-fee="<?= $event_type_arr['silver_row_price'] ?>">
                                                 <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
                                                     ₹<?= $event_type_arr['silver_row_price'] ?></label>
                                             </div>
                                         </div>
+                                         <input type="hidden" name="package_price[<?= $event_type_arr['id'] ?>]" value="" ?>
                                     <?php } else { ?>
                                         <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]" value="<?= $event_type_arr['single_price'] ?>" ?>
                                         <?php } ?>
@@ -382,22 +436,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                     <?php } ?>
-
-
-
-                    <!-- <div class="row mb-2">
-                    <div class="col-md-6">
-                        <div class="total-area">
-                            <div class="amounts">
-                                <div class="amount-item">
-                                    <span class="label">Total:</span>
-                                    ₹<span id="payment_total">0.00</span>
-                                    <input type="hidden" name="total_amount">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
 
                     <div class="row mb-2">
                         <div class="col-md-6">
@@ -457,15 +495,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                         </div>
                     </div>
-
-
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <div class="field">
                                 <label for="payment-ref-no">Payment Reference No <span
                                         class="required-icon">*</span></label>
                                 <input type="text" id="payment-ref-no" name="payment_ref_no"
-                                    placeholder="Enter Payment Reference No" class="form-control" required>
+                                    placeholder="Enter Payment Reference No" class="form-control">
                             </div>
                         </div>
 
@@ -475,7 +511,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </h3>
                                 <div class="file-upload-area">
                                     <input type="file" id="file-upload" name="file-upload" multiple accept="image/*"
-                                        required class="form-control">
+                                        class="form-control">
                                     <label for="file-upload" class="upload-button">
                                         <span>Add file</span>
                                     </label>
@@ -573,12 +609,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Update the total calculation based on selections
         function updateTotal() {
             totalPrice = 0.00;
-
             // Loop through selected event types and add their prices
             $('input[name^="event_type"]:checked').each(function() {
                 const eventTypeId = $(this).attr('id').split('-')[
                     1]; // Extract event type ID from checkbox ID
-
                 // Get single price if package is not available
                 const label = $(this).closest('.checkbox-item').find('label').text();
                 const eventPriceMatch = label.match(/₹(\d+)/);
@@ -587,17 +621,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (eventPriceMatch) {
                     totalPrice += parseFloat(eventPriceMatch[1]);
                 }
-
                 // Check if the event type has a package available
                 const packageSelection = $('#package-selection-' + eventTypeId);
-                if (packageSelection.length > 0) {
-                    packageSelection.show(); // Show package selection
-
+                if (packageSelection.length > 0 && packageSelection.is(':visible')) {
                     // Add the selected package fee to the total price
-                    const selectedPackage = $('input[name^="package_selection[' + eventTypeId +
-                        ']"]:checked');
+                    const selectedPackage = $('input[name^="package_selection[' + eventTypeId + '"]:checked');
                     if (selectedPackage.length > 0) {
+                         $('input[name="package_price"]').val(single_price.toFixed(2));
                         totalPrice += parseFloat(selectedPackage.data('fee'));
+                        
                     }
                 }
             });
@@ -717,6 +749,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
 
         $('input[name^="package_selection"]').on('change', updateTotal);
+
+        // Ensure the initial state of the form is correctly set
+        $(document).ready(function() {
+            $('input[name^="event_type"]:checked').each(function() {
+                const eventTypeId = $(this).attr('id').split('-')[1];
+                toggleTerms(eventTypeId);
+            });
+        });
+
 
         // Download QR code button handler
         document.getElementById('download-qr').addEventListener('click', function() {
