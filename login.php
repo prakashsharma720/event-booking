@@ -28,9 +28,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          if (password_verify($password, $hashed_password)) {
             // Redirect based on user type
             if ($user_type === 'Participant') {
-               header("Location: booking.php");
+               header('Location: booking.php?code=' . $event_code);
+               exit();
             } elseif ($user_type === 'Visitor') {
-               header("Location: booking.php"); // Change this to the appropriate visitor page
+               header('Location: thankyou.php?code=' . $event_code);
+               exit();
+// Change this to the appropriate visitor page
             } else {
                echo json_encode(['status' => 'error', 'message' => 'Unknown user type.']);
             }

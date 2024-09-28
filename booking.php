@@ -27,8 +27,7 @@ curl_close($curl);
 $data = json_decode($response, true);
 if ($data['status'] == "true") {
     $result = $data['result'];
-    $bank_arr = json_decode($result['bank_master_ids'], true);
-    ;
+    $bank_arr = json_decode($result['bank_master_ids'], true);;
 
     // print_r($bank_arr['0']);exit;
 
@@ -120,16 +119,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <h4> Bank Details</h4>
                 <hr>
                 <?php foreach ($rows as $bank_master) { ?>
-                <div class="event-details">
-                    <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
-                    <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
-                    <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
-                    <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
-                    <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
-                    <div class="qr-code-container " id="qr-code" name="qr-code">
-                        <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
+                    <div class="event-details">
+                        <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
+                        <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
+                        <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
+                        <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
+                        <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
+                        <div class="qr-code-container " id="qr-code" name="qr-code">
+                            <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
+                        </div>
                     </div>
-                </div>
                 <?php } ?>
             </div>
             <div class="col-md-7 p-3">
@@ -324,63 +323,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <hr>
                     <h2>Event Type </h2>
                     <hr>
-                    <?php $i=0;foreach ($result['event_types_details'] as $event_type_arr) {  $i++;?>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="field-container">
-                                <div class="checkbox-container">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
-                                            name="event_type[<?= $event_type_arr['id'] ?>]"
-                                            value="<?= $event_type_arr['event_type'] ?>">
-                                        <label
-                                            for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
-                                            - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
-                                           
-                                    </div>
+                    <?php $i = 0;
+                    foreach ($result['event_types_details'] as $event_type_arr) {
+                        $i++; ?>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="field-container">
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
+                                                name="event_type[<?= $event_type_arr['id'] ?>]"
+                                                value="<?= $event_type_arr['event_type'] ?>">
+                                            <label
+                                                for="event-<?= $event_type_arr['id'] ?>"><?= $event_type_arr['event_type'] ?><?php if ($event_type_arr['package_available'] != 'Yes') { ?>
+                                                - ₹<?= $event_type_arr['single_price'] ?><?php } ?></label>
 
-                                    <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
-                                        <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
-                                            style="display: none;">
-                                            <div class="checkbox-item">
-                                                <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
-                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="<?= $event_type_arr['vip_row_price'] ?>"
-                                                    data-fee="<?= $event_type_arr['vip_row_price'] ?>">
-                                                <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
-                                                    ₹<?= $event_type_arr['vip_row_price'] ?></label>
-                                            </div>
-                                            <div class="checkbox-item">
-                                                <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
-                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="<?= $event_type_arr  ['gold_row_price'] ?>"
-                                                    data-fee="<?= $event_type_arr['gold_row_price'] ?>">
-                                                <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
-                                                    ₹<?= $event_type_arr['gold_row_price'] ?></label>
-                                            </div>
-                                            <div class="checkbox-item">
-                                                <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
-                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="<?= $event_type_arr['silver_row_price'] ?>"
-                                                    data-fee="<?= $event_type_arr['silver_row_price'] ?>">
-                                                <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
-                                                    ₹<?= $event_type_arr['silver_row_price'] ?></label>
-                                            </div>
                                         </div>
-                                    <?php } else { ?>
-                                        <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]" value="<?= $event_type_arr['single_price'] ?>" ?>
+
+                                        <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
+                                            <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
+                                                style="display: none;">
+                                                <div class="checkbox-item">
+                                                    <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
+                                                        name="package_selection[<?= $event_type_arr['id'] ?>]"
+                                                        value="<?= $event_type_arr['vip_row_price'] ?>"
+                                                        data-fee="<?= $event_type_arr['vip_row_price'] ?>">
+                                                    <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
+                                                        ₹<?= $event_type_arr['vip_row_price'] ?></label>
+                                                </div>
+                                                <div class="checkbox-item">
+                                                    <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
+                                                        name="package_selection[<?= $event_type_arr['id'] ?>]"
+                                                        value="<?= $event_type_arr['gold_row_price'] ?>"
+                                                        data-fee="<?= $event_type_arr['gold_row_price'] ?>">
+                                                    <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
+                                                        ₹<?= $event_type_arr['gold_row_price'] ?></label>
+                                                </div>
+                                                <div class="checkbox-item">
+                                                    <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
+                                                        name="package_selection[<?= $event_type_arr['id'] ?>]"
+                                                        value="<?= $event_type_arr['silver_row_price'] ?>"
+                                                        data-fee="<?= $event_type_arr['silver_row_price'] ?>">
+                                                    <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
+                                                        ₹<?= $event_type_arr['silver_row_price'] ?></label>
+                                                </div>
+                                            </div>
+                                        <?php } else { ?>
+                                            <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]" value="<?= $event_type_arr['single_price'] ?>" ?>
                                         <?php } ?>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div id="terms-section-<?= $event_type_arr['id'] ?>"
+                                    style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
+                                    <h5>Terms And Conditions</h5>
+                                    <p><?php echo $event_type_arr['tnc']; ?></p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div id="terms-section-<?= $event_type_arr['id'] ?>"
-                                style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
-                                <h5>Terms And Conditions</h5>
-                                <p><?php echo $event_type_arr['tnc']; ?></p>
-                            </div>
-                        </div>
-                    </div>
                     <?php } ?>
 
 
@@ -565,229 +566,229 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
-        let totalPrice = 0.00;
-        let currentCoupon = "";
-        let couponDiscount = 0;
+        $(document).ready(function() {
+            let totalPrice = 0.00;
+            let currentCoupon = "";
+            let couponDiscount = 0;
 
-        // Update the total calculation based on selections
-        function updateTotal() {
-            totalPrice = 0.00;
+            // Update the total calculation based on selections
+            function updateTotal() {
+                totalPrice = 0.00;
 
-            // Loop through selected event types and add their prices
-            $('input[name^="event_type"]:checked').each(function() {
-                const eventTypeId = $(this).attr('id').split('-')[
-                    1]; // Extract event type ID from checkbox ID
+                // Loop through selected event types and add their prices
+                $('input[name^="event_type"]:checked').each(function() {
+                    const eventTypeId = $(this).attr('id').split('-')[
+                        1]; // Extract event type ID from checkbox ID
 
-                // Get single price if package is not available
-                const label = $(this).closest('.checkbox-item').find('label').text();
-                const eventPriceMatch = label.match(/₹(\d+)/);
-                // const single_price = parseFloat(eventPriceMatch[1]);
-                //   $('input[name="single_price"]').val(single_price.toFixed(2));
-                if (eventPriceMatch) {
-                    totalPrice += parseFloat(eventPriceMatch[1]);
-                }
-
-                // Check if the event type has a package available
-                const packageSelection = $('#package-selection-' + eventTypeId);
-                if (packageSelection.length > 0) {
-                    packageSelection.show(); // Show package selection
-
-                    // Add the selected package fee to the total price
-                    const selectedPackage = $('input[name^="package_selection[' + eventTypeId +
-                        ']"]:checked');
-                    if (selectedPackage.length > 0) {
-                        totalPrice += parseFloat(selectedPackage.data('fee'));
+                    // Get single price if package is not available
+                    const label = $(this).closest('.checkbox-item').find('label').text();
+                    const eventPriceMatch = label.match(/₹(\d+)/);
+                    // const single_price = parseFloat(eventPriceMatch[1]);
+                    //   $('input[name="single_price"]').val(single_price.toFixed(2));
+                    if (eventPriceMatch) {
+                        totalPrice += parseFloat(eventPriceMatch[1]);
                     }
-                }
-            });
 
-            // Calculate advance payment
-            const advancePayment = (totalPrice * 50) / 100;
-            let paymentTotal = totalPrice;
+                    // Check if the event type has a package available
+                    const packageSelection = $('#package-selection-' + eventTypeId);
+                    if (packageSelection.length > 0) {
+                        packageSelection.show(); // Show package selection
 
-            console.log('couponDiscount' + couponDiscount);
-            // Apply coupon discount if available
-            if (couponDiscount > 0) {
-                paymentTotal -= couponDiscount;
-            }
-
-            // Calculate remaining amount
-            const remainingAmount = Math.max(0, paymentTotal - advancePayment);
-
-            // Update the payment details on the page
-            $('#payment_total').val(totalPrice.toFixed(2));
-            $('input[name="net-payable-total"]').val(paymentTotal.toFixed(2));
-            $('input[name="Advance"]').val(advancePayment.toFixed(2));
-            $('input[name="remaining_amount"]').val(remainingAmount.toFixed(2));
-            $('input[name="total_amount"]').val(totalPrice);
-            $('input[name="advance_amount"]').val(advancePayment);
-            $('input[name="remaining_amount"]').val(remainingAmount);
-        }
-
-        // Toggle visibility of package selection and terms and conditions based on event type checkbox state
-        function toggleTerms(eventTypeId) {
-            const checkbox = $('#event-' + eventTypeId);
-            const packageSelection = $('#package-selection-' + eventTypeId);
-            const termsSection = $('#terms-section-' + eventTypeId);
-
-            if (checkbox.is(':checked')) {
-                packageSelection.show(); // Show package selection if applicable
-                termsSection.show(); // Show TNC section
-            } else {
-                packageSelection.hide(); // Hide package selection
-                termsSection.hide(); // Hide TNC section
-            }
-        }
-
-        // Apply coupon button click handler
-        $('#apply-coupon').click(function() {
-            const couponCode = $('#coupon-code').val().trim();
-            if (couponCode !== currentCoupon) {
-                currentCoupon = couponCode;
-                $.ajax({
-                    url: 'verify_coupon.php',
-                    type: 'GET',
-                    data: {
-                        code: couponCode
-                    },
-                    success: function(response) {
-                        const discount = parseFloat(response);
-                        let successMessage = '';
-                        let errorMessage = '';
-
-                        if (discount > 0 && totalPrice > 0) {
-                            successMessage =
-                                `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
-                            couponDiscount = discount;
-
-                            updateTotal();
-                        } else if (discount === -1) {
-                            errorMessage = 'Invalid coupon code. Please try again.';
-                        } else if (discount === -2) {
-                            errorMessage = 'No coupon code provided.';
-                        } else {
-                            errorMessage = 'Unexpected response from the server.';
+                        // Add the selected package fee to the total price
+                        const selectedPackage = $('input[name^="package_selection[' + eventTypeId +
+                            ']"]:checked');
+                        if (selectedPackage.length > 0) {
+                            totalPrice += parseFloat(selectedPackage.data('fee'));
                         }
-
-                        if (successMessage) {
-                            $('#coupon-message').text(successMessage).addClass('show');
-                            $('#coupon-alert').text('').removeClass('show');
-                            $('#cancel-coupon').removeClass('hide');
-                        } else if (errorMessage) {
-                            $('#coupon-alert').text(errorMessage).addClass('show');
-                            $('#coupon-message').text('').removeClass('show');
-                            $('#cancel-coupon').addClass('show');
-                        }
-                    },
-                    error: function() {
-                        $('#coupon-alert').text('An error occurred. Please try again.')
-                            .addClass('show');
-                        $('#coupon-message').text('').removeClass('show');
                     }
                 });
-            } else {
-                $('#coupon-alert').text('Coupon code already applied').addClass('show');
-                $('#coupon-message').text('').removeClass('show');
+
+                // Calculate advance payment
+                const advancePayment = (totalPrice * 50) / 100;
+                let paymentTotal = totalPrice;
+
+                console.log('couponDiscount' + couponDiscount);
+                // Apply coupon discount if available
+                if (couponDiscount > 0) {
+                    paymentTotal -= couponDiscount;
+                }
+
+                // Calculate remaining amount
+                const remainingAmount = Math.max(0, paymentTotal - advancePayment);
+
+                // Update the payment details on the page
+                $('#payment_total').val(totalPrice.toFixed(2));
+                $('input[name="net-payable-total"]').val(paymentTotal.toFixed(2));
+                $('input[name="Advance"]').val(advancePayment.toFixed(2));
+                $('input[name="remaining_amount"]').val(remainingAmount.toFixed(2));
+                $('input[name="total_amount"]').val(totalPrice);
+                $('input[name="advance_amount"]').val(advancePayment);
+                $('input[name="remaining_amount"]').val(remainingAmount);
             }
-        });
 
-        // Cancel coupon button click handler
-        $('#cancel-coupon').click(function() {
-            if (currentCoupon) {
-                $('#coupon-code').val('');
-                $('#coupon-message').text('').removeClass('show');
-                $('#coupon-alert').text('').removeClass('show');
-                couponDiscount = 0;
-                currentCoupon = '';
-                updateTotal();
-                $('#cancel-coupon').addClass('hide');
-            } else {
-                $('#coupon-alert').text('No coupon code applied to cancel.').addClass('show');
-                $('#coupon-message').text('').removeClass('show');
-                $('#cancel-coupon').addClass('hide');
-            }
-        });
+            // Toggle visibility of package selection and terms and conditions based on event type checkbox state
+            function toggleTerms(eventTypeId) {
+                const checkbox = $('#event-' + eventTypeId);
+                const packageSelection = $('#package-selection-' + eventTypeId);
+                const termsSection = $('#terms-section-' + eventTypeId);
 
-        // Event listeners for checkboxes and radio buttons
-        $('input[name^="event_type"]').on('change', function() {
-            const eventTypeId = $(this).attr('id').split('-')[1];
-            toggleTerms(eventTypeId);
-            updateTotal();
-        });
-
-        $('input[name^="package_selection"]').on('change', updateTotal);
-
-        // Download QR code button handler
-        document.getElementById('download-qr').addEventListener('click', function() {
-            const qrCodeUrl = 'QR-Code.png';
-            const link = document.createElement('a');
-            link.href = qrCodeUrl;
-            link.download = '';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-
-        // File upload handler
-        document.getElementById('file-upload').addEventListener('change', function(event) {
-            const files = event.target.files;
-            const selectedFilesContainer = document.getElementById('selected-files');
-            selectedFilesContainer.innerHTML = '';
-
-            Array.from(files).forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = file.name;
-                        img.title = file.name;
-                        img.style.maxWidth = '150px';
-                        img.style.maxHeight = '150px';
-
-                        const removeBtn = document.createElement('button');
-                        removeBtn.textContent = 'Remove';
-                        removeBtn.className = 'remove-btn';
-                        removeBtn.onclick = function() {
-                            selectedFilesContainer.removeChild(img);
-                            selectedFilesContainer.removeChild(removeBtn);
-
-                            if (selectedFilesContainer.children.length === 0) {
-                                document.getElementById('file-upload').value = '';
-                            }
-                        };
-
-                        selectedFilesContainer.appendChild(img);
-                        selectedFilesContainer.appendChild(removeBtn);
-                    };
-                    reader.readAsDataURL(file);
+                if (checkbox.is(':checked')) {
+                    packageSelection.show(); // Show package selection if applicable
+                    termsSection.show(); // Show TNC section
                 } else {
-                    alert('Please select an image file.');
+                    packageSelection.hide(); // Hide package selection
+                    termsSection.hide(); // Hide TNC section
+                }
+            }
+
+            // Apply coupon button click handler
+            $('#apply-coupon').click(function() {
+                const couponCode = $('#coupon-code').val().trim();
+                if (couponCode !== currentCoupon) {
+                    currentCoupon = couponCode;
+                    $.ajax({
+                        url: 'verify_coupon.php',
+                        type: 'GET',
+                        data: {
+                            code: couponCode
+                        },
+                        success: function(response) {
+                            const discount = parseFloat(response);
+                            let successMessage = '';
+                            let errorMessage = '';
+
+                            if (discount > 0 && totalPrice > 0) {
+                                successMessage =
+                                    `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
+                                couponDiscount = discount;
+
+                                updateTotal();
+                            } else if (discount === -1) {
+                                errorMessage = 'Invalid coupon code. Please try again.';
+                            } else if (discount === -2) {
+                                errorMessage = 'No coupon code provided.';
+                            } else {
+                                errorMessage = 'Unexpected response from the server.';
+                            }
+
+                            if (successMessage) {
+                                $('#coupon-message').text(successMessage).addClass('show');
+                                $('#coupon-alert').text('').removeClass('show');
+                                $('#cancel-coupon').removeClass('hide');
+                            } else if (errorMessage) {
+                                $('#coupon-alert').text(errorMessage).addClass('show');
+                                $('#coupon-message').text('').removeClass('show');
+                                $('#cancel-coupon').addClass('show');
+                            }
+                        },
+                        error: function() {
+                            $('#coupon-alert').text('An error occurred. Please try again.')
+                                .addClass('show');
+                            $('#coupon-message').text('').removeClass('show');
+                        }
+                    });
+                } else {
+                    $('#coupon-alert').text('Coupon code already applied').addClass('show');
+                    $('#coupon-message').text('').removeClass('show');
                 }
             });
+
+            // Cancel coupon button click handler
+            $('#cancel-coupon').click(function() {
+                if (currentCoupon) {
+                    $('#coupon-code').val('');
+                    $('#coupon-message').text('').removeClass('show');
+                    $('#coupon-alert').text('').removeClass('show');
+                    couponDiscount = 0;
+                    currentCoupon = '';
+                    updateTotal();
+                    $('#cancel-coupon').addClass('hide');
+                } else {
+                    $('#coupon-alert').text('No coupon code applied to cancel.').addClass('show');
+                    $('#coupon-message').text('').removeClass('show');
+                    $('#cancel-coupon').addClass('hide');
+                }
+            });
+
+            // Event listeners for checkboxes and radio buttons
+            $('input[name^="event_type"]').on('change', function() {
+                const eventTypeId = $(this).attr('id').split('-')[1];
+                toggleTerms(eventTypeId);
+                updateTotal();
+            });
+
+            $('input[name^="package_selection"]').on('change', updateTotal);
+
+            // Download QR code button handler
+            document.getElementById('download-qr').addEventListener('click', function() {
+                const qrCodeUrl = 'QR-Code.png';
+                const link = document.createElement('a');
+                link.href = qrCodeUrl;
+                link.download = '';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
+
+            // File upload handler
+            document.getElementById('file-upload').addEventListener('change', function(event) {
+                const files = event.target.files;
+                const selectedFilesContainer = document.getElementById('selected-files');
+                selectedFilesContainer.innerHTML = '';
+
+                Array.from(files).forEach(file => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            const img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.alt = file.name;
+                            img.title = file.name;
+                            img.style.maxWidth = '150px';
+                            img.style.maxHeight = '150px';
+
+                            const removeBtn = document.createElement('button');
+                            removeBtn.textContent = 'Remove';
+                            removeBtn.className = 'remove-btn';
+                            removeBtn.onclick = function() {
+                                selectedFilesContainer.removeChild(img);
+                                selectedFilesContainer.removeChild(removeBtn);
+
+                                if (selectedFilesContainer.children.length === 0) {
+                                    document.getElementById('file-upload').value = '';
+                                }
+                            };
+
+                            selectedFilesContainer.appendChild(img);
+                            selectedFilesContainer.appendChild(removeBtn);
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        alert('Please select an image file.');
+                    }
+                });
+            });
+
+            // Change handlers for select elements
+            document.getElementById('area-interest').addEventListener('change', function() {
+                const areaInterestOthersInput = document.getElementById('category-others');
+                areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+                if (this.value !== 'Others') {
+                    areaInterestOthersInput.value = '';
+                }
+            });
+
+            document.getElementById('lead-source').addEventListener('change', function() {
+                const leadSourceOthersInput = document.getElementById('lead-source-others');
+                leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
+                if (this.value !== 'Others') {
+                    leadSourceOthersInput.value = '';
+                }
+            });
+
+
+
         });
-
-        // Change handlers for select elements
-        document.getElementById('area-interest').addEventListener('change', function() {
-            const areaInterestOthersInput = document.getElementById('category-others');
-            areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-            if (this.value !== 'Others') {
-                areaInterestOthersInput.value = '';
-            }
-        });
-
-        document.getElementById('lead-source').addEventListener('change', function() {
-            const leadSourceOthersInput = document.getElementById('lead-source-others');
-            leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
-            if (this.value !== 'Others') {
-                leadSourceOthersInput.value = '';
-            }
-        });
-
-
-
-    });
     </script>
 
 

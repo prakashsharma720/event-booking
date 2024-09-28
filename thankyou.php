@@ -87,7 +87,7 @@
         </div>
         <div class="details">
             <h2>Booking Confirmation</h2>
-            <p><strong>Name:</strong> John Doe</p>
+            <p><strong>Name:</strong> Jayesh patel</p>
             <p><strong>Date:</strong> 2024-09-24</p>
             <p><strong>Time:</strong> 3:00 PM</p>
             <p><strong>Location:</strong> 1234 Sample St, City, State</p>
