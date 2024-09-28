@@ -1,6 +1,6 @@
 <?php
 include 'db.php';
-
+$code = $_GET['code'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $required_fields = ['name', 'email', 'password', 'mobile', 'user_type'];
    $missing_fields = [];
