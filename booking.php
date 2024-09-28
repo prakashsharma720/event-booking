@@ -171,16 +171,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h4> Bank Details</h4>
                 <hr>
                 <?php foreach ($rows as $bank_master) { ?>
-                    <div class="event-details">
-                        <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
-                        <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
-                        <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
-                        <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
-                        <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
-                        <div class="qr-code-container " id="qr-code" name="qr-code">
-                            <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
-                        </div>
+                <div class="event-details">
+                    <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
+                    <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
+                    <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
+                    <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
+                    <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
+                    <div class="qr-code-container " id="qr-code" name="qr-code">
+                        <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
                     </div>
+                </div>
                 <?php } ?>
             </div>
             <div class="col-md-7 p-3">
@@ -392,55 +392,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
 
                                     <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
-                                        <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
-                                            style="display: none;">
-                                            <div class="checkbox-item">
-                                                <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
-                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="VIP"
-                                                    data-fee="<?= $event_type_arr['vip_row_price'] ?>">
-                                                <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
-                                                    ₹<?= $event_type_arr['vip_row_price'] ?></label>
-                                            </div>
-                                            <div class="checkbox-item">
-                                                <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
-                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="Gold"
-                                                    data-fee="<?= $event_type_arr['gold_row_price'] ?>">
-                                                <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
-                                                    ₹<?= $event_type_arr['gold_row_price'] ?></label>
-                                            </div>
-                                            <div class="checkbox-item">
-                                                <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
-                                                    name="package_selection[<?= $event_type_arr['id'] ?>]"
-                                                    value="Silver"
-                                                    data-fee="<?= $event_type_arr['silver_row_price'] ?>">
-                                                <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
-                                                    ₹<?= $event_type_arr['silver_row_price'] ?></label>
-                                            </div>
+                                    <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
+                                        style="display: none;">
+                                        <div class="checkbox-item">
+                                            <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
+                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="VIP"
+                                                data-fee="<?= $event_type_arr['vip_row_price'] ?>">
+                                            <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
+                                                ₹<?= $event_type_arr['vip_row_price'] ?></label>
                                         </div>
-                                         <input type="hidden" name="package_price[<?= $event_type_arr['id'] ?>]" value="" ?>
-                                    <?php } else { ?>
-                                        <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]" value="<?= $event_type_arr['single_price'] ?>" ?>
-                                        <?php } ?>
+                                        <div class="checkbox-item">
+                                            <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
+                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="Gold"
+                                                data-fee="<?= $event_type_arr['gold_row_price'] ?>">
+                                            <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
+                                                ₹<?= $event_type_arr['gold_row_price'] ?></label>
+                                        </div>
+                                        <div class="checkbox-item">
+                                            <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
+                                                name="package_selection[<?= $event_type_arr['id'] ?>]" value="Silver"
+                                                data-fee="<?= $event_type_arr['silver_row_price'] ?>">
+                                            <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
+                                                ₹<?= $event_type_arr['silver_row_price'] ?></label>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div id="terms-section-<?= $event_type_arr['id'] ?>"
-                                    style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
-                                    <h5>Terms And Conditions</h5>
-                                    <p><?php echo $event_type_arr['tnc']; ?></p>
+                                    <input type="hidden" name="package_price[<?= $event_type_arr['id'] ?>]" value="" ?>
+                                    <?php } else { ?>
+                                    <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]"
+                                        value="<?= $event_type_arr['single_price'] ?>" ?>
+                                    <?php } ?>
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div id="terms-section-<?= $event_type_arr['id'] ?>"
+                                style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
+                                <h5>Terms And Conditions</h5>
+                                <p><?php echo $event_type_arr['tnc']; ?></p>
+                            </div>
+                        </div>
+                    </div>
                     <?php } ?>
 
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <div class="total-area mb-2">
                                 <input type="hidden" name="total_amount" id="payment_total">
-                                <p>(Including Advance Payment of 50%):</p>
+                               <div class="quantity-box mb-2">
+                                    <label> No Of Tickets : </label>&nbsp;&nbsp;
+                                    <!-- <button type="button" onclick="changeQuantity(-1)">-</button> -->
+                                    <input type="number" id="quantity" value="1" min="1" class="form-control" name="no_of_tickets">
+                                    <!-- <button type="button" onclick="changeQuantity(1)">+</button> -->
+                                </div>
                                 <div class="amounts">
                                     <div class="amount-item">
                                         <span class="label">Net payable Total:</span>
@@ -592,50 +595,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz4fnFO9bU0DGRpS2L90m0cH0n2AnXL7jF1C2DBcBxrmQ1o5OS7Y3ELDDa" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-Tc5G3sS0u5S7nH6j27blOg9Q71GmA0m1m4U2F2mvDlV8z7F3Km/rI4b3r8ewpPpY" crossorigin="anonymous">
-    </script>
+        </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             let totalPrice = 0.00;
             let currentCoupon = "";
             let couponDiscount = 0;
+            let totalAmt = 0;
 
-        // Update the total calculation based on selections
-        function updateTotal() {
-            totalPrice = 0.00;
-            // Loop through selected event types and add their prices
-            $('input[name^="event_type"]:checked').each(function() {
-                const eventTypeId = $(this).attr('id').split('-')[
-                    1]; // Extract event type ID from checkbox ID
-                // Get single price if package is not available
-                const label = $(this).closest('.checkbox-item').find('label').text();
-                const eventPriceMatch = label.match(/₹(\d+)/);
-                // const single_price = parseFloat(eventPriceMatch[1]);
-                //   $('input[name="single_price"]').val(single_price.toFixed(2));
-                if (eventPriceMatch) {
-                    totalPrice += parseFloat(eventPriceMatch[1]);
-                }
-                // Check if the event type has a package available
-                const packageSelection = $('#package-selection-' + eventTypeId);
-                if (packageSelection.length > 0 && packageSelection.is(':visible')) {
-                    // Add the selected package fee to the total price
-                    const selectedPackage = $('input[name^="package_selection[' + eventTypeId + '"]:checked');
-                    if (selectedPackage.length > 0) {
-                         $('input[name="package_price"]').val(single_price.toFixed(2));
-                        totalPrice += parseFloat(selectedPackage.data('fee'));
-                        
+            // Update the total calculation based on selections
+            function updateTotal() {
+                totalPrice = 0.00;
+                // Loop through selected event types and add their prices
+                $('input[name^="event_type"]:checked').each(function () {
+                    const eventTypeId = $(this).attr('id').split('-')[
+                        1]; // Extract event type ID from checkbox ID
+
+                    // Get single price if package is not available
+                    const label = $(this).closest('.checkbox-item').find('label').text();
+                    const eventPriceMatch = label.match(/₹(\d+)/);
+                    // const single_price = parseFloat(eventPriceMatch[1]);
+                    if (eventPriceMatch) {
+                        totalPrice += parseFloat(eventPriceMatch[1]);
                     }
 
                     // Check if the event type has a package available
                     const packageSelection = $('#package-selection-' + eventTypeId);
                     if (packageSelection.length > 0) {
                         packageSelection.show(); // Show package selection
-
                         // Add the selected package fee to the total price
                         const selectedPackage = $('input[name^="package_selection[' + eventTypeId +
                             ']"]:checked');
@@ -643,11 +636,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             totalPrice += parseFloat(selectedPackage.data('fee'));
                         }
                     }
+                    
                 });
-
+                const qty =  $('input[name="no_of_tickets"]').val();
+                totalAmt = qty*totalPrice;
                 // Calculate advance payment
                 const advancePayment = (totalPrice * 50) / 100;
-                let paymentTotal = totalPrice;
+                let paymentTotal = totalAmt;
 
                 console.log('couponDiscount' + couponDiscount);
                 // Apply coupon discount if available
@@ -674,68 +669,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 const packageSelection = $('#package-selection-' + eventTypeId);
                 const termsSection = $('#terms-section-' + eventTypeId);
 
-        // Event listeners for checkboxes and radio buttons
-        $('input[name^="event_type"]').on('change', function() {
-            const eventTypeId = $(this).attr('id').split('-')[1];
-            toggleTerms(eventTypeId);
-            updateTotal();
-        });
-
-        $('input[name^="package_selection"]').on('change', updateTotal);
-
-        // Ensure the initial state of the form is correctly set
-        $(document).ready(function() {
-            $('input[name^="event_type"]:checked').each(function() {
-                const eventTypeId = $(this).attr('id').split('-')[1];
-                toggleTerms(eventTypeId);
-            });
-        });
-
-
-        // Download QR code button handler
-        document.getElementById('download-qr').addEventListener('click', function() {
-            const qrCodeUrl = 'QR-Code.png';
-            const link = document.createElement('a');
-            link.href = qrCodeUrl;
-            link.download = '';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-
-        // File upload handler
-        document.getElementById('file-upload').addEventListener('change', function(event) {
-            const files = event.target.files;
-            const selectedFilesContainer = document.getElementById('selected-files');
-            selectedFilesContainer.innerHTML = '';
-
-            Array.from(files).forEach(file => {
-                if (file.type.startsWith('image/')) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        img.alt = file.name;
-                        img.title = file.name;
-                        img.style.maxWidth = '150px';
-                        img.style.maxHeight = '150px';
-
-                        const removeBtn = document.createElement('button');
-                        removeBtn.textContent = 'Remove';
-                        removeBtn.className = 'remove-btn';
-                        removeBtn.onclick = function() {
-                            selectedFilesContainer.removeChild(img);
-                            selectedFilesContainer.removeChild(removeBtn);
-
-                            if (selectedFilesContainer.children.length === 0) {
-                                document.getElementById('file-upload').value = '';
-                            }
-                        };
-
-                        selectedFilesContainer.appendChild(img);
-                        selectedFilesContainer.appendChild(removeBtn);
-                    };
-                    reader.readAsDataURL(file);
+                if (checkbox.is(':checked')) {
+                    packageSelection.show(); // Show package selection if applicable
+                    termsSection.show(); // Show TNC section
                 } else {
                     packageSelection.hide(); // Hide package selection
                     termsSection.hide(); // Hide TNC section
@@ -743,7 +679,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             // Apply coupon button click handler
-            $('#apply-coupon').click(function() {
+            $('#apply-coupon').click(function () {
                 const couponCode = $('#coupon-code').val().trim();
                 if (couponCode !== currentCoupon) {
                     currentCoupon = couponCode;
@@ -753,7 +689,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         data: {
                             code: couponCode
                         },
-                        success: function(response) {
+                        success: function (response) {
                             const discount = parseFloat(response);
                             let successMessage = '';
                             let errorMessage = '';
@@ -782,7 +718,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $('#cancel-coupon').addClass('show');
                             }
                         },
-                        error: function() {
+                        error: function () {
                             $('#coupon-alert').text('An error occurred. Please try again.')
                                 .addClass('show');
                             $('#coupon-message').text('').removeClass('show');
@@ -795,7 +731,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
 
             // Cancel coupon button click handler
-            $('#cancel-coupon').click(function() {
+            $('#cancel-coupon').click(function () {
                 if (currentCoupon) {
                     $('#coupon-code').val('');
                     $('#coupon-message').text('').removeClass('show');
@@ -812,16 +748,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
 
             // Event listeners for checkboxes and radio buttons
-            $('input[name^="event_type"]').on('change', function() {
+            $('input[name^="event_type"]').on('change', function () {
                 const eventTypeId = $(this).attr('id').split('-')[1];
                 toggleTerms(eventTypeId);
                 updateTotal();
             });
 
             $('input[name^="package_selection"]').on('change', updateTotal);
+            $('input[name^="no_of_tickets"]').on('input', updateTotal);
 
             // Download QR code button handler
-            document.getElementById('download-qr').addEventListener('click', function() {
+            document.getElementById('download-qr').addEventListener('click', function () {
                 const qrCodeUrl = 'QR-Code.png';
                 const link = document.createElement('a');
                 link.href = qrCodeUrl;
@@ -832,7 +769,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
 
             // File upload handler
-            document.getElementById('file-upload').addEventListener('change', function(event) {
+            document.getElementById('file-upload').addEventListener('change', function (event) {
                 const files = event.target.files;
                 const selectedFilesContainer = document.getElementById('selected-files');
                 selectedFilesContainer.innerHTML = '';
@@ -840,7 +777,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Array.from(files).forEach(file => {
                     if (file.type.startsWith('image/')) {
                         const reader = new FileReader();
-                        reader.onload = function(e) {
+                        reader.onload = function (e) {
                             const img = document.createElement('img');
                             img.src = e.target.result;
                             img.alt = file.name;
@@ -851,7 +788,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             const removeBtn = document.createElement('button');
                             removeBtn.textContent = 'Remove';
                             removeBtn.className = 'remove-btn';
-                            removeBtn.onclick = function() {
+                            removeBtn.onclick = function () {
                                 selectedFilesContainer.removeChild(img);
                                 selectedFilesContainer.removeChild(removeBtn);
 
@@ -871,7 +808,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
 
             // Change handlers for select elements
-            document.getElementById('area-interest').addEventListener('change', function() {
+            document.getElementById('area-interest').addEventListener('change', function () {
                 const areaInterestOthersInput = document.getElementById('category-others');
                 areaInterestOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
                 if (this.value !== 'Others') {
@@ -879,19 +816,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             });
 
-            document.getElementById('lead-source').addEventListener('change', function() {
+            document.getElementById('lead-source').addEventListener('change', function () {
                 const leadSourceOthersInput = document.getElementById('lead-source-others');
                 leadSourceOthersInput.style.display = (this.value === 'Others') ? 'block' : 'none';
                 if (this.value !== 'Others') {
                     leadSourceOthersInput.value = '';
                 }
             });
-
-
-
         });
-    </script>
 
+    </script>
 
 
 </body>
