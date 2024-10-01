@@ -21,31 +21,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $verify_status = isset($_POST['otp_verify']) && $_POST['otp_verify'] == 1 ? 1 : 0;
       $role_id = ($user_type == 'participant') ? 2 : 3;
 
-      $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-      $stmt = $conn->prepare("INSERT INTO users (name, email, password, mobile, user_type, mobile_verify, role_id,event_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+      $email_check_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
+      $email_check_stmt->bind_param('s', $email);
+      $email_check_stmt->execute();
+      $email_check_stmt->bind_result($email_count);
+      $email_check_stmt->fetch();
+      $email_check_stmt->close();
 
-      $stmt->bind_param('sssssiss', $name, $email, $hashed_password, $mobile, $user_type, $verify_status, $role_id, $event_code);
-
-      if ($stmt->execute()) {
+      if ($email_count > 0) {
          session_start();
-         $_SESSION['name'] =  $name;
-         $_SESSION['email'] = $email;
-         $_SESSION['mobile'] = $mobile;
-         $_SESSION['user_type'] = $user_type;
-         if ($user_type == 'participant') {
-            header('Location: booking.php?code=' . $event_code);
-            exit();
-         } else {
-            header('Location: thankyou.php?code=' . $event_code);
-
-            exit();
-         }
+         $_SESSION['error'] = 'Email is already registered.';
+         header('Location: login.php?code=' . urlencode($event_code));
+         exit();
+         
       } else {
-         echo json_encode(['status' => 'error', 'message' => 'Registration failed: ' . $stmt->error]);
-      }
+         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-      $stmt->close();
+         $stmt = $conn->prepare("INSERT INTO users (name, email, password, mobile, user_type, mobile_verify, role_id, event_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+         $stmt->bind_param('sssssiss', $name, $email, $hashed_password, $mobile, $user_type, $verify_status, $role_id, $event_code);
+
+         if ($stmt->execute()) {
+            session_start();
+            $_SESSION['name'] = $name;
+            $_SESSION['email'] = $email;
+            $_SESSION['mobile'] = $mobile;
+            $_SESSION['user_type'] = $user_type;
+            if ($user_type == 'participant') {
+               header('Location: booking.php?code=' . $event_code);
+               exit();
+            } else {
+               header('Location: thankyou.php?code=' . $event_code);
+               exit();
+            }
+         } else {
+            echo json_encode(['status' => 'error', 'message' => 'Registration failed: ' . $stmt->error]);
+         }
+
+         $stmt->close();
+      }
    } else {
       echo json_encode(['status' => 'error', 'message' => 'Missing required fields', 'fields' => $missing_fields]);
    }
@@ -55,7 +69,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
-
 
 <div class="wrapper signup-wrapper form">
    <div class="title">Signup Form</div>
