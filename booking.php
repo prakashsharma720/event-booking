@@ -188,6 +188,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <img src="freebie2.png" style="width:100%;">
                 </div> -->
                 <h2>Event Registration Form</h2>
+                  <input type="text" id="latitude" name="latitude">
+                  <input type="text" id="longitude" name="longitude">
+                   <!-- <button onclick="getLocation()">Get Location</button> -->
                 <hr>
                 <form action="#" method="POST">
                     <input type="hidden" name="event_code" value="<?= $code ?>">
@@ -824,7 +827,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             });
         });
+        getLocation();
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
 
+        function showPosition(position) {
+            // Get latitude and longitude
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            // Set the latitude and longitude values in the form
+            document.getElementById("latitude").value = latitude;
+            document.getElementById("longitude").value = longitude;
+
+            // Submit the form to the PHP page
+            document.getElementById("locationForm").submit();
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+        }
     </script>
 
 
