@@ -21,9 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $verify_status = isset($_POST['otp_verify']) && $_POST['otp_verify'] == 1 ? 1 : 0;
       $role_id = ($user_type == 'participant') ? 2 : 3;
 
-
-      $email_check_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = ?");
-      $email_check_stmt->bind_param('s', $email);
+      $email_check_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = ? AND user_type = ?");
+      $email_check_stmt->bind_param('ss', $email, $user_type);
       $email_check_stmt->execute();
       $email_check_stmt->bind_result($email_count);
       $email_check_stmt->fetch();
@@ -31,10 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       if ($email_count > 0) {
          session_start();
-         $_SESSION['error'] = 'Email is already registered.';
+         $_SESSION['error'] = 'This email is already registered as a ' . $user_type . '.';
          header('Location: login.php?code=' . urlencode($event_code));
          exit();
-         
       } else {
          $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
@@ -55,22 +53,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                exit();
             }
          } else {
-            echo json_encode(['status' => 'error', 'message' => 'Registration failed: ' . $stmt->error]);
+            $error_message(['status' => 'error', 'message' => 'Registration failed: ' . $stmt->error]);
          }
 
          $stmt->close();
       }
    } else {
-      echo json_encode(['status' => 'error', 'message' => 'Missing required fields', 'fields' => $missing_fields]);
+      $error_message(['status' => 'error', 'message' => 'Missing required fields', 'fields' => $missing_fields]);
    }
-} else {
-   echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
-
 $conn->close();
 ?>
 
 <div class="wrapper signup-wrapper form">
+   <?php if (!empty($error_message)): ?>
+      <div class="error-message">
+         <?php echo htmlspecialchars($error_message); ?>
+      </div>
+   <?php endif; ?>
    <div class="title">Signup Form</div>
 
    <form action="register.php" method="POST">

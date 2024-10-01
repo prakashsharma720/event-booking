@@ -1,6 +1,10 @@
 <?php
 include 'db.php';
-$code = $_GET['code'];
+session_start(); // Start the session
+
+$error_message = ''; // Initialize error message
+
+$code = $_GET['code'] ?? ''; // Get the code safely
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $required_fields = ['mobile', 'password'];
@@ -16,8 +20,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $mobile = trim($_POST['mobile']);
       $password = trim($_POST['password']);
 
-      // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
       $stmt = $conn->prepare("SELECT id, password, user_type FROM users WHERE mobile = ?");
       $stmt->bind_param('s', $mobile);
       $stmt->execute();
@@ -29,40 +31,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
          if (password_verify($password, $hashed_password)) {
             // Redirect based on user type
+            $_SESSION['mobile'] = $mobile; // Store mobile number in session
             if ($user_type === 'Participant') {
-               session_start();
-               $_SESSION['name'] =  $name;
-               $_SESSION['email'] = $email;
-               $_SESSION['mobile'] = $mobile;
-               $_SESSION['user_type'] = $user_type;
-               header('Location: booking.php?code=' . $event_code);
+               header('Location: booking.php?code=' . $code);
                exit();
             } elseif ($user_type === 'Visitor') {
-               header('Location: thankyou.php?code=' . $event_code);
+               header('Location: thankyou.php?code=' . $code);
                exit();
-// Change this to the appropriate visitor page
             } else {
-               echo json_encode(['status' => 'error', 'message' => 'Unknown user type.']);
+               $error_message = 'Unknown user type.';
             }
-            exit();
          } else {
-            echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
+            $error_message = 'Invalid password';
          }
       } else {
-         echo json_encode(['status' => 'error', 'message' => 'User not found']);
+         $error_message = 'User not found';
       }
 
       $stmt->close();
    } else {
-      echo json_encode(['status' => 'error', 'message' => 'Missing required fields', 'fields' => $missing_fields]);
+      $error_message = 'Missing required fields: ' . implode(', ', $missing_fields);
    }
-} else {
-   echo json_encode(['status' => 'error', 'message' => 'Invalid request method. Expected POST, received ' . $_SERVER["REQUEST_METHOD"]]);
 }
 
 $conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -71,7 +64,16 @@ $conn->close();
    <meta charset="utf-8">
    <title>Login and Signup Forms | GWM</title>
    <link rel="stylesheet" href="login.css"> <!-- Link to external CSS file -->
-
+   <style>
+      .error-message {
+         border: 1px solid red;
+         background-color: #f8d7da;
+         color: #721c24;
+         padding: 10px;
+         margin: 10px 0;
+         border-radius: 5px;
+      }
+   </style>
    <!-- OTPLESS SDK -->
 
 </head>
@@ -81,6 +83,11 @@ $conn->close();
       <img src="logo-gwm.jpg" class="logo">
    </div>
    <div class="wrapper login-wrapper active">
+      <?php if (!empty($error_message)): ?>
+         <div class="error-message">
+            <?php echo htmlspecialchars($error_message); ?>
+         </div>
+      <?php endif; ?>
       <div class="title">Login Form</div>
 
       <form action="#" method="POST">
