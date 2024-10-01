@@ -16,6 +16,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $mobile = trim($_POST['mobile']);
       $password = trim($_POST['password']);
 
+      // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
       $stmt = $conn->prepare("SELECT id, password, user_type FROM users WHERE mobile = ?");
       $stmt->bind_param('s', $mobile);
       $stmt->execute();
@@ -28,6 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          if (password_verify($password, $hashed_password)) {
             // Redirect based on user type
             if ($user_type === 'Participant') {
+               session_start();
+               $_SESSION['name'] =  $name;
+               $_SESSION['email'] = $email;
+               $_SESSION['mobile'] = $mobile;
+               $_SESSION['user_type'] = $user_type;
                header('Location: booking.php?code=' . $event_code);
                exit();
             } elseif ($user_type === 'Visitor') {
