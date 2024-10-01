@@ -35,10 +35,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                $_SESSION['email'] = $email;
                $_SESSION['mobile'] = $mobile;
                $_SESSION['user_type'] = $user_type;
-               header('Location: booking.php?code=' . $event_code);
+               header('Location: booking.php?code=' . $code);
                exit();
             } elseif ($user_type === 'Visitor') {
-               header('Location: thankyou.php?code=' . $event_code);
+               header('Location: thankyou.php?code=' . $code);
                exit();
 // Change this to the appropriate visitor page
             } else {

@@ -64,8 +64,19 @@ if ($data['status'] == "true") {
 
 ?>
 <?php
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Define the API endpoint URL
+    $api_url = 'https://your-api-endpoint.com/upload'; // Replace with your actual endpoint
+
+    // Prepare the image file using cURLFile (only if a file was uploaded)
+    if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
+        $imageFile = curl_file_create($_FILES['screenshot']['tmp_name'], $_FILES['screenshot']['type'], $_FILES['screenshot']['name']);
+    } else {
+        $imageFile = null;
+    }
+
+
     $selected_event_types = $_POST['event_type'];
     $selected_packages = $_POST['package_selection'] ?? [];
     $single_prices = $_POST['single_price'] ?? [];
@@ -87,33 +98,62 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
         }
     }
+    $postData = [
+        'event_code' => 'Y9qxF@XvOk7w',
+        'name' => 'Prakash Sharma',
+        'email' => 'prakash@muskowl.com',
+        'mobile' => '9664100138',
+        'gender' => 'Male',
+        'category_type' => 'Salon',
+        'subcategory_type' => 'Nail Studio',
+        'company_name' => 'muskowl',
+        'city' => 'sdas',
+        'indian-states' => 'madhya-pradesh',
+        'pincode' => '313001',
+        'lead-source-others' => '',
+        'category-others' => '',
+        'no_of_tickets' => 7,
+        'net-payable-total' => 165900.00,
+        'Advance' => 11850.00,
+        'advance_amount' => 11850,
+        'remaining_amount' => 154050,
+        'coupon-code' => '',
+        'payment_ref_no' => '1231232',
+        'file' => $imageFile, // The image file
+        'package_details' => $final_data, // Package details as JSON string
+    ];
 
-    // Output or save final data
-    echo "<pre>";
-    print_r($final_data);
-    echo "</pre>";exit;
+    // Initialize the cURL session
+    $ch = curl_init();
 
-        // echo "<pre>";print_r($_POST);exit;
-    
-    // Validate and sanitize form data
-    $eventCode = isset($_POST['event_code']) ? htmlspecialchars($_POST['event_code']) : '';
-    $name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : '';
-    $email = isset($_POST['email']) ? filter_var($_POST['email'], FILTER_SANITIZE_EMAIL) : '';
-    $paymentRefNo = isset($_POST['payment_ref_no']) ? htmlspecialchars($_POST['payment_ref_no']) : '';
+    // Set cURL options
+    curl_setopt($ch, CURLOPT_URL, $api_url); // API endpoint
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData); // Send the form data
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as string
 
-    // Handle file upload
-    if (isset($_FILES['file-upload']) && $_FILES['file-upload']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'uploads/'; // Directory for file uploads
-        $fileName = basename($_FILES['file-upload']['name']);
-        $uploadFilePath = $uploadDir . $fileName;
+    // Execute cURL request
+    $response = curl_exec($ch);
 
-        // Move the uploaded file to the specified directory
-        if (move_uploaded_file($_FILES['file-upload']['tmp_name'], $uploadFilePath)) {
-            echo "File uploaded successfully.";
-        } else {
-            echo "Failed to upload file.";
-        }
+    // Check for errors
+    if ($response === false) {
+        echo 'cURL Error: ' . curl_error($ch);
+    } else {
+        // Handle the API response
+        echo 'Response from API: ' . $response;
     }
+    // Close cURL session
+    curl_close($ch);
+
+
+    // Convert the package details array to JSON
+    // $packageDetailsJson = json_encode($final_data);
+    // Output or save final data
+    // echo "<pre>";
+    // print_r($_POST);s
+    // print_r($final_data);
+    // echo "</pre>";exit;
+
 
     // Further processing (e.g., saving to the database)
     // You can redirect the user to a confirmation page or display a success message
@@ -188,9 +228,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <img src="freebie2.png" style="width:100%;">
                 </div> -->
                 <h2>Event Registration Form</h2>
-                  <input type="text" id="latitude" name="latitude">
-                  <input type="text" id="longitude" name="longitude">
-                   <!-- <button onclick="getLocation()">Get Location</button> -->
                 <hr>
                 <form action="#" method="POST">
                     <input type="hidden" name="event_code" value="<?= $code ?>">
@@ -515,7 +552,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span>
                                 </h3>
                                 <div class="file-upload-area">
-                                    <input type="file" id="file-upload" name="file-upload" multiple accept="image/*"
+                                    <input type="file" id="file-upload" name="screenshot" multiple accept="image/*"
                                         class="form-control">
                                     <label for="file-upload" class="upload-button">
                                         <span>Add file</span>
@@ -827,44 +864,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
             });
         });
-        getLocation();
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition, showError);
-            } else {
-                alert("Geolocation is not supported by this browser.");
-            }
-        }
 
-        function showPosition(position) {
-            // Get latitude and longitude
-            var latitude = position.coords.latitude;
-            var longitude = position.coords.longitude;
-
-            // Set the latitude and longitude values in the form
-            document.getElementById("latitude").value = latitude;
-            document.getElementById("longitude").value = longitude;
-
-            // Submit the form to the PHP page
-            document.getElementById("locationForm").submit();
-        }
-
-        function showError(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    alert("User denied the request for Geolocation.");
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    alert("Location information is unavailable.");
-                    break;
-                case error.TIMEOUT:
-                    alert("The request to get user location timed out.");
-                    break;
-                case error.UNKNOWN_ERROR:
-                    alert("An unknown error occurred.");
-                    break;
-            }
-        }
     </script>
 
 
