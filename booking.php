@@ -1,7 +1,18 @@
 <?php
 include('db.php');
 $code = $_GET['code'];
-$curl = curl_init();
+
+session_start();
+$user_id = $_SESSION['user_id'];
+$mobile = $_SESSION['mobile'];
+$user_type = $_SESSION['user_type'];
+$name = $_SESSION['name'];
+$email = $_SESSION['email'];
+
+if(!$user_id){
+    header('Location: login.php?code=' . $code);
+    exit();
+}
 
 $base_url = 'https://gwmadmin.muskowl.com';
 // $base_url = 'http://localhost/CI/event-portal';
@@ -66,38 +77,44 @@ if ($data['status'] == "true") {
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
-
-    // Prepare the image file using cURLFile (only if a file was uploaded)
+    // Prepare the image file using cURLFile (if file is uploaded)
     if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
-        $imageFile = curl_file_create($_FILES['screenshot']['tmp_name'], $_FILES['screenshot']['type'], $_FILES['screenshot']['name']);
+        $imageFile = $_FILES['screenshot']['tmp_name'];
+        $imageName = $_FILES['screenshot']['name'];
+        $imageContent = file_get_contents($imageFile); // Read the file contents
     } else {
-        $imageFile = null;
+        $imageContent = null;
     }
-
-
-    $selected_event_types = $_POST['event_type'];event_code
+    $selected_event_types = $_POST['event_type'];
     $selected_packages = $_POST['package_selection'] ?? [];
     $single_prices = $_POST['single_price'] ?? [];
+    $package_amounts = $_POST['package_amount'] ?? [];
 
     $final_data = [];
 
     foreach ($selected_event_types as $event_id => $event_type) {
-        // Check if package is available and selected
         if (isset($selected_packages[$event_id])) {
             $final_data[] = [
                 'event_type' => $event_type,
-                'price' => $selected_packages[$event_id],  // The selected package price
+                'selected_package' => $selected_packages[$event_id],
+                'amount' => $package_amounts[$event_id],
             ];
         } elseif (isset($single_prices[$event_id])) {
-            // If no package, use the single price
             $final_data[] = [
                 'event_type' => $event_type,
                 'price' => $single_prices[$event_id],
             ];
         }
     }
-        
+
+    $packageDetailsJson = json_encode($final_data);
+
+    // echo "<pre>";
+    // print_r($_POST);
+    // print_r($packageDetailsJson);
+    // echo "</pre>";exit;
+
+    // Extract other form data
     $event_code = $_POST['event_code'];
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
@@ -109,68 +126,61 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $state_name = $_POST['state_name'];
     $pincode = $_POST['pincode'];
     $lead_src = $_POST['lead_source'];
-    if($lead_src == Others){
-         $lead_source = $_POST['lead_source_others'];
-    }else{
-         $lead_source = $lead_src;
+    if ($lead_src == 'Others') {
+        $lead_source = $_POST['lead_source_others'];
+    } else {
+        $lead_source = $lead_src;
     }
     $area_interest = $_POST['area_interest'];
-    if($area_interest == Others){
-         $area_interest_value = $_POST['area_interest_others'];
-    }else{
-         $area_interest_value = $area_interest;
+    if ($area_interest == 'Others') {
+        $area_interest_value = $_POST['area_interest_others'];
+    } else {
+        $area_interest_value = $area_interest;
     }
-   
+
     $no_of_tickets = $_POST['no_of_tickets'];
     $net_payable_total = $_POST['net_payable_total'];
-    $Advance = $_POST['Advance'];
+    $advance = $_POST['Advance'];
     $remaining_amount = $_POST['remaining_amount'];
     $coupon_code = $_POST['coupon_code'];
-    $Advance = $_POST['Advance'];
     $user_id = $_POST['user_id'];
-    $booking_date = date('Y-m-d',strtotime($_POST['booking_date']));
-    
-    $postData = [
-        'event_code' => $event_code,
-        'transaction_date' => date('Y-m-d'),
-        'booking_date' => $booking_date,
-        'email' => 'prakash@muskowl.com',
-        'mobile' => '9664100138',
-        'gender' => 'Male',
-        'category_type' => 'Salon',
-        'subcategory_type' => 'Nail Studio',
-        'company_name' => 'muskowl',
-        'city' => 'sdas',
-        'state_name' => 'madhya-pradesh',
-        'pincode' => '313001',
-        'lead_source' => $lead_source,
-        'area_interest' => $area_interest_value,
-        'no_of_tickets' => 7,
-        'net_payable_total' => 165900.00,
-        'advanced_pay' => 11850,
-        'remaining_amount' => 154050,
-        'coupon_code' => '',
-        'payment_ref_no' => '1231232',
-        'file' => $imageFile, // The image file
-        'package_details' => $final_data, // Package details as JSON string
-    ];
+    $booking_date = date('Y-m-d', strtotime($_POST['booking_date']));
 
-   
+     // Insert into the bookings table
+    $stmt = $mysqli->prepare(
+        "INSERT INTO `bookings` 
+        (`transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `event_type`, `total_amount`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_reference_no`, `payment_screenshot`, `area_of_interest`, `lead_source`) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    );
 
-    // Convert the package details array to JSON
-    // $packageDetailsJson = json_encode($final_data);
-    // Output or save final data
-    // echo "<pre>";
-    // print_r($_POST);s
-    // print_r($final_data);
-    // echo "</pre>";exit;
+    $transaction_date = date('Y-m-d');
+    $package_type = ''; // Adjust this if you want to store specific package details
 
+    $stmt->bind_param(
+        'sisssssdiiddsss',
+        $transaction_date,
+        $user_id,
+        $event_code,
+        $booking_date,
+        $package_type,
+        $category_type,
+        $net_payable_total,
+        $net_payable_total,
+        $no_of_tickets,
+        $advance,
+        $remaining_amount,
+        $coupon_code,
+        $imageContent,
+        $area_interest_value,
+        $lead_source
+    );
 
-    // Further processing (e.g., saving to the database)
-    // You can redirect the user to a confirmation page or display a success message
-    echo "Form submitted successfully.";
-} else {
-    echo "Invalid request method.";
+    if ($stmt->execute()) {
+        echo "Booking saved successfully.";
+    } else {
+        echo "Error saving booking: " . $stmt->error;
+    }
+    $stmt->close();
 }
 ?>
 <!DOCTYPE html>
@@ -445,6 +455,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
                                     <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
                                         style="display: none;">
+                                          <input type="text" name="package_amount[<?= $event_type_arr['id'] ?>]" class="package_amount" />
                                         <div class="checkbox-item">
                                             <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
                                                 name="package_selection[<?= $event_type_arr['id'] ?>]" value="VIP"
@@ -686,13 +697,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if (selectedPackage.length > 0) {
                             totalPrice += parseFloat(selectedPackage.data('fee'));
                         }
+
+                        $('input[name^="package_amount[' + eventTypeId +
+                            ']"]').val(selectedPackage.data('fee'));
                     }
                     
                 });
                 const qty =  $('input[name="no_of_tickets"]').val();
                 totalAmt = qty*totalPrice;
                 // Calculate advance payment
-                const advancePayment = (totalPrice * 50) / 100;
+                const advancePayment = (totalAmt * 50) / 100;
                 let paymentTotal = totalAmt;
 
                 console.log('couponDiscount' + couponDiscount);

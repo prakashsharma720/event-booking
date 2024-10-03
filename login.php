@@ -1,6 +1,5 @@
 <?php
 include 'db.php';
-session_start(); // Start the session
 
 $error_message = ''; // Initialize error message
 
@@ -19,22 +18,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    if (empty($missing_fields)) {
       $mobile = trim($_POST['mobile']);
       $password = trim($_POST['password']);
+      $hashed_password = password_hash(password: $password, PASSWORD_DEFAULT);
 
-      $stmt = $conn->prepare("SELECT id, password, user_type FROM users WHERE mobile = ?");
+
+      $stmt = $conn->prepare("SELECT id, name,email,password,user_type FROM users WHERE mobile = ?");
       $stmt->bind_param('s', $mobile);
       $stmt->execute();
       $stmt->store_result();
 
       if ($stmt->num_rows > 0) {
-         $stmt->bind_result($id, $hashed_password, $user_type);
+         $stmt->bind_result($id, $hashed_password, $user_type, $name, $email );
          $stmt->fetch();
 
          if (password_verify($password, $hashed_password)) {
             // Redirect based on user type
+            session_start(); // Start the session
+            $_SESSION['user_id'] = $id; // Store mobile number in session
             $_SESSION['mobile'] = $mobile; // Store mobile number in session
+            $_SESSION['user_type'] = $user_type; // Store mobile number in session
+            $_SESSION['name'] = $name; // Store mobile number in session
+            $_SESSION['email'] = $email; // Store mobile number in session
+
             if ($user_type === 'Participant') {
-               header('Location: booking.php?code=' . $code);
-               exit();
+                  header('Location: booking.php?code=' . $code);
+                  exit();
             } elseif ($user_type === 'Visitor') {
                header('Location: thankyou.php?code=' . $code);
                exit();
