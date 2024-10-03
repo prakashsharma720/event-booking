@@ -9,39 +9,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $required_fields = ['mobile', 'password'];
    $missing_fields = [];
 
+   // Check for missing required fields
    foreach ($required_fields as $field) {
       if (!isset($_POST[$field]) || empty(trim($_POST[$field]))) {
          $missing_fields[] = $field;
       }
    }
 
+   // If no missing fields, proceed
    if (empty($missing_fields)) {
       $mobile = trim($_POST['mobile']);
       $password = trim($_POST['password']);
-      $hashed_password = password_hash(password: $password, PASSWORD_DEFAULT);
 
-
-      $stmt = $conn->prepare("SELECT id, name,email,password,user_type FROM users WHERE mobile = ?");
+      // Prepare the SQL statement
+      $stmt = $conn->prepare("SELECT id, name, email, password, user_type FROM users WHERE mobile = ?");
       $stmt->bind_param('s', $mobile);
       $stmt->execute();
       $stmt->store_result();
 
+      // Check if the user exists
       if ($stmt->num_rows > 0) {
-         $stmt->bind_result($id, $hashed_password, $user_type, $name, $email );
+         $stmt->bind_result($id, $name, $email, $hashed_password, $user_type);
          $stmt->fetch();
 
+         // Verify the password
          if (password_verify($password, $hashed_password)) {
-            // Redirect based on user type
-            session_start(); // Start the session
-            $_SESSION['user_id'] = $id; // Store mobile number in session
-            $_SESSION['mobile'] = $mobile; // Store mobile number in session
-            $_SESSION['user_type'] = $user_type; // Store mobile number in session
-            $_SESSION['name'] = $name; // Store mobile number in session
-            $_SESSION['email'] = $email; // Store mobile number in session
+            // Start the session and store user information
+            session_start();
+            $_SESSION['user_id'] = $id;
+            $_SESSION['mobile'] = $mobile;
+            $_SESSION['user_type'] = $user_type;
+            $_SESSION['name'] = $name;
+            $_SESSION['email'] = $email;
 
+            // Redirect based on user type
             if ($user_type === 'Participant') {
-                  header('Location: booking.php?code=' . $code);
-                  exit();
+               header('Location: booking.php?code=' . $code);
+               exit();
             } elseif ($user_type === 'Visitor') {
                header('Location: thankyou.php?code=' . $code);
                exit();
@@ -49,10 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                $error_message = 'Unknown user type.';
             }
          } else {
-            $error_message = 'Invalid password';
+            $error_message = 'Invalid mobile or password'; // More generic error message
          }
       } else {
-         $error_message = 'User not found';
+         $error_message = 'Invalid mobile or password'; // More generic error message
       }
 
       $stmt->close();
@@ -63,6 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $conn->close();
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">

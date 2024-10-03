@@ -2,6 +2,7 @@
 include('db.php');
 $code = $_GET['code'];
 
+$curl = curl_init();
 session_start();
 $user_id = $_SESSION['user_id'];
 $mobile = $_SESSION['mobile'];
@@ -256,12 +257,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="col-md-6">
                             <label for="gender">Participant Name</label>
                             <input type="text" id="name" name="name" placeholder="Enter Company Name"
-                                class="form-control" value="Prakash Sharma" readonly>
+                                class="form-control" value="<?= $name ?>" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="name">Email </label>
                             <input type="text" name="email" placeholder="Enter Email " class="form-control"
-                                value="prakash@muskowl.com" readonly>
+                                value="<?= $email ?>" readonly>
                         </div>
                     </div>
 
@@ -269,7 +270,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="col-md-6">
                             <label for="gender">Mobile Number </label>
                             <input type="text" name="mobile" placeholder="Enter Mobile" class="form-control"
-                                value="9664100138" readonly>
+                                value="<?= $mobile ?>" readonly>
                         </div>
                         <div class="col-md-6">
                             <label for="gender">Gender <span class="required-icon">*</span></label>
