@@ -66,8 +66,7 @@ if ($data['status'] == "true") {
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Define the API endpoint URL
-    $api_url = 'https://your-api-endpoint.com/upload'; // Replace with your actual endpoint
+
 
     // Prepare the image file using cURLFile (only if a file was uploaded)
     if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
@@ -77,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    $selected_event_types = $_POST['event_type'];
+    $selected_event_types = $_POST['event_type'];event_code
     $selected_packages = $_POST['package_selection'] ?? [];
     $single_prices = $_POST['single_price'] ?? [];
 
@@ -98,9 +97,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ];
         }
     }
+        
+    $event_code = $_POST['event_code'];
+    $email = $_POST['email'];
+    $mobile = $_POST['mobile'];
+    $gender = $_POST['gender'];
+    $category_type = $_POST['category_type'];
+    $subcategory_type = $_POST['subcategory_type'];
+    $company_name = $_POST['company_name'];
+    $city = $_POST['city'];
+    $state_name = $_POST['state_name'];
+    $pincode = $_POST['pincode'];
+    $lead_src = $_POST['lead_source'];
+    if($lead_src == Others){
+         $lead_source = $_POST['lead_source_others'];
+    }else{
+         $lead_source = $lead_src;
+    }
+    $area_interest = $_POST['area_interest'];
+    if($area_interest == Others){
+         $area_interest_value = $_POST['area_interest_others'];
+    }else{
+         $area_interest_value = $area_interest;
+    }
+   
+    $no_of_tickets = $_POST['no_of_tickets'];
+    $net_payable_total = $_POST['net_payable_total'];
+    $Advance = $_POST['Advance'];
+    $remaining_amount = $_POST['remaining_amount'];
+    $coupon_code = $_POST['coupon_code'];
+    $Advance = $_POST['Advance'];
+    $user_id = $_POST['user_id'];
+    $booking_date = date('Y-m-d',strtotime($_POST['booking_date']));
+    
     $postData = [
-        'event_code' => 'Y9qxF@XvOk7w',
-        'name' => 'Prakash Sharma',
+        'event_code' => $event_code,
+        'transaction_date' => date('Y-m-d'),
+        'booking_date' => $booking_date,
         'email' => 'prakash@muskowl.com',
         'mobile' => '9664100138',
         'gender' => 'Male',
@@ -108,43 +141,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'subcategory_type' => 'Nail Studio',
         'company_name' => 'muskowl',
         'city' => 'sdas',
-        'indian-states' => 'madhya-pradesh',
+        'state_name' => 'madhya-pradesh',
         'pincode' => '313001',
-        'lead-source-others' => '',
-        'category-others' => '',
+        'lead_source' => $lead_source,
+        'area_interest' => $area_interest_value,
         'no_of_tickets' => 7,
-        'net-payable-total' => 165900.00,
-        'Advance' => 11850.00,
-        'advance_amount' => 11850,
+        'net_payable_total' => 165900.00,
+        'advanced_pay' => 11850,
         'remaining_amount' => 154050,
-        'coupon-code' => '',
+        'coupon_code' => '',
         'payment_ref_no' => '1231232',
         'file' => $imageFile, // The image file
         'package_details' => $final_data, // Package details as JSON string
     ];
 
-    // Initialize the cURL session
-    $ch = curl_init();
-
-    // Set cURL options
-    curl_setopt($ch, CURLOPT_URL, $api_url); // API endpoint
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData); // Send the form data
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as string
-
-    // Execute cURL request
-    $response = curl_exec($ch);
-
-    // Check for errors
-    if ($response === false) {
-        echo 'cURL Error: ' . curl_error($ch);
-    } else {
-        // Handle the API response
-        echo 'Response from API: ' . $response;
-    }
-    // Close cURL session
-    curl_close($ch);
-
+   
 
     // Convert the package details array to JSON
     // $packageDetailsJson = json_encode($final_data);
@@ -230,7 +241,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h2>Event Registration Form</h2>
                 <hr>
                 <form action="#" method="POST">
-                    <input type="hidden" name="event_code" value="<?= $code ?>">
+                    <input type="hidden" name="event_code" value=" <?= $result['identity_code'] ?>">
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <label for="gender">Participant Name</label>
@@ -309,7 +320,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <label for="name">State </label>
-                            <select name="indian-states" id="indian-states" class="form-control">
+                            <select name="state_name" id="indian-states" class="form-control">
                                 <option value="">Choose State</option>
                                 <option value="andhra-pradesh">Andhra Pradesh</option>
                                 <option value="arunachal-pradesh">Arunachal Pradesh</option>
@@ -364,7 +375,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="col-md-6">
 
                             <label for="lead-source">Lead Source Master <span class="required-icon">*</span></label>
-                            <select id="lead-source" name="lead-source" class="form-control mb-2">
+                            <select id="lead-source" name="lead_source" class="form-control mb-2">
                                 <option value="" disabled selected>Select an option</option>
                                 <option value="Friends Reference">Friends Reference</option>
                                 <option value="GWM Instagram Page">GWM Instagram Page</option>
@@ -385,12 +396,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="Artists Page">Artists Page</option>
                                 <option value="Others" id="lead-source-other">Others</option>
                             </select>
-                            <input type="text" id="lead-source-others" name="lead-source-others" style="display: none;"
+                            <input type="text" id="lead-source-others" name="lead_source_others" style="display: none;"
                                 class="form-control" placeholder="Please specify">
                         </div>
                         <div class="col-md-6">
                             <label for="area-interest">Area of Interest <span class="required-icon">*</span></label>
-                            <select id="area-interest" name="area-interest" class="form-control mb-2">
+                            <select id="area-interest" name="area_interest" class="form-control mb-2">
                                 <option value="" disabled selected>Select area of interest</option>
                                 <option value="Competitions">Competitions</option>
                                 <option value="Discounts">Discounts</option>
@@ -408,7 +419,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <option value="Nail Art">Nail Art</option>
                                 <option value="Others">Others</option>
                             </select>
-                            <input type="text" id="category-others" name="category-others" style="display: none;"
+                            <input type="text" id="category-others" name="area_interest_others" style="display: none;"
                                 class="form-control" placeholder="Please specify">
                         </div>
                     </div>
@@ -488,7 +499,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <div class="amount-item">
                                         <span class="label">Net payable Total:</span>
                                         ₹
-                                        <input type="text" id="net-payable-total" name="net-payable-total" value=""
+                                        <input type="text" id="net_payable_total" name="net_payable_total" value=""
                                             class="form-control" style="width:30%;" readonly>
                                         <!-- <span id="">0.00</span> -->
                                     </div>
@@ -511,11 +522,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="col-md-6">
                             <div id="coupon-container">
                                 <div class="field">
-                                    <label for="coupon-code">Enter Coupon Code<span
+                                    <label for="coupon_code">Enter Coupon Code<span
                                             class="required-icon">*</span></label>
                                     <div class="row">
                                         <div class="col-9 jay">
-                                            <input type="text" id="coupon-code" name="coupon-code" class="form-control"
+                                            <input type="text" id="coupon_code" name="coupon_code" class="form-control"
                                                 placeholder="Enter coupon code">
                                         </div>
                                         <div class="col-3 d-flex align-items-center">
@@ -695,7 +706,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Update the payment details on the page
                 $('#payment_total').val(totalPrice.toFixed(2));
-                $('input[name="net-payable-total"]').val(paymentTotal.toFixed(2));
+                $('input[name="net_payable_total"]').val(paymentTotal.toFixed(2));
                 $('input[name="Advance"]').val(advancePayment.toFixed(2));
                 $('input[name="remaining_amount"]').val(remainingAmount.toFixed(2));
                 $('input[name="total_amount"]').val(totalPrice);
@@ -720,7 +731,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Apply coupon button click handler
             $('#apply-coupon').click(function () {
-                const couponCode = $('#coupon-code').val().trim();
+                const couponCode = $('#coupon_code').val().trim();
                 if (couponCode !== currentCoupon) {
                     currentCoupon = couponCode;
                     $.ajax({
@@ -773,7 +784,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Cancel coupon button click handler
             $('#cancel-coupon').click(function () {
                 if (currentCoupon) {
-                    $('#coupon-code').val('');
+                    $('#coupon_code').val('');
                     $('#coupon-message').text('').removeClass('show');
                     $('#coupon-alert').text('').removeClass('show');
                     couponDiscount = 0;
