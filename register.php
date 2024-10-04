@@ -34,19 +34,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          header('Location: login.php?code=' . urlencode($event_code));
          exit();
       } else {
-         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+         $hashed_password = password_hash(password: $password, PASSWORD_DEFAULT);
 
          $stmt = $conn->prepare("INSERT INTO users (name, email, password, mobile, user_type, mobile_verify, role_id, event_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
          $stmt->bind_param('sssssiss', $name, $email, $hashed_password, $mobile, $user_type, $verify_status, $role_id, $event_code);
 
          if ($stmt->execute()) {
-            session_start();
-            $_SESSION['name'] = $name;
-            $_SESSION['email'] = $email;
-            $_SESSION['mobile'] = $mobile;
-            $_SESSION['user_type'] = $user_type;
             if ($user_type == 'participant') {
-               header('Location: booking.php?code=' . $event_code);
+               header('Location: login.php?code=' . $event_code);
                exit();
             } else {
                header('Location: thankyou.php?code=' . $event_code);
