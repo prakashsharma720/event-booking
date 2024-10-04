@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
          if ($stmt->execute()) {
             if ($user_type == 'participant') {
-               header('Location: login.php?code=' . $event_code);
+               header('Location: booking.php?code=' . $event_code);
                exit();
             } else {
                header('Location: thankyou.php?code=' . $event_code);
