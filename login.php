@@ -139,9 +139,65 @@ $conn->close();
          </div>
       </form>
    </div>
+   <div class="wrapper signup-wrapper form">
+      <?php if (!empty($error_message)): ?>
+         <div class="error-message">
+            <?php echo htmlspecialchars($error_message); ?>
+         </div>
+      <?php endif; ?>
+      <div class="title">Signup Form</div>
 
+      <form action="register.php" method="POST">
 
-   <?php include('register.php'); ?>
+         <div class="role-selection">
+            <label>
+               <input type="radio" id="user_type" name="user_type" value="participant" checked> Participant
+            </label>
+            <label>
+               <input type="radio" id="user_type" name="user_type" value="visitor"> Visitor
+            </label>
+         </div>
+
+         <div class="field">
+            <input type="text" name="name" placeholder="Enter Name" required>
+         </div>
+         <div class="field">
+            <input type="email" name="email" placeholder="Email" required>
+         </div>
+         <div class="field">
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="hidden" name="event_code" value="<?= $code ?>">
+         </div>
+
+         <div class="send-otp-container">
+            <div class="field mobile-number">
+               <input type="text" name="mobile" id="mobile-number" placeholder="Enter Mobile" required>
+            </div>
+            <input type="hidden" name="otp_verify" id="otp_verify" value="">
+            <button class="send-otp-button">Send OTP</button>
+         </div>
+
+         <div class="otp-message"></div>
+         <div class="otp-container">
+            <div class="field otp-inputs">
+               <input type="text" id="otp-input" name="otp" placeholder="Enter OTP" minlength="4" maxlength="6"
+                  required>
+            </div>
+            <div class="verify-button-container">
+               <input type="submit" value="Verify OTP" class="verify-otp-button">
+            </div>
+         </div>
+
+         <div class="status-message"></div>
+
+         <div class="field">
+            <input type="submit" value="Signup" class="signup-btn" disabled>
+         </div>
+         <div class="signup-link">
+            Already a member? <a href="#" class="login-link-btn">Login now</a>
+         </div>
+      </form>
+   </div>
 
    <script>
       document.addEventListener('DOMContentLoaded', () => {
