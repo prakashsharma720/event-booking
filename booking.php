@@ -82,9 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
         $imageFile = $_FILES['screenshot']['tmp_name'];
         $imageName = $_FILES['screenshot']['name'];
-        $imageContent = file_get_contents($imageFile); // Read the file contents
+        $payment_screenshot = file_get_contents($imageFile); // Read the file contents
     } else {
-        $imageContent = null;
+        $payment_screenshot = null;
     }
     $selected_event_types = $_POST['event_type'];
     $selected_packages = $_POST['package_selection'] ?? [];
@@ -134,46 +134,56 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     $area_interest = $_POST['area_interest'];
     if ($area_interest == 'Others') {
-        $area_interest_value = $_POST['area_interest_others'];
+        $area_of_interest = $_POST['area_interest_others'];
     } else {
-        $area_interest_value = $area_interest;
+        $area_of_interest = $area_interest;
     }
 
     $no_of_tickets = $_POST['no_of_tickets'];
-    $net_payable_total = $_POST['net_payable_total'];
-    $advance = $_POST['Advance'];
+    $total_amount = $_POST['total_amount'];
+    $net_total = $_POST['net_payable_total'];
+    $advanced_pay = $_POST['Advance'];
     $remaining_amount = $_POST['remaining_amount'];
+    $payment_mode = 'Online';
     $coupon_code = $_POST['coupon_code'];
-    $user_id = $_POST['user_id'];
+    $discount_value = $_POST['coupon_value'];
+    $payment_reference_no = $_POST['payment_ref_no'];
     $booking_date = date('Y-m-d', strtotime($_POST['booking_date']));
+    $payment_status = 'Pending';
+    $booking_status = 'Pending';
 
-    // Insert into the bookings table
-    $stmt = $mysqli->prepare(
+     // Insert into the bookings table
+    $stmt = $conn->prepare(
         "INSERT INTO `bookings` 
-        (`transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `event_type`, `total_amount`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_reference_no`, `payment_screenshot`, `area_of_interest`, `lead_source`) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+    (`transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `total_amount`, `discount_value`, `coupon_code`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_mode`, `payment_reference_no`, `payment_screenshot`, `payment_status`, `area_of_interest`, `lead_source`, `booking_status`, `packageDetails`) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
 
-    $transaction_date = date('Y-m-d');
-    $package_type = ''; // Adjust this if you want to store specific package details
+    $transaction_date = date('Y-m-d'); // For the current date
 
+    // Bind parameters, ensuring data types align with the table structure
     $stmt->bind_param(
-        'sisssssdiiddsss',
-        $transaction_date,
-        $user_id,
-        $event_code,
-        $booking_date,
-        $package_type,
-        $category_type,
-        $net_payable_total,
-        $net_payable_total,
-        $no_of_tickets,
-        $advance,
-        $remaining_amount,
-        $coupon_code,
-        $imageContent,
-        $area_interest_value,
-        $lead_source
+        'sisssddsdiddsdssssssss',
+        $transaction_date,          // s (string for date)
+        $user_id,                   // i (integer)
+        $event_code,                // s (string)
+        $booking_date,              // s (string for date)
+        $packageDetailsJson,        // s (string)
+        $total_amount,              // d (decimal)
+        $discount_value,            // d (decimal)
+        $coupon_code,               // s (string)
+        $net_total,                 // d (decimal)
+        $no_of_tickets,             // i (integer)
+        $advanced_pay,              // d (decimal)
+        $remaining_amount,          // d (decimal)
+        $payment_mode,              // s (string)
+        $payment_reference_no,      // s (string)
+        $payment_screenshot,        // s (string)
+        $payment_status,            // s (string)
+        $area_of_interest,          // s (string)
+        $lead_source,               // s (string) 
+        $booking_status,            // s (string)
+        $packageDetailsJson         // s (JSON string)
     );
 
     if ($stmt->execute()) {
@@ -437,23 +447,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <hr>
                     <h2>Event Type </h2>
                     <hr>
-                    <?php $i = 0;
-                    foreach ($result['event_types_details'] as $event_type_arr) {
-                        $i++; ?>
-                        <div class="row mb-2">
-                            <div class="col-md-6">
-                                <div class="field-container">
-                                    <div class="checkbox-container">
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
-                                                name="event_type[<?= $event_type_arr['id'] ?>]"
-                                                value="<?= $event_type_arr['event_type'] ?>">
-                                            <label for="event-<?= $event_type_arr['id'] ?>">
-                                                <?= $event_type_arr['event_type'] ?>
-                                                <?php if ($event_type_arr['package_available'] != 'Yes') { ?>
-                                                    - ₹<?= $event_type_arr['single_price'] ?><?php } ?>
-                                            </label>
-                                        </div>
+                     <div class="row">
+                        <div class="col-md-6">
+                             <label for="area-interest"> Booking Date<span class="required-icon">*</span></label>
+                               <input type="date" id="booking_date" name="booking_date" class="form-control" min="<?php echo date('Y-m-d'); ?>">
+                        </div>
+                    </div>
+                     
+
+                    <?php $i=0;foreach ($result['event_types_details'] as $event_type_arr) {  $i++;?>
+                    <div class="row mb-2">
+                        <div class="col-md-6">
+                            <div class="field-container">
+                                <div class="checkbox-container">
+                                    <div class="checkbox-item">
+                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
+                                            name="event_type[<?= $event_type_arr['id'] ?>]"
+                                            value="<?= $event_type_arr['event_type'] ?>">
+                                        <label for="event-<?= $event_type_arr['id'] ?>">
+                                            <?= $event_type_arr['event_type'] ?>
+                                            <?php if ($event_type_arr['package_available'] != 'Yes') { ?>
+                                            - ₹<?= $event_type_arr['single_price'] ?><?php } ?>
+                                        </label>
+                                    </div>
 
                                         <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
                                             <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
@@ -553,7 +569,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
                                 </div>
                             </div>
-
+                            <input type="hidden" id="coupon_value" name="coupon_value" class="form-control" >
                             <div class="sms">
                                 <p id="coupon-message"></p>
                             </div>
@@ -668,7 +684,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+
             let totalPrice = 0.00;
             let currentCoupon = "";
             let couponDiscount = 0;
@@ -722,7 +739,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 const remainingAmount = Math.max(0, paymentTotal - advancePayment);
 
                 // Update the payment details on the page
-                $('#payment_total').val(totalPrice.toFixed(2));
+                $('#payment_total').val(totalAmt.toFixed(2));
                 $('input[name="net_payable_total"]').val(paymentTotal.toFixed(2));
                 $('input[name="Advance"]').val(advancePayment.toFixed(2));
                 $('input[name="remaining_amount"]').val(remainingAmount.toFixed(2));
@@ -763,6 +780,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             let errorMessage = '';
 
                             if (discount > 0 && totalPrice > 0) {
+                             $('#coupon_value').val(discount.toFixed(2));
                                 successMessage =
                                     `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
                                 couponDiscount = discount;
