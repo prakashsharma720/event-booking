@@ -91,10 +91,17 @@ $conn->close();
 </head>
 
 <body>
+
+
    <div class="img">
       <img src="logo-gwm.jpg" class="logo">
    </div>
    <div class="wrapper login-wrapper active">
+   <?php
+if (isset($_GET['error'])) {
+    echo '<p style="color:red; border:1px solid red;">' . htmlspecialchars($_GET['error']) . '</p>';
+}
+?>
       <?php if (!empty($error_message)): ?>
          <div class="error-message">
             <?php echo htmlspecialchars($error_message); ?>
@@ -140,11 +147,11 @@ $conn->close();
       </form>
    </div>
    <div class="wrapper signup-wrapper form">
-      <?php if (!empty($error_message)): ?>
-         <div class="error-message">
-            <?php echo htmlspecialchars($error_message); ?>
-         </div>
-      <?php endif; ?>
+   <?php
+if (isset($_GET['error'])) {
+    echo '<p style="color:red; border:1px solid red;">' . htmlspecialchars($_GET['error']) . '</p>';
+}
+?>
       <div class="title">Signup Form</div>
 
       <form action="register.php" method="POST">

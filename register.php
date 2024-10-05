@@ -30,10 +30,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       if ($email_count > 0) {
          session_start();
-         $_SESSION['error'] = 'This email is already registered as a ' . $user_type . '.';
-         header('Location: login.php?code=' . urlencode($event_code));
+         $error_message = 'This email is already registered as a ' . $user_type . '. Please use a different email to sign up.';
+         header('Location: login.php?code=' . urlencode($event_code) . '&error=' . urlencode($error_message));
          exit();
-      } else {
+      }
+       else {
          $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
          $stmt = $conn->prepare("INSERT INTO users (name, email, password, mobile, user_type, mobile_verify, role_id, event_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -41,28 +42,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
          if ($stmt->execute()) {
             if ($user_type == 'participant') {
-               header('Location: booking.php?code=' . $event_code);
+               header('Location: login.php?code=' . $event_code);
                exit();
             } else {
                header('Location: thankyou.php?code=' . $event_code);
                exit();
             }
          } else {
-            $error_message(['status' => 'error', 'message' => 'Registration failed: ' . $stmt->error]);
+            $error_message = 'Registration failed: ' . $stmt->error;
          }
 
          $stmt->close();
       }
    } else {
-      $error_message(['status' => 'error', 'message' => 'Missing required fields', 'fields' => $missing_fields]);
+  $error_message = 'Missing required fields: ' . implode(', ', $missing_fields);
    }
 }
 $conn->close();
 ?>
 
 <div class="wrapper signup-wrapper form">
-   <?php if (!empty($error_message)): ?>
-      <div class="error-message">
+<?php if (!empty($error_message)): ?>
+      <div class="error-message" style="border: 1px solid red; padding: 10px; color: red;">
          <?php echo htmlspecialchars($error_message); ?>
       </div>
    <?php endif; ?>
@@ -115,7 +116,7 @@ $conn->close();
          <input type="submit" value="Signup" class="signup-btn" disabled>
       </div>
       <div class="signup-link">
-         Already a member? <a href="#" class="login-link-btn">Login now</a>
+         Already a member? <a href="" class="login-link-btn">Login now</a>
       </div>
    </form>
 </div>
