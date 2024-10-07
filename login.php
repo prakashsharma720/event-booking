@@ -96,7 +96,8 @@ $conn->close();
    <div class="img">
       <img src="logo-gwm.jpg" class="logo">
    </div>
-   <div class="wrapper login-wrapper active">
+   <div class="wrapper login-wrapper <?php if (!isset($_GET['error']))
+      echo "active"; ?>">
    <?php
 if (isset($_GET['error'])) {
     echo '<p style="color:red; border:1px solid red;">' . htmlspecialchars($_GET['error']) . '</p>';
@@ -146,7 +147,7 @@ if (isset($_GET['error'])) {
          </div>
       </form>
    </div>
-   <div class="wrapper signup-wrapper form">
+   <div class="wrapper signup-wrapper form <?php if (isset($_GET['error'])) echo "active"; ?>">
    <?php
 if (isset($_GET['error'])) {
     echo '<p style="color:red; border:1px solid red;">' . htmlspecialchars($_GET['error']) . '</p>';
