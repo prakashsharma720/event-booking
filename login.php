@@ -1,73 +1,68 @@
 <?php
 include 'db.php';
-
-$error_message = ''; // Initialize error message
-
-$code = $_GET['code'] ?? ''; // Get the code safely
-
+$error_message = '';
+$code = $_GET['code'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   $required_fields = ['mobile', 'password'];
+   $required_fields = ['mobile', 'password', 'user_type'];
    $missing_fields = [];
 
-   // Check for missing required fields
    foreach ($required_fields as $field) {
-      if (!isset($_POST[$field]) || empty(trim($_POST[$field]))) {
+      if (empty(trim($_POST[$field]))) {
          $missing_fields[] = $field;
       }
    }
 
-   // If no missing fields, proceed
    if (empty($missing_fields)) {
       $mobile = trim($_POST['mobile']);
       $password = trim($_POST['password']);
+      $user_type = trim($_POST['user_type']);
 
-      // Prepare the SQL statement
-      $stmt = $conn->prepare("SELECT id, name, email, password, user_type FROM users WHERE mobile = ?");
-      $stmt->bind_param('s', $mobile);
-      $stmt->execute();
-      $stmt->store_result();
+      $allowed_user_types = ['participant', 'visitor'];
 
-      // Check if the user exists
-      if ($stmt->num_rows > 0) {
-         $stmt->bind_result($id, $name, $email, $hashed_password, $user_type);
-         $stmt->fetch();
 
-         // Verify the password
-         if (password_verify($password, $hashed_password)) {
-            // Start the session and store user information
-            session_start();
-            $_SESSION['user_id'] = $id;
-            $_SESSION['mobile'] = $mobile;
-            $_SESSION['user_type'] = $user_type;
-            $_SESSION['name'] = $name;
-            $_SESSION['email'] = $email;
+      if (!in_array($user_type, $allowed_user_types)) {
+         $error_message = 'Invalid user type. Please select a valid type.';
+      } else {
 
-            // Redirect based on user type
-            if ($user_type === 'Participant') {
-               header('Location: booking.php?code=' . $code);
-               exit();
-            } elseif ($user_type === 'Visitor') {
-               header('Location: thankyou.php?code=' . $code);
+         $stmt = $conn->prepare("SELECT id, name, email, password FROM users WHERE mobile = ? AND user_type = ?");
+         $stmt->bind_param('ss', $mobile, $user_type);
+         $stmt->execute();
+         $stmt->store_result();
+
+         if ($stmt->num_rows > 0) {
+            $stmt->bind_result($id, $name, $email, $hashed_password);
+            $stmt->fetch();
+
+            if (password_verify($password, $hashed_password)) {
+               session_start();
+               $_SESSION['user_id'] = $id;
+               $_SESSION['mobile'] = $mobile;
+               $_SESSION['user_type'] = $user_type;
+               $_SESSION['name'] = $name;
+               $_SESSION['email'] = $email;
+
+
+               if ($user_type === 'participant') {
+                  header('Location: booking.php?code=' . $code);
+               } elseif ($user_type === 'visitor') {
+                  header('Location: thankyou.php?code=' . $code);
+               }
                exit();
             } else {
-               $error_message = 'Unknown user type.';
+               $error_message = 'Invalid mobile or password';
             }
          } else {
-            $error_message = 'Invalid mobile or password'; // More generic error message
+            $error_message = 'User not found. Please check your mobile and user type.';
          }
-      } else {
-         $error_message = 'Invalid mobile or password'; // More generic error message
-      }
 
-      $stmt->close();
+         $stmt->close();
+      }
    } else {
       $error_message = 'Missing required fields: ' . implode(', ', $missing_fields);
    }
 }
-
 $conn->close();
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -97,12 +92,8 @@ $conn->close();
       <img src="logo-gwm.jpg" class="logo">
    </div>
    <div class="wrapper login-wrapper <?php if (!isset($_GET['error']))
-      echo "active"; ?>">
-   <?php
-if (isset($_GET['error'])) {
-    echo '<p style="color:red; border:1px solid red;">' . htmlspecialchars($_GET['error']) . '</p>';
-}
-?>
+                                          echo "active"; ?>">
+      
       <?php if (!empty($error_message)): ?>
          <div class="error-message">
             <?php echo htmlspecialchars($error_message); ?>
@@ -148,11 +139,11 @@ if (isset($_GET['error'])) {
       </form>
    </div>
    <div class="wrapper signup-wrapper form <?php if (isset($_GET['error'])) echo "active"; ?>">
-   <?php
-if (isset($_GET['error'])) {
-    echo '<p style="color:red; border:1px solid red;">' . htmlspecialchars($_GET['error']) . '</p>';
-}
-?>
+      <?php
+      if (isset($_GET['error'])) {
+         echo '<p style="color: #721c24; border:1px solid red; background-color: #f8d7da; padding: 10px; marging: 10px 0px; border-radius: 5px;">' . htmlspecialchars($_GET['error']) . '</p>';
+      }
+      ?>
       <div class="title">Signup Form</div>
 
       <form action="register.php" method="POST">

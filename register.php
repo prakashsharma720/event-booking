@@ -21,33 +21,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $verify_status = isset($_POST['otp_verify']) && $_POST['otp_verify'] == 1 ? 1 : 0;
       $role_id = ($user_type == 'participant') ? 2 : 3;
 
-      $email_check_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = ? AND user_type = ?");
-      $email_check_stmt->bind_param('ss', $email, $user_type);
-      $email_check_stmt->execute();
-      $email_check_stmt->bind_result($email_count);
-      $email_check_stmt->fetch();
-      $email_check_stmt->close();
 
-      if ($email_count > 0) {
-         session_start();
-         $error_message = 'This email is already registered as a ' . $user_type . '. Please use a different email to sign up.';
+      $stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE (email = ? OR mobile = ?) AND user_type = ?");
+      $stmt->bind_param('sss', $email, $mobile, $user_type);
+      $stmt->execute();
+      $stmt->bind_result($count);
+      $stmt->fetch();
+      $stmt->close();
+
+
+      if ($count > 0) {
+
+         $email_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE email = ? AND user_type = ?");
+         $email_stmt->bind_param('ss', $email, $user_type);
+         $email_stmt->execute();
+         $email_stmt->bind_result($email_count);
+         $email_stmt->fetch();
+         $email_stmt->close();
+
+         $mobile_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE mobile = ? AND user_type = ?");
+         $mobile_stmt->bind_param('ss', $mobile, $user_type);
+         $mobile_stmt->execute();
+         $mobile_stmt->bind_result($mobile_count);
+         $mobile_stmt->fetch();
+         $mobile_stmt->close();
+
+
+         if ($email_count > 0 && $mobile_count > 0) {
+            session_start();
+            $error_message = 'Both the email and mobile number are already registered as a ' . $user_type . '. Please use different credentials to sign up.';
+         } elseif ($email_count > 0) {
+            session_start();
+            $error_message = 'This email is already registered as a ' . $user_type . '. Please use a different email to sign up.';
+         } elseif ($mobile_count > 0) {
+            session_start();
+            $error_message = 'This mobile number is already registered as a ' . $user_type . '. Please use a different mobile number to sign up.';
+         }
+
          header('Location: login.php?code=' . urlencode($event_code) . '&error=' . urlencode($error_message));
          exit();
-      }
-       else {
-         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+      } else {
 
+         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
          $stmt = $conn->prepare("INSERT INTO users (name, email, password, mobile, user_type, mobile_verify, role_id, event_code) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
          $stmt->bind_param('sssssiss', $name, $email, $hashed_password, $mobile, $user_type, $verify_status, $role_id, $event_code);
 
          if ($stmt->execute()) {
             if ($user_type == 'participant') {
                header('Location: login.php?code=' . $event_code);
-               exit();
             } else {
                header('Location: thankyou.php?code=' . $event_code);
-               exit();
             }
+            exit();
          } else {
             $error_message = 'Registration failed: ' . $stmt->error;
          }
@@ -55,14 +80,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
          $stmt->close();
       }
    } else {
-  $error_message = 'Missing required fields: ' . implode(', ', $missing_fields);
+      $error_message = 'Missing required fields: ' . implode(', ', $missing_fields);
    }
 }
 $conn->close();
 ?>
 
+
 <div class="wrapper signup-wrapper form">
-<?php if (!empty($error_message)): ?>
+   <?php if (!empty($error_message)): ?>
       <div class="error-message" style="border: 1px solid red; padding: 10px; color: red;">
          <?php echo htmlspecialchars($error_message); ?>
       </div>
