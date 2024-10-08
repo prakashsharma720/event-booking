@@ -2,52 +2,220 @@
 require 'db.php';  // Include your database connection file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $mobile = $_POST['mobile'];
+   $mobile = $_POST['mobile'];
 
-    // Your API client credentials
-    $clientId = 'your_client_id';
-    $clientSecret = 'your_client_secret';
+   // Your API client credentials
+   $clientId = 'A9F3EE7969F011EFAC7102E825E2EA5C';
+   $clientSecret = 'ac7102e825e2ea5ca9f3eeaf69f011ef';
 
-    // Prepare the data to send
-    $data = [
-        "phoneNumber" => $mobile,
-        "otpLength" => 6,
-        "channel" => "SMS",
-        "expiry" => 60
-    ];
+   // Prepare the data to send
+   $data = [
+      "phoneNumber" => $mobile,
+      "otpLength" => 6,
+      "channel" => "SMS",
+      "expiry" => 60
+   ];
 
-    // Send OTP request
-    $ch = curl_init('https://auth.otpless.app/auth/otp/v1/send');
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/json',
-        'clientId: ' . $clientId,
-        'clientSecret: ' . $clientSecret
-    ]);
+   // Send OTP request
+   $ch = curl_init('https://auth.otpless.app/auth/otp/v1/send');
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+   curl_setopt($ch, CURLOPT_POST, true);
+   curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+   curl_setopt($ch, CURLOPT_HTTPHEADER, [
+      'Content-Type: application/json',
+      'clientId: ' . $clientId,
+      'clientSecret: ' . $clientSecret
+   ]);
 
-    $response = curl_exec($ch);
-    curl_close($ch);
+   $response = curl_exec($ch);
+   curl_close($ch);
 
-    echo $response;  // Return the API response to the frontend
+   echo $response;  // Return the API response to the frontend
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
+
 <head>
    <meta charset="utf-8">
    <title>Send Verification Code | CodeLab</title>
-   <link rel="stylesheet" href="style1.css"> <!-- Link to external CSS file -->
+   <style>
+      body {
+         display: grid;
+         height: 100%;
+         width: 100%;
+         place-items: center;
+         background-color: black;
+         font-family: Arial, sans-serif;
+         margin-top: 80px;
+      }
+
+      .logo {
+         width: 170px;
+         margin-top: 20px;
+      }
+
+      .wrapper {
+         width: 420px;
+         background: #fff;
+         box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+         padding: 30px 25px;
+         border-radius: 10px;
+      }
+
+      .title {
+         font-size: 30px;
+         font-weight: 700;
+         text-align: center;
+         color: #333;
+         margin-bottom: 25px;
+      }
+
+      .field {
+         height: 50px;
+         width: 100%;
+         margin-top: 20px;
+         position: relative;
+      }
+
+      .field input {
+         height: 100%;
+         width: 100%;
+         outline: none;
+         font-size: 16px;
+         padding-left: 20px;
+         border: 1px solid #ddd;
+         border-radius: 5px;
+         transition: all 0.3s ease;
+         box-sizing: border-box;
+      }
+
+      /* Common styles for both Send OTP and Verify OTP containers */
+      .send-otp-container,
+      .otp-container {
+         display: flex;
+         width: 100%;
+         gap: 10px;
+
+      }
+
+      .otp-container {
+         display: none;
+
+         margin-top: 20px;
+      }
+
+      .otp-container.active {
+         display: flex;
+
+      }
+
+      .send-otp-container .mobile-number,
+      .otp-container .otp-inputs {
+         flex: 70%;
+
+      }
+
+      .send-otp-container .send-otp-button,
+      .otp-container .verify-button-container {
+         flex: 30%;
+
+      }
+
+      .send-otp-button,
+      .otp-container .verify-button-container input[type="submit"] {
+         margin-top: 20px;
+         height: 50px;
+         border: none;
+         border-radius: 5px;
+         font-size: 18px;
+         font-weight: 500;
+         color: #fff;
+         background: #cfbc6d;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         padding: 15px 9px;
+         flex: 30%;
+      }
+
+      .send-otp-button:hover,
+      .otp-container .verify-button-container input[type="submit"]:hover {
+         background: #e60074;
+      }
+
+
+      .otp-container .field input {
+         flex: 70%;
+         height: 50px;
+         text-align: center;
+         margin-right: 10px;
+         border: 1px solid lightgrey;
+         border-radius: 5px;
+         font-size: 17px;
+         transition: all 0.3s ease;
+      }
+
+      .otp-container .field input:focus,
+      .otp-container .field input:valid {
+         border-color: #4158d0;
+      }
+
+      .verify-button-container {
+         flex: 30%;
+      }
+      .role-selection {
+   display: flex;
+   justify-content: space-around;
+   margin-top: 20px;
+}
+
+.role-selection label {
+   font-size: 16px;
+   font-weight: 500;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   padding: 10px;
+   border: 1px solid #ddd;
+   border-radius: 5px;
+   transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.role-selection input[type="radio"] {
+   margin-right: 10px;
+}
+
+.role-selection label:hover {
+   background-color: #f0f0f0;
+   border-color: #4158d0;
+}
+
+.role-selection input[type="radio"]:checked+label {
+   background-color: #cfbc6d;
+   color: #fff;
+   border-color: #cfbc6d;
+}
+   </style>
+
 </head>
+
 <body>
    <div class="img">
-      <img src="muskowl-logo.png" class="logo">
+      <img src="logo-gwm.jpg" class="logo">
    </div>
    <div class="wrapper">
       <div class="title">Send Verification Code</div>
       <form id="otp-form" action="reset_password.php" method="POST">
+      <div class="role-selection">
+            <label>
+               <input type="radio" name="user_type" value="participant" checked> Participant
+            </label>
+            <label>
+               <input type="radio" name="user_type" value="visitor"> Visitor
+            </label>
+         </div>
+
          <div class="send-otp-container">
             <div class="field mobile-number">
                <input type="text" id="mobile-number" name="mobile" placeholder="Enter Mobile" required>
@@ -69,25 +237,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          const mobileNumber = document.getElementById('mobile-number').value;
 
          fetch('send_otp.php', {
-            method: 'POST',
-            headers: {
-               'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: new URLSearchParams({
-               'mobile': mobileNumber
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+               },
+               body: new URLSearchParams({
+                  'mobile': mobileNumber
+               })
             })
-         })
-         .then(response => response.json())
-         .then(data => {
-            if (data.status === 'success') {
-               document.querySelector('.otp-container').style.display = 'flex';
-            } else {
-               alert('Error sending OTP: ' + data.message);
-            }
-         })
-         .catch(error => {
-            console.error('Error:', error);
-         });
+            .then(response => response.json())
+            .then(data => {
+               if (data.status === 'success') {
+                  document.querySelector('.otp-container').style.display = 'flex';
+               } else {
+                  alert('Error sending OTP: ' + data.message);
+               }
+            })
+            .catch(error => {
+               console.error('Error:', error);
+            });
       });
 
       const otpInputs = document.querySelectorAll('.otp-container .field input');
@@ -106,4 +274,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       });
    </script>
 </body>
+
 </html>
