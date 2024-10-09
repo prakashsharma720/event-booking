@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
@@ -130,38 +128,39 @@
       .verify-button-container {
          flex: 30%;
       }
+
       .role-selection {
-   display: flex;
-   justify-content: space-around;
-   margin-top: 20px;
-}
+         display: flex;
+         justify-content: space-around;
+         margin-top: 20px;
+      }
 
-.role-selection label {
-   font-size: 16px;
-   font-weight: 500;
-   cursor: pointer;
-   display: flex;
-   align-items: center;
-   padding: 10px;
-   border: 1px solid #ddd;
-   border-radius: 5px;
-   transition: background-color 0.3s ease, border-color 0.3s ease;
-}
+      .role-selection label {
+         font-size: 16px;
+         font-weight: 500;
+         cursor: pointer;
+         display: flex;
+         align-items: center;
+         padding: 10px;
+         border: 1px solid #ddd;
+         border-radius: 5px;
+         transition: background-color 0.3s ease, border-color 0.3s ease;
+      }
 
-.role-selection input[type="radio"] {
-   margin-right: 10px;
-}
+      .role-selection input[type="radio"] {
+         margin-right: 10px;
+      }
 
-.role-selection label:hover {
-   background-color: #f0f0f0;
-   border-color: #4158d0;
-}
+      .role-selection label:hover {
+         background-color: #f0f0f0;
+         border-color: #4158d0;
+      }
 
-.role-selection input[type="radio"]:checked+label {
-   background-color: #cfbc6d;
-   color: #fff;
-   border-color: #cfbc6d;
-}
+      .role-selection input[type="radio"]:checked+label {
+         background-color: #cfbc6d;
+         color: #fff;
+         border-color: #cfbc6d;
+      }
    </style>
 
 </head>
@@ -172,8 +171,9 @@
    </div>
    <div class="wrapper">
       <div class="title">Send Verification Code</div>
+      <div id="error-message" style="color: red; text-align: center;"></div>
       <form id="otp-form" action="#" method="POST">
-      <div class="role-selection">
+         <div class="role-selection">
             <label>
                <input type="radio" name="user_type" value="participant" checked> Participant
             </label>
@@ -214,9 +214,42 @@
             .then(response => response.json())
             .then(data => {
                if (data.status === 'success') {
-                  document.querySelector('.otp-container').style.display = 'flex';
+                 
                } else {
                   alert('Error sending OTP: ' + data.message);
+                  document.querySelector('.otp-container').style.display = 'flex';
+               }
+            })
+            .catch(error => {
+               console.error('Error:', error);
+            });
+      });
+
+      document.getElementById('otp-form').addEventListener('submit', function(event) {
+         event.preventDefault();
+
+         const otpValue = this.elements.otp.value;
+         const mobileNumber = document.getElementById('mobile-number').value;
+         fetch('verify_otp.php', {
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+               },
+               body: new URLSearchParams({
+                  'mobile': mobileNumber,
+                  'otp': otpValue
+               })
+            })
+            .then(response => response.json())
+            .then(data => {
+               if (data.status === 'success') {
+             
+
+               } else {
+                  alert('Error verifying OTP: ' + data.message);
+                  alert('OTP verified successfully!');
+                  window.location.href = 'reset_password.php';  
+
                }
             })
             .catch(error => {
@@ -239,6 +272,7 @@
          });
       });
    </script>
+
 </body>
 
 </html>

@@ -9,7 +9,7 @@
             height: 100%;
             width: 100%;
             place-items: center;
-            background: linear-gradient(to right, #99004d 0%, #ff0080 100%);
+            background: black;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -59,13 +59,12 @@
             font-size: 18px;
             font-weight: 600;
             color: #fff;
-            background: #ff0080;
+            background: #cfbc6d;
             cursor: pointer;
             transition: background 0.3s ease;
          }
-         .reset-password-button:hover {
-            background: #e60074;
-         }
+         
+        
          .popup {
             display: none;
             position: fixed;
@@ -113,7 +112,7 @@
    </head>
    <body>
       <div class="img">
-         <img src="muskowl-logo.png" class="logo">
+         <img src="logo-gwm.jpg" class="logo">
       </div>
       <div class="wrapper">
          <div class="title">Reset Password</div>
