@@ -175,10 +175,10 @@
       <form id="otp-form" action="#" method="POST">
          <div class="role-selection">
             <label>
-               <input type="radio" name="user_type" value="participant" checked> Participant
+               <input type="radio" name="user_type" id="user_type" value="Participant" checked> Participant
             </label>
             <label>
-               <input type="radio" name="user_type" value="visitor"> Visitor
+               <input type="radio" name="user_type" value="Visitor"  id="user_type"> Visitor
             </label>
          </div>
 
