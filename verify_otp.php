@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     curl_close($ch);
 
     $response_data = json_decode($response, true);
- 
-    if (isset($response_data['status']) && $response_data['status'] === 'success') {
+    // echo $response_data;
+    if (isset($response_data['isOTPVerified'])  === true) {
  
         echo json_encode(['status' => 'success', 'message' => 'OTP verified successfully!']);
     } else {

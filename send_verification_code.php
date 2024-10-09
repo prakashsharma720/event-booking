@@ -189,7 +189,7 @@
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>
 
-         <input type="hidden" id="order-id" name="order_id" value="">
+         <input type="hidden" id="order_id" name="order_id" value="">
 
          <div class="otp-container" style="display: none;">
             <div class="field otp-inputs">
@@ -205,7 +205,7 @@
       document.querySelector('.send-otp-button').addEventListener('click', function() {
          const mobileNumber = document.getElementById('mobile-number').value;
          const userType = document.querySelector('input[name="user_type"]:checked').value;
-         const orderId = document.getElementById('order-id').value;
+
 
          fetch('send_otp.php', {
                method: 'POST',
@@ -214,14 +214,15 @@
                },
                body: new URLSearchParams({
                   'mobile': mobileNumber,
-                  'user_type': userType,
-                  'order_id': orderId
+                  'user_type': userType
                })
             })
             .then(response => response.json())
             .then(data => {
+                console.log('result'+data.OrderID);
                if (data.status === 'success') {
                   document.querySelector('.otp-container').style.display = 'flex';  
+                  document.getElementById('order_id').value = data.OrderID;
                } else {
                   alert('Error sending OTP: ' + data.message);
                }
@@ -235,8 +236,8 @@
          event.preventDefault();
 
          const otpValue = this.elements.otp.value;
-         const mobileNumber = document.getElementById('mobile-number').value;
-         const orderId = document.getElementById('order-id').value;
+         const mobileNumber = '91'+document.getElementById('mobile-number').value;
+         const orderId = document.getElementById('order_id').value;
 
          fetch('verify_otp.php', {
                method: 'POST',
@@ -251,6 +252,7 @@
             })
             .then(response => response.json())
             .then(data => {
+               // console.log('response data'+response_data);
                if (data.status === 'success') {
                   alert('OTP verified successfully!');
                   window.location.href = 'reset_password.php';

@@ -4,7 +4,6 @@ require 'db.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $mobile = $_POST['mobile'];
     $user_type = $_POST['user_type'];
-    $order_id = $_POST['order_id'];
 
     $mobile_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE mobile = ? AND user_type = ?");
     $mobile_stmt->bind_param('ss', $mobile, $user_type);
@@ -24,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             "otpLength" => 6,
             "channel" => "SMS",
             "expiry" => 60,
-            "order_Id" => $order_id
         ];
 
         $ch = curl_init('https://auth.otpless.app/auth/otp/v1/send');
@@ -39,11 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $response = curl_exec($ch);
         curl_close($ch);
-
-        $response_data = json_decode($response, true);
-
-        if ($response_data['status'] === 'success') {
-            echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully.']);
+        // echo $response;
+         $response_data = json_decode($response, true);
+        if ($response_data['orderId']) {
+            echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully.','OrderID'=>$response_data['orderId']]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to send OTP: ' . $response_data['message']]);
         }
