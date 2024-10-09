@@ -15,8 +15,8 @@ if (!$user_id) {
     exit();
 }
 
-$base_url = 'https://gwmadmin.muskowl.com';
-// $base_url = 'http://localhost/CI/event-portal';
+// $base_url = 'https://gwmadmin.muskowl.com';
+$base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
     CURLOPT_URL => $base_url . '/index.php/api/Events_api/EvtD',
@@ -82,10 +82,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['screenshot']) && $_FILES['screenshot']['error'] == 0) {
         $imageFile = $_FILES['screenshot']['tmp_name'];
         $imageName = $_FILES['screenshot']['name'];
-        $payment_screenshot = file_get_contents($imageFile); // Read the file contents
+
+        // Set the target directory and file path
+        $targetDir = 'screenshots/';
+        $targetFile = $targetDir . basename($imageName);
+        // Move the uploaded file to the target directory
+        if (move_uploaded_file($imageFile, $targetFile)) {
+            // File uploaded successfully
+            $payment_screenshot = $targetFile; // Store the file path for further use
+        } else {
+            // File upload failed
+            $payment_screenshot = null;
+            echo "Sorry, there was an error uploading your file.";
+        }
+
     } else {
         $payment_screenshot = null;
     }
+
     $selected_event_types = $_POST['event_type'];
     $selected_packages = $_POST['package_selection'] ?? [];
     $single_prices = $_POST['single_price'] ?? [];
@@ -109,11 +123,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $packageDetailsJson = json_encode($final_data);
-
-    // echo "<pre>";
-    // print_r($_POST);
-    // print_r($packageDetailsJson);
-    // echo "</pre>";exit;
 
     // Extract other form data
     $event_code = $_POST['event_code'];
@@ -152,48 +161,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payment_status = 'Pending';
     $booking_status = 'Pending';
 
-     // Insert into the bookings table
-    $stmt = $conn->prepare(
-        "INSERT INTO `bookings` 
-    (`transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `total_amount`, `discount_value`, `coupon_code`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_mode`, `payment_reference_no`, `payment_screenshot`, `payment_status`, `area_of_interest`, `lead_source`, `booking_status`, `packageDetails`) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-    );
-
     $transaction_date = date('Y-m-d'); // For the current date
 
-    // Bind parameters, ensuring data types align with the table structure
-    $stmt->bind_param(
-        'sisssddsdiddsdssssssss',
-        $transaction_date,          // s (string for date)
-        $user_id,                   // i (integer)
-        $event_code,                // s (string)
-        $booking_date,              // s (string for date)
-        $packageDetailsJson,        // s (string)
-        $total_amount,              // d (decimal)
-        $discount_value,            // d (decimal)
-        $coupon_code,               // s (string)
-        $net_total,                 // d (decimal)
-        $no_of_tickets,             // i (integer)
-        $advanced_pay,              // d (decimal)
-        $remaining_amount,          // d (decimal)
-        $payment_mode,              // s (string)
-        $payment_reference_no,      // s (string)
-        $payment_screenshot,        // s (string)
-        $payment_status,            // s (string)
-        $area_of_interest,          // s (string)
-        $lead_source,               // s (string) 
-        $booking_status,            // s (string)
-        $packageDetailsJson         // s (JSON string)
-    );
+    // Insert into the bookings table using mysqli
+    $sql = "INSERT INTO `bookings` 
+    (`transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `total_amount`, `discount_value`, `coupon_code`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_mode`, `payment_reference_no`, `payment_screenshot`, `payment_status`, `area_of_interest`, `lead_source`, `booking_status`, `packageDetails`) 
+    VALUES ('$transaction_date', '$user_id', '$event_code', '$booking_date', '$packageDetailsJson', '$total_amount', '$discount_value', '$coupon_code', '$net_total', '$no_of_tickets', '$advanced_pay', '$remaining_amount', '$payment_mode', '$payment_reference_no', '$payment_screenshot', '$payment_status', '$area_of_interest', '$lead_source', '$booking_status', '$packageDetailsJson')";
 
-    if ($stmt->execute()) {
-        echo "Booking saved successfully.";
+    if ($conn->query($sql) === TRUE) {
+        header('Location: thankyou.php?code='.$event_code);
     } else {
-        echo "Error saving booking: " . $stmt->error;
+        echo "Error saving booking: " . $conn->error;
     }
-    $stmt->close();
+
+    $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -261,8 +245,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div> -->
                 <h2>Event Registration Form</h2>
                 <hr>
-                <form action="#" method="POST">
-                    <input type="hidden" name="event_code" value=" <?= $result['identity_code'] ?>">
+                <form action="#" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" name="event_code" value="<?= $result['identity_code'] ?>">
                     <div class="row mb-2">
                         <div class="col-md-6">
                             <label for="gender">Participant Name</label>
