@@ -178,7 +178,7 @@
                <input type="radio" name="user_type" id="user_type" value="Participant" checked> Participant
             </label>
             <label>
-               <input type="radio" name="user_type" value="Visitor"  id="user_type"> Visitor
+               <input type="radio" name="user_type" value="Visitor" id="user_type"> Visitor
             </label>
          </div>
 
@@ -188,6 +188,9 @@
             </div>
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>
+
+         <input type="hidden" id="order-id" name="order_id" value="">
+
          <div class="otp-container" style="display: none;">
             <div class="field otp-inputs">
                <input type="text" maxlength="6" name="otp" required>
@@ -201,6 +204,8 @@
    <script>
       document.querySelector('.send-otp-button').addEventListener('click', function() {
          const mobileNumber = document.getElementById('mobile-number').value;
+         const userType = document.querySelector('input[name="user_type"]:checked').value;
+         const orderId = document.getElementById('order-id').value;
 
          fetch('send_otp.php', {
                method: 'POST',
@@ -208,16 +213,17 @@
                   'Content-Type': 'application/x-www-form-urlencoded'
                },
                body: new URLSearchParams({
-                  'mobile': mobileNumber
+                  'mobile': mobileNumber,
+                  'user_type': userType,
+                  'order_id': orderId
                })
             })
             .then(response => response.json())
             .then(data => {
                if (data.status === 'success') {
-                 
+                  document.querySelector('.otp-container').style.display = 'flex';  
                } else {
                   alert('Error sending OTP: ' + data.message);
-                  document.querySelector('.otp-container').style.display = 'flex';
                }
             })
             .catch(error => {
@@ -230,6 +236,8 @@
 
          const otpValue = this.elements.otp.value;
          const mobileNumber = document.getElementById('mobile-number').value;
+         const orderId = document.getElementById('order-id').value;
+
          fetch('verify_otp.php', {
                method: 'POST',
                headers: {
@@ -237,25 +245,24 @@
                },
                body: new URLSearchParams({
                   'mobile': mobileNumber,
-                  'otp': otpValue
+                  'otp': otpValue,
+                  'order_id': orderId
                })
             })
             .then(response => response.json())
             .then(data => {
                if (data.status === 'success') {
-             
-
+                  alert('OTP verified successfully!');
+                  window.location.href = 'reset_password.php';
                } else {
                   alert('Error verifying OTP: ' + data.message);
-                  alert('OTP verified successfully!');
-                  window.location.href = 'reset_password.php';  
-
                }
             })
             .catch(error => {
                console.error('Error:', error);
             });
       });
+
 
       const otpInputs = document.querySelectorAll('.otp-container .field input');
       otpInputs.forEach((input, index) => {
