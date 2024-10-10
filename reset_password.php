@@ -1,8 +1,51 @@
-<?php 
-session_start();
-$user_type['user_type']=$_SESSION;
-$mobile['mobile']=$_SESSION;
 
+<?php
+require 'db.php';
+
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['reset_password'])) {
+        // Reset Password Logic
+        $new_password = $_POST['new_password'];
+        $mobile = $_SESSION['mobile'];
+        $user_type = $_SESSION['user_type'];
+
+     
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+        // Update the password in the database
+        $update_stmt = $conn->prepare("UPDATE users SET password = ? WHERE mobile = ? AND user_type = ?");
+        $update_stmt->bind_param('sss', $hashed_password, $mobile, $user_type);
+        if ($update_stmt->execute()) {
+            echo json_encode(['status' => 'success', 'message' => 'Password reset successfully!']);
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to reset password.']);
+        }
+        $update_stmt->close();
+        exit();
+    } else {
+        // Existing OTP send logic
+        $mobile = $_POST['mobile'];
+        $user_type = $_POST['user_type'];
+
+        
+        $mobile_stmt = $conn->prepare("SELECT COUNT(*) FROM users WHERE mobile = ? AND user_type = ?");
+        $mobile_stmt->bind_param('ss', $mobile, $user_type);
+        $mobile_stmt->execute();
+        $mobile_stmt->bind_result($mobile_count);
+        $mobile_stmt->fetch();
+        $mobile_stmt->close();
+
+        if ($mobile_count > 0) {
+            $_SESSION['user_type'] = $user_type;
+            $_SESSION['mobile'] = $mobile;
+            // OTP sending logic...
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Mobile number not registered.']);
+        }
+    }
+}
 ?>
 
 
@@ -123,43 +166,59 @@ $mobile['mobile']=$_SESSION;
          <img src="logo-gwm.jpg" class="logo">
       </div>
       <div class="wrapper">
-         <div class="title">Reset Password</div>
-         <form id="reset-password-form">
+        <div class="title">Reset Password</div>
+        <form id="reset-password-form">
             <div class="field">
-               <input type="password" id="new-password" placeholder="New Password" required>
+                <input type="password" id="new-password" name="new_password" placeholder="New Password" required>
             </div>
             <div class="field">
-               <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required>
             </div>
             <div class="error" id="error-message">Passwords do not match.</div>
             <button type="submit" class="reset-password-button">Reset Password</button>
-         </form>
-      </div>
-      <div class="popup" id="success-popup">
-         <p>Password reset successfully!</p>
-         <button onclick="closePopup()">OK</button>
-      </div>
-      <script>
-         const form = document.getElementById('reset-password-form');
-         const popup = document.getElementById('success-popup');
-         const errorMessage = document.getElementById('error-message');
-         const newPassword = document.getElementById('new-password');
-         const confirmPassword = document.getElementById('confirm-password');
+        </form>
+    </div>
+    <div class="popup" id="success-popup">
+        <p>Password reset successfully!</p>
+        <button onclick="closePopup()">OK</button>
+    </div>
+    <script>
+        const form = document.getElementById('reset-password-form');
+        const popup = document.getElementById('success-popup');
+        const errorMessage = document.getElementById('error-message');
+        const newPassword = document.getElementById('new-password');
+        const confirmPassword = document.getElementById('confirm-password');
 
-         form.addEventListener('submit', function(event) {
+        form.addEventListener('submit', function(event) {
             event.preventDefault();
             if (newPassword.value !== confirmPassword.value) {
-               errorMessage.style.display = 'block';
+                errorMessage.style.display = 'block';
             } else {
-               errorMessage.style.display = 'none';
-               popup.style.display = 'block';
-            }
-         });
+                errorMessage.style.display = 'none';
+                
+                // Use Fetch API to send the new password to the server
+                const formData = new FormData(form);
+                formData.append('reset_password', true); // Indicate it's a reset password request
 
-         function closePopup() {
+                fetch('your_php_script.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        popup.style.display = 'block';
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            }
+        });
+
+        function closePopup() {
             popup.style.display = 'none';
             window.location.href = 'login.php';  
-         }
-      </script>
-   </body>
+        }
+    </script>
+</body>
 </html>
