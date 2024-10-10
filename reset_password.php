@@ -1,3 +1,11 @@
+<?php 
+session_start();
+$user_type['user_type']=$_SESSION;
+$mobile['mobile']=$_SESSION;
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
    <head>
@@ -150,7 +158,7 @@
 
          function closePopup() {
             popup.style.display = 'none';
-            window.location.href = 'login.php'; // Redirect to the login page or another page after resetting the password
+            window.location.href = 'login.php';  
          }
       </script>
    </body>

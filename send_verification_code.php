@@ -170,7 +170,7 @@
       <img src="logo-gwm.jpg" class="logo">
    </div>
    <div class="wrapper">
-      <div class="title">Send Verification Code</div>
+      <div class="title">Send Verification </div>
       <div id="error-message" style="color: red; text-align: center;"></div>
       <form id="otp-form" action="#" method="POST">
          <div class="role-selection">
