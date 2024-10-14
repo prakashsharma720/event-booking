@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             "phoneNumber" => $mobile_no,
             "otpLength" => 6,
             "channel" => "SMS",
-            "expiry" => 60,
+            "expiry" => 120,
         ];
 
         $ch = curl_init('https://auth.otpless.app/auth/otp/v1/send');
@@ -51,3 +51,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo json_encode(['status' => 'error', 'message' => 'Mobile number not registered.']);
     }
 }
+?>

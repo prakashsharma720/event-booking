@@ -80,6 +80,24 @@ $conn->close();
          margin: 10px 0;
          border-radius: 5px;
       }
+
+      .verify-button-container .verify_otp {
+         margin-top: 20px;
+         height: 50px;
+         border: none;
+         border-radius: 5px;
+         font-size: 18px;
+         font-weight: 500;
+         color: #fff;
+         background: #cfbc6d;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         padding: 8px 9px;
+      }
+
+      .verify-button-container .verify_otp:hover {
+         background-color: #e60074;
+      }
    </style>
    <!-- OTPLESS SDK -->
 
@@ -123,7 +141,7 @@ $conn->close();
                <label for="remember-me">Remember me</label>
             </div>
             <div class="pass-link">
-               <a href="send_verification_code.php" target="_blank">Forgot password?</a>
+               <a href="send_verification_code.php " target="_blank">Forgot password?</a>
             </div>
          </div>
 
@@ -166,22 +184,22 @@ $conn->close();
             <input type="hidden" name="event_code" value="<?= $code ?>">
          </div>
 
+
          <div class="send-otp-container">
             <div class="field mobile-number">
-               <input type="text" name="mobile" id="mobile-number" placeholder="Enter Mobile" required>
+               <input type="text" id="mobile-number" name="mobile" placeholder="Enter Mobile" required>
             </div>
-            <input type="hidden" name="otp_verify" id="otp_verify" value="">
-            <button class="send-otp-button">Send OTP</button>
+            <button type="button" class="send-otp-button">Send OTP</button>
          </div>
 
-         <div class="otp-message"></div>
-         <div class="otp-container">
+         <input type="hidden" id="order_id" name="order_id" value="">
+
+         <div class="otp-container" style="display: none;">
             <div class="field otp-inputs">
-               <input type="text" id="otp-input" name="otp" placeholder="Enter OTP" minlength="4" maxlength="6"
-                  required>
+               <input type="text" maxlength="6" name="otp" required id="otp_box">
             </div>
             <div class="verify-button-container">
-               <input type="submit" value="Verify OTP" class="verify-otp-button">
+               <input type="button" value="Verify OTP" class="verify_otp">
             </div>
          </div>
 
@@ -225,52 +243,93 @@ $conn->close();
             document.querySelector('.login-wrapper').classList.add('active');
          });
 
-         document.querySelector('.send-otp-button').addEventListener('click', (e) => {
-            e.preventDefault();
-            let mobileNumber = document.getElementById('mobile-number').value;
+         document.querySelector('.send-otp-button').addEventListener('click', function() {
+            const mobileNumber = document.getElementById('mobile-number').value;
+            const userType = document.querySelector('input[name="user_type"]:checked').value;
 
-            if (mobileNumber.length === 10) {
-               document.querySelector('.otp-container').classList.add('active');
-               document.querySelector('.otp-message').textContent = ''; // Clear any previous messages
-            } else {
-               alert('Please enter a valid 10-digit mobile number.');
-            }
+
+            fetch('send_otp2.php', {
+                  method: 'POST',
+                  headers: {
+                     'Content-Type': 'application/x-www-form-urlencoded'
+                  },
+                  body: new URLSearchParams({
+                     'mobile': mobileNumber,
+                  })
+               })
+               .then(response => response.json())
+               .then(data => {
+                  console.log('result' + data.OrderID);
+                  if (data.status === 'success') {
+                     document.querySelector('.otp-container').style.display = 'flex';
+                     document.getElementById('order_id').value = data.OrderID;
+
+
+                     startOtpTimer();
+                  } else {
+                     alert('Error sending OTP: ' + data.message);
+                  }
+               })
+               .catch(error => {
+                  console.error('Error:', error);
+               });
          });
+         // Timer function
+         function startOtpTimer() {
+            const button = document.querySelector('.send-otp-button');
+            let timer = 60;
 
-         const otpSubmitButton = document.querySelector('.verify-button-container input[type="submit"]');
-         const otpContainer = document.querySelector('.otp-container');
-         const statusMessage = document.querySelector('.status-message');
-         const signupButton = document.querySelector('.signup-btn');
-         const otpMessage = document.querySelector('.otp-message');
+            button.disabled = true; // Disable the button
+            button.style.display = 'none'; // Hide the button
 
-         signupButton.disabled = true;
+            const timerDisplay = document.createElement('span'); // Create a timer display element
+            timerDisplay.innerText = `Please wait ${timer} seconds...`;
+            document.querySelector('.send-otp-container').appendChild(timerDisplay); // Add timer display to the container
 
-         otpSubmitButton.addEventListener('click', (event) => {
+            const countdown = setInterval(() => {
+               timer--;
+               timerDisplay.innerText = `Please wait ${timer} seconds...`;
+
+               if (timer <= 0) {
+                  clearInterval(countdown);
+                  button.disabled = false;  
+                  button.style.display = 'block';  
+                  timerDisplay.remove();  
+               }
+            }, 1000);
+         }
+
+         document.querySelector('.verify_otp').addEventListener('click', function() {
             event.preventDefault();
 
-            const otpInputs = document.querySelectorAll('.otp-container .field input');
-            const otpValues = Array.from(otpInputs).map(input => input.value).join('');
+            const otpValue = document.getElementById('otp_box').value;
+            const mobileNumber = '91' + document.getElementById('mobile-number').value;
+            const orderId = document.getElementById('order_id').value;
 
-            if (otpValues.length === 6) {
-               // Simulate OTP verification success (you should replace this with real verification logic)
-               // For example, you can use AJAX to verify the OTP on the server side
-               const otpIsValid = true; // Change this based on actual OTP verification
+            fetch('verify_otp.php', {
+                  method: 'POST',
+                  headers: {
+                     'Content-Type': 'application/x-www-form-urlencoded'
+                  },
+                  body: new URLSearchParams({
+                     'mobile': mobileNumber,
+                     'otp': otpValue,
+                     'order_id': orderId
+                  })
+               })
+               .then(response => response.json())
+               .then(data => {
+                  // console.log('response data'+response_data);
+                  if (data.status === 'success') {
+                     alert('OTP verified successfully!');
 
-               if (otpIsValid) {
-                  statusMessage.textContent = 'OTP Verified Successfully!';
-                  statusMessage.style.color = 'green';
-                  signupButton.disabled = false;
-                  otpMessage.textContent = ''; // Clear any previous messages
-               } else {
-                  statusMessage.textContent = 'Invalid OTP. Please try again.';
-                  statusMessage.style.color = 'red';
-                  signupButton.disabled = true;
-               }
-            } else {
-               statusMessage.textContent = 'Please enter a 6-digit OTP.';
-               statusMessage.style.color = 'red';
-               signupButton.disabled = true;
-            }
+                  } else {
+                     alert('Error verifying OTP: ' + data.message);
+                  }
+               })
+               .catch(error => {
+                  console.error('Error:', error);
+               });
          });
       });
    </script>

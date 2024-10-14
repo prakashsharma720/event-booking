@@ -116,23 +116,21 @@ $conn->close();
          <input type="password" name="password" placeholder="Password" required>
          <input type="hidden" name="event_code" value="<?= $code ?>">
       </div>
-
       <div class="send-otp-container">
          <div class="field mobile-number">
-            <input type="text" name="mobile" id="mobile-number" placeholder="Enter Mobile" required>
+            <input type="text" id="mobile-number" name="mobile" placeholder="Enter Mobile" required>
          </div>
-         <input type="hidden" name="otp_verify" id="otp_verify" value="">
-         <button class="send-otp-button">Send OTP</button>
+         <button type="button" class="send-otp-button">Send OTP</button>
       </div>
 
-      <div class="otp-message"></div>
-      <div class="otp-container">
+      <input type="hidden" id="order_id" name="order_id" value="">
+
+      <div class="otp-container" style="display: none;">
          <div class="field otp-inputs">
-            <input type="text" id="otp-input" name="otp" placeholder="Enter OTP" minlength="4" maxlength="6"
-               required>
+            <input type="text" maxlength="6" name="otp" required>
          </div>
          <div class="verify-button-container">
-            <input type="submit" value="Verify OTP" class="verify-otp-button">
+            <input type="submit" value="Verify OTP">
          </div>
       </div>
 
@@ -175,52 +173,70 @@ $conn->close();
          document.querySelector('.login-wrapper').classList.add('active');
       });
 
-      document.querySelector('.send-otp-button').addEventListener('click', (e) => {
-         e.preventDefault();
-         let mobileNumber = document.getElementById('mobile-number').value;
+      // document.addEventListener('DOMContentLoaded', () => {
+      //    document.querySelector('.send-otp-button').addEventListener('click', function() {
+      //       const mobileNumber = document.getElementById('mobile-number').value;
 
-         if (mobileNumber.length === 10) {
-            document.querySelector('.otp-container').classList.add('active');
-            document.querySelector('.otp-message').textContent = ''; // Clear any previous messages
-         } else {
-            alert('Please enter a valid 10-digit mobile number.');
-         }
-      });
+      //       fetch('send_otp.php', {
+      //             method: 'POST',
+      //             headers: {
+      //                'Content-Type': 'application/x-www-form-urlencoded'
+      //             },
+      //             body: new URLSearchParams({
+      //                'mobile': mobileNumber
+      //             })
+      //          })
+      //          .then(response => response.json())
+      //          .then(data => {
+      //             if (data.status === 'success') {
+      //                document.querySelector('.otp-container').style.display = 'flex';
+      //                document.getElementById('order_id').value = data.OrderID;
+      //             } else {
+      //                alert('Error sending OTP: ' + data.message);
+      //             }
+      //          })
+      //          .catch(error => {
+      //             console.error('Error:', error);
+      //          });
+      //    });
+      //    document.addEventListener('DOMContentLoaded', () => {
+      //       // Existing OTP sending logic...
 
-      const otpSubmitButton = document.querySelector('.verify-button-container input[type="submit"]');
-      const otpContainer = document.querySelector('.otp-container');
-      const statusMessage = document.querySelector('.status-message');
-      const signupButton = document.querySelector('.signup-btn');
-      const otpMessage = document.querySelector('.otp-message');
+      //       document.querySelector('.otp-container form').addEventListener('submit', function(event) {
+      //          event.preventDefault();
 
-      signupButton.disabled = true;
+      //          const otpValue = this.elements.otp.value;
+      //          const mobileNumber = '91' + document.getElementById('mobile-number').value; // Assuming a country code
+      //          const orderId = document.getElementById('order_id').value;
 
-      otpSubmitButton.addEventListener('click', (event) => {
-         event.preventDefault();
+      //          fetch('verify_otp.php', {
+      //                method: 'POST',
+      //                headers: {
+      //                   'Content-Type': 'application/x-www-form-urlencoded'
+      //                },
+      //                body: new URLSearchParams({
+      //                   'mobile': mobileNumber,
+      //                   'otp': otpValue,
+      //                   'order_id': orderId
+      //                })
+      //             })
+      //             .then(response => response.json())
+      //             .then(data => {
+      //                if (data.status === 'success') {
+      //                   alert('OTP verified successfully!');
+      //                   // Redirect or perform any action you need after successful verification
+      //                   window.location.href = 'your_redirect_page.php'; // Change as necessary
+      //                } else {
+      //                   alert('Error verifying OTP: ' + data.message);
+      //                }
+      //             })
+      //             .catch(error => {
+      //                console.error('Error:', error);
+      //             });
+      //       });
+      //    });
 
-         const otpInputs = document.querySelectorAll('.otp-container .field input');
-         const otpValues = Array.from(otpInputs).map(input => input.value).join('');
-
-         if (otpValues.length === 6) {
-            // Simulate OTP verification success (you should replace this with real verification logic)
-            // For example, you can use AJAX to verify the OTP on the server side
-            const otpIsValid = true; // Change this based on actual OTP verification
-
-            if (otpIsValid) {
-               statusMessage.textContent = 'OTP Verified Successfully!';
-               statusMessage.style.color = 'green';
-               signupButton.disabled = false;
-               otpMessage.textContent = ''; // Clear any previous messages
-            } else {
-               statusMessage.textContent = 'Invalid OTP. Please try again.';
-               statusMessage.style.color = 'red';
-               signupButton.disabled = true;
-            }
-         } else {
-            statusMessage.textContent = 'Please enter a 6-digit OTP.';
-            statusMessage.style.color = 'red';
-            signupButton.disabled = true;
-         }
-      });
+      //    // Add your OTP verification logic here
+      // });
    });
 </script>

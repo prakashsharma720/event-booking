@@ -268,7 +268,7 @@ body {
 .verify-button-container input[type="submit"]:hover {
    background: #e60074;
 }
-
+ 
 /* OTP fields styling */
 .otp-container .field input {
    width: 80px;
