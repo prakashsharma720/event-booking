@@ -14,12 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    $new_password = $_POST['new_password'];
    $confirm_password = $_POST['confirm_password'];
 
+   // echo "<pre>";print_r($_POST);exit;
+
    if ($new_password === $confirm_password) {
       $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
 
       $sql = "UPDATE users SET password = ? WHERE mobile = ? AND user_type = ?";
       $stmt = $conn->prepare($sql);
-      $stmt->bind_param("ssi", $hashed_password, $mobile, $user_type);
+      $stmt->bind_param("sss", $hashed_password, $mobile, $user_type);
 
       if ($stmt->execute()) {
          echo json_encode(['success' => true]);
