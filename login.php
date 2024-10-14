@@ -91,9 +91,7 @@ $conn->close();
    <div class="img">
       <img src="logo-gwm.jpg" class="logo">
    </div>
-   <div class="wrapper login-wrapper <?php if (!isset($_GET['error']))
-                                          echo "active"; ?>">
-      
+   <div class="wrapper login-wrapper <?php if (!isset($_GET['error'])) echo "active"; ?>">
       <?php if (!empty($error_message)): ?>
          <div class="error-message">
             <?php echo htmlspecialchars($error_message); ?>
