@@ -16,8 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($mobile_count > 0) {
         session_start();
-        $_SESSION['user_type']=$user_type;
-        $_SESSION['mobile']=$mobile;
+        $_SESSION['user_type'] = $user_type;
+        $_SESSION['mobile'] = $mobile;
         $clientId = 'A9F3EE7969F011EFAC7102E825E2EA5C';
         $clientSecret = 'ac7102e825e2ea5ca9f3eeaf69f011ef';
 
@@ -40,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $response = curl_exec($ch);
         curl_close($ch);
-        // echo $response;
-         $response_data = json_decode($response, true);
+
+        $response_data = json_decode($response, true);
         if ($response_data['orderId']) {
-            echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully.','OrderID'=>$response_data['orderId']]);
+            echo json_encode(['status' => 'success', 'message' => 'OTP sent successfully.', 'OrderID' => $response_data['orderId']]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to send OTP: ' . $response_data['message']]);
         }
