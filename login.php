@@ -216,7 +216,7 @@ $conn->close();
          <div class="status-message"></div>
 
          <div class="field">
-            <input type="submit" value="Signup" class="signup-btn" disabled>
+            <input type="submit" value="Signup" class="signup-btn" >
          </div>
          <div class="signup-link">
             Already a member? <a href="#" class="login-link-btn">Login now</a>
