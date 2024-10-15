@@ -104,8 +104,52 @@ $conn->close();
          font-weight: bold;
          color: #cfbc6d;
          margin-top: 23px;
-         /* Adjust this to fit your theme */
+
       }
+
+      .verify-button-container .verify_otp:hover {
+         background-color: #e60074;
+      }
+
+
+
+      .status-message,
+      .status-message-otp-sent {
+         margin: 25px 0;
+         padding: 10px;
+         border-radius: 5px;
+      }
+
+      .send-otp-container {
+         position: relative;
+
+      }
+
+      .time-display {
+         position: absolute;
+         bottom: -24px;
+         left: -5px;
+         font-weight: bold;
+         color: #cfbc6d;
+      }
+
+      .status-message-otp-sent,
+      .status-message-otp-verified {
+         color: green;
+         background-color: #d4edda;
+         border: 1px solid green;
+         padding: 10px;
+         border-radius: 5px;
+      }
+
+      .status-message-otp-verified {
+    margin-top: 20px;  
+    color: green;
+    display: none;
+    text-align: left;
+    margin-right: 10px; / 
+}
+
    </style>
    <!-- OTPLESS SDK -->
 
@@ -149,7 +193,7 @@ $conn->close();
                <label for="remember-me">Remember me</label>
             </div>
             <div class="pass-link">
-               <a href="send_verification_code.php " target="_blank">Forgot password?</a>
+               <a href="send_verification_code.php?code=<?= $code ?>" target="_blank">Forgot password?</a>
             </div>
          </div>
 
@@ -210,13 +254,13 @@ $conn->close();
                <input type="button" value="Verify OTP" class="verify_otp">
             </div>
 
-            <div class="status-message-otp-verified" style="color: green; display: none;"></div>
+          
          </div>
-
+         <div class="status-message-otp-verified" style="color: green; display: none;"></div>
          <div class="status-message"></div>
 
          <div class="field">
-            <input type="submit" value="Signup" class="signup-btn" >
+            <input type="submit" value="Signup" class="signup-btn">
          </div>
          <div class="signup-link">
             Already a member? <a href="#" class="login-link-btn">Login now</a>
@@ -270,12 +314,16 @@ $conn->close();
                .then(response => response.json())
                .then(data => {
                   const otpSentMessage = document.querySelector('.status-message-otp-sent');
-                  otpSentMessage.style.display = 'block'; 
+                  otpSentMessage.style.display = 'block';
                   console.log('result' + data.OrderID);
                   if (data.status === 'success') {
                      otpSentMessage.innerText = 'OTP sent successfully!';
                      document.querySelector('.otp-container').style.display = 'flex';
                      document.getElementById('order_id').value = data.OrderID;
+
+                     setTimeout(() => {
+                        otpSentMessage.style.display = 'none';
+                     }, 3000);
 
 
                      startOtpTimer();
@@ -296,6 +344,7 @@ $conn->close();
             button.style.display = 'none';
 
             const timerDisplay = document.createElement('span');
+            timerDisplay.className = 'time-display';
             timerDisplay.style.marginLeft = '10px';
             timerDisplay.style.fontWeight = 'bold';
             timerDisplay.style.color = '#cfbc6d';
@@ -337,9 +386,13 @@ $conn->close();
                .then(response => response.json())
                .then(data => {
                   // console.log('response data'+response_data);
-                  
+                  const otpverifyMessage = document.querySelector('.status-message-otp-verified');
+                  otpverifyMessage.style.display = 'block';
                   if (data.status === 'success') {
-                     alert('OTP verified successfully!');
+                     otpverifyMessage.innerText = 'OTP Verified successfully!';
+                     setTimeout(() => {
+                        otpverifyMessage.style.display = 'none';
+                     }, 3000);
 
                   } else {
                      alert('Error verifying OTP: ' + data.message);
