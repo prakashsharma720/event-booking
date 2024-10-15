@@ -98,6 +98,14 @@ $conn->close();
       .verify-button-container .verify_otp:hover {
          background-color: #e60074;
       }
+
+      .send-otp-container span {
+         margin-left: 10px;
+         font-weight: bold;
+         color: #cfbc6d;
+         margin-top: 23px;
+         /* Adjust this to fit your theme */
+      }
    </style>
    <!-- OTPLESS SDK -->
 
@@ -191,7 +199,7 @@ $conn->close();
             </div>
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>
-
+         <div class="status-message-otp-sent" style="color: green; display: none;"></div>
          <input type="hidden" id="order_id" name="order_id" value="">
 
          <div class="otp-container" style="display: none;">
@@ -201,6 +209,8 @@ $conn->close();
             <div class="verify-button-container">
                <input type="button" value="Verify OTP" class="verify_otp">
             </div>
+
+            <div class="status-message-otp-verified" style="color: green; display: none;"></div>
          </div>
 
          <div class="status-message"></div>
@@ -259,8 +269,11 @@ $conn->close();
                })
                .then(response => response.json())
                .then(data => {
+                  const otpSentMessage = document.querySelector('.status-message-otp-sent');
+                  otpSentMessage.style.display = 'block'; 
                   console.log('result' + data.OrderID);
                   if (data.status === 'success') {
+                     otpSentMessage.innerText = 'OTP sent successfully!';
                      document.querySelector('.otp-container').style.display = 'flex';
                      document.getElementById('order_id').value = data.OrderID;
 
@@ -274,17 +287,20 @@ $conn->close();
                   console.error('Error:', error);
                });
          });
-         // Timer function
+
          function startOtpTimer() {
             const button = document.querySelector('.send-otp-button');
             let timer = 60;
 
-            button.disabled = true; // Disable the button
-            button.style.display = 'none'; // Hide the button
+            button.disabled = true;
+            button.style.display = 'none';
 
-            const timerDisplay = document.createElement('span'); // Create a timer display element
+            const timerDisplay = document.createElement('span');
+            timerDisplay.style.marginLeft = '10px';
+            timerDisplay.style.fontWeight = 'bold';
+            timerDisplay.style.color = '#cfbc6d';
             timerDisplay.innerText = `Please wait ${timer} seconds...`;
-            document.querySelector('.send-otp-container').appendChild(timerDisplay); // Add timer display to the container
+            document.querySelector('.send-otp-container').appendChild(timerDisplay);
 
             const countdown = setInterval(() => {
                timer--;
@@ -292,12 +308,13 @@ $conn->close();
 
                if (timer <= 0) {
                   clearInterval(countdown);
-                  button.disabled = false;  
-                  button.style.display = 'block';  
-                  timerDisplay.remove();  
+                  button.disabled = false;
+                  button.style.display = 'block';
+                  timerDisplay.remove();
                }
             }, 1000);
          }
+
 
          document.querySelector('.verify_otp').addEventListener('click', function() {
             event.preventDefault();
@@ -320,6 +337,7 @@ $conn->close();
                .then(response => response.json())
                .then(data => {
                   // console.log('response data'+response_data);
+                  
                   if (data.status === 'success') {
                      alert('OTP verified successfully!');
 
