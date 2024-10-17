@@ -1,4 +1,5 @@
 <?php
+   $code = $_GET['code'];
 session_start();
 require 'db.php';
 
@@ -221,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
       function closePopup() {
          popup.style.display = 'none';
-         window.location.href = 'login.php';
+         window.location.href = 'login.php?code=<?= $code ?>';
       }
    </script>
 </body>

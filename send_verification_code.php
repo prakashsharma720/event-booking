@@ -209,7 +209,7 @@ $code = $_GET['code'];
    <script>
       document.querySelector('.send-otp-button').addEventListener('click', function() {
          const mobileNumber = document.getElementById('mobile-number').value;
-         const userType = document.querySelector('input[name="user_type"]:checked').value;
+         const userType = 'participant';
 
 
          fetch('send_otp.php', {
@@ -260,7 +260,7 @@ $code = $_GET['code'];
                // console.log('response data'+response_data);
                if (data.status === 'success') {
                   alert('OTP verified successfully!');
-                  window.location.href = 'reset_password.php';
+                  window.location.href = 'reset_password.php?code=<?= $code ?>   ';
                } else {
                   alert('Error verifying OTP: ' + data.message);
                }

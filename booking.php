@@ -95,7 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $payment_screenshot = null;
             echo "Sorry, there was an error uploading your file.";
         }
-
     } else {
         $payment_screenshot = null;
     }
@@ -169,7 +168,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     VALUES ('$transaction_date', '$user_id', '$event_code', '$booking_date', '$packageDetailsJson', '$total_amount', '$discount_value', '$coupon_code', '$net_total', '$no_of_tickets', '$advanced_pay', '$remaining_amount', '$payment_mode', '$payment_reference_no', '$payment_screenshot', '$payment_status', '$area_of_interest', '$lead_source', '$booking_status', '$packageDetailsJson')";
 
     if ($conn->query($sql) === TRUE) {
-        header('Location: thankyou.php?code='.$event_code);
+        header('Location: thankyou.php?code=' . $event_code);
     } else {
         echo "Error saving booking: " . $conn->error;
     }
@@ -431,29 +430,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <hr>
                     <h2>Event Type </h2>
                     <hr>
-                     <div class="row">
+                    <div class="row">
                         <div class="col-md-6">
-                             <label for="area-interest"> Booking Date<span class="required-icon">*</span></label>
-                               <input type="date" id="booking_date" name="booking_date" class="form-control" min="<?php echo date('Y-m-d'); ?>">
+                            <label for="area-interest"> Booking Date<span class="required-icon">*</span></label>
+                            <input type="date" id="booking_date" name="booking_date" class="form-control" min="<?php echo date('Y-m-d'); ?>">
                         </div>
                     </div>
-                     
 
-                    <?php $i=0;foreach ($result['event_types_details'] as $event_type_arr) {  $i++;?>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="field-container">
-                                <div class="checkbox-container">
-                                    <div class="checkbox-item">
-                                        <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
-                                            name="event_type[<?= $event_type_arr['id'] ?>]"
-                                            value="<?= $event_type_arr['event_type'] ?>">
-                                        <label for="event-<?= $event_type_arr['id'] ?>">
-                                            <?= $event_type_arr['event_type'] ?>
-                                            <?php if ($event_type_arr['package_available'] != 'Yes') { ?>
-                                            - ₹<?= $event_type_arr['single_price'] ?><?php } ?>
-                                        </label>
-                                    </div>
+
+                    <?php $i = 0;
+                    foreach ($result['event_types_details'] as $event_type_arr) {
+                        $i++; ?>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="field-container">
+                                    <div class="checkbox-container">
+                                        <div class="checkbox-item">
+                                            <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
+                                                name="event_type[<?= $event_type_arr['id'] ?>]"
+                                                value="<?= $event_type_arr['event_type'] ?>">
+                                            <label for="event-<?= $event_type_arr['id'] ?>">
+                                                <?= $event_type_arr['event_type'] ?>
+                                                <?php if ($event_type_arr['package_available'] != 'Yes') { ?>
+                                                    - ₹<?= $event_type_arr['single_price'] ?><?php } ?>
+                                            </label>
+                                        </div>
 
                                         <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
                                             <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
@@ -553,7 +554,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" id="coupon_value" name="coupon_value" class="form-control" >
+                            <input type="hidden" id="coupon_value" name="coupon_value" class="form-control">
                             <div class="sms">
                                 <p id="coupon-message"></p>
                             </div>
@@ -668,7 +669,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             let totalPrice = 0.00;
             let currentCoupon = "";
@@ -764,7 +765,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             let errorMessage = '';
 
                             if (discount > 0 && totalPrice > 0) {
-                             $('#coupon_value').val(discount.toFixed(2));
+                                $('#coupon_value').val(discount.toFixed(2));
                                 successMessage =
                                     `Coupon "${couponCode}" applied successfully! Discount: ₹${discount}`;
                                 couponDiscount = discount;
