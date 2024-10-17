@@ -170,15 +170,15 @@ $conn->close();
       <div class="title">Login Form</div>
 
       <form action="#" method="POST">
-
-         <div class="role-selection">
+         <input type="hidden" name="user_type" value="participant" >
+         <!-- <div class="role-selection">
             <label>
                <input type="radio" name="user_type" value="participant" checked> Participant
             </label>
             <label>
                <input type="radio" name="user_type" value="visitor"> Visitor
             </label>
-         </div>
+         </div> -->
 
          <div class="field">
             <input type="text" name="mobile" placeholder="Enter Number" minlength="10" required>
@@ -215,15 +215,15 @@ $conn->close();
       <div class="title">Signup Form</div>
 
       <form action="register.php" method="POST">
-
-         <div class="role-selection">
+          <input type="hidden" name="user_type" value="participant" >
+         <!-- <div class="role-selection">
             <label>
                <input type="radio" id="user_type" name="user_type" value="participant" checked> Participant
             </label>
             <label>
                <input type="radio" id="user_type" name="user_type" value="visitor"> Visitor
             </label>
-         </div>
+         </div> -->
 
          <div class="field">
             <input type="text" name="name" placeholder="Enter Name" required>
