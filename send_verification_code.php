@@ -1,4 +1,4 @@
-<?php 
+<?php
 $code = $_GET['code'];
 
 ?>
@@ -177,7 +177,7 @@ $code = $_GET['code'];
       <div class="title">Send Verification </div>
       <div id="error-message" style="color: red; text-align: center;"></div>
       <form id="otp-form" action="#" method="POST">
-          <input type="hidden" name="user_type" value="participant" >
+         <input type="hidden" name="user_type" value="participant">
          <!-- <div class="role-selection">
             <label>
                <input type="radio" name="user_type" id="user_type" value="Participant" checked> Participant
@@ -193,6 +193,7 @@ $code = $_GET['code'];
             </div>
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>
+         <div id="success-message" style="color: green; text-align: center; display: none; border: 1px solid green; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
 
          <input type="hidden" id="order_id" name="order_id" value="">
 
@@ -203,6 +204,8 @@ $code = $_GET['code'];
             <div class="verify-button-container">
                <input type="submit" value="Verify OTP">
             </div>
+            <div id="success-message" style="color: green; text-align: center; display: none; border: 1px solid green; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
+
          </div>
       </form>
    </div>
@@ -224,10 +227,11 @@ $code = $_GET['code'];
             })
             .then(response => response.json())
             .then(data => {
-                console.log('result'+data.OrderID);
+               console.log('result' + data.OrderID);
                if (data.status === 'success') {
-                  document.querySelector('.otp-container').style.display = 'flex';  
+                  document.querySelector('.otp-container').style.display = 'flex';
                   document.getElementById('order_id').value = data.OrderID;
+                  showSuccessMessage('OTP sent successfully!');
                } else {
                   alert('Error sending OTP: ' + data.message);
                }
@@ -236,12 +240,21 @@ $code = $_GET['code'];
                console.error('Error:', error);
             });
       });
+      // Function to show success messages
+      function showSuccessMessage(message) {
+         const successMessage = document.getElementById('success-message');
+         successMessage.innerText = message;
+         successMessage.style.display = 'block';
 
+         setTimeout(() => {
+            successMessage.style.display = 'none';
+         }, 3000); // Hide after 3 seconds
+      }
       document.getElementById('otp-form').addEventListener('submit', function(event) {
          event.preventDefault();
 
          const otpValue = this.elements.otp.value;
-         const mobileNumber = '91'+document.getElementById('mobile-number').value;
+         const mobileNumber = '91' + document.getElementById('mobile-number').value;
          const orderId = document.getElementById('order_id').value;
 
          fetch('verify_otp.php', {
@@ -259,7 +272,7 @@ $code = $_GET['code'];
             .then(data => {
                // console.log('response data'+response_data);
                if (data.status === 'success') {
-                  alert('OTP verified successfully!');
+                  showSuccessMessage('OTP verified successfully!');
                   window.location.href = 'reset_password.php?code=<?= $code ?>   ';
                } else {
                   alert('Error verifying OTP: ' + data.message);
@@ -269,9 +282,6 @@ $code = $_GET['code'];
                console.error('Error:', error);
             });
       });
-
-
-  
    </script>
 
 </body>

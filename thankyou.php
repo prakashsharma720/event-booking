@@ -13,7 +13,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #686868;
+            background-color: #fff;
             margin: 0;
         }
 
@@ -88,16 +88,16 @@
         </div>
         <div class="details">
             <h2>Booking Confirmation</h2>
-            <b> Total amount : <?= $_SESSION['net_payable_total'] ?></b>
-            <p><strong>Name:</strong> Jayesh patel</p>
-            <p><strong>Date:</strong> 2024-09-24</p>
-            <p><strong>Time:</strong> 3:00 PM</p>
-            <p><strong>Location:</strong> 1234 Sample St, City, State</p>
+        
+            <p>Event Name: <?= $_SESSION['event_name'] ?></p>
+            <p>Start Date: <?= $_SESSION['start_date'] ?></p>
+            <p>Address: <?=  $_SESSION['address'] ?></p>
+            <p> Total amount : <?= $_SESSION['net_payable_total'] ?></p>
+            <p> No Of Tickets : <?= $_SESSION['no_of_tickets'] ?></p>
+            <p> Advance pay : <?= $_SESSION['advanced_pay'] ?></p>
+            <p> Remaining Amount : <?= $_SESSION['remaining_amount'] ?></p>
+     
 
-            <p><strong>Event Name:</strong> Sample Event</p>
-            <p><strong>Start Date:</strong> 24-Sep-24, 03:00 PM</p>
-            <p><strong>Contact No:</strong> +91 9820490762 / +91 9820490460</p>
-            <p><strong>Email:</strong> <a href="mailto:jayeshpatel.muskowl@gmail.com">jayeshpatel.muskowl@gmail.com</a></p>
         </div>
     </div>
 </body>

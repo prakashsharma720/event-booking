@@ -73,9 +73,12 @@ if ($data['status'] == "true") {
 } else {
     echo "Error: Unable to retrieve event details.";
 }
+
 $_SESSION['event_name'] = $result['event_name'];
 $_SESSION['start_date'] = $result['start_date'];
 $_SESSION['address'] = $result['address'];
+    
+
 ?>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
