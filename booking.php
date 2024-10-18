@@ -73,7 +73,9 @@ if ($data['status'] == "true") {
 } else {
     echo "Error: Unable to retrieve event details.";
 }
-
+$_SESSION['event_name'] = $result['event_name'];
+$_SESSION['start_date'] = $result['start_date'];
+$_SESSION['address'] = $result['address'];
 ?>
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -168,6 +170,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     VALUES ('$transaction_date', '$user_id', '$event_code', '$booking_date', '$packageDetailsJson', '$total_amount', '$discount_value', '$coupon_code', '$net_total', '$no_of_tickets', '$advanced_pay', '$remaining_amount', '$payment_mode', '$payment_reference_no', '$payment_screenshot', '$payment_status', '$area_of_interest', '$lead_source', '$booking_status', '$packageDetailsJson')";
 
     if ($conn->query($sql) === TRUE) {
+        $_SESSION['no_of_tickets'] = $no_of_tickets;
+        $_SESSION['net_payable_total'] = $net_total;
+        $_SESSION['advanced_pay'] = $advanced_pay;
+        $_SESSION['remaining_amount'] = $remaining_amount;
         header('Location: thankyou.php?code=' . $event_code);
     } else {
         echo "Error saving booking: " . $conn->error;
@@ -175,6 +181,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn->close();
 }
+
 ?>
 
 <!DOCTYPE html>

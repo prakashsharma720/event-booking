@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -87,6 +88,7 @@
         </div>
         <div class="details">
             <h2>Booking Confirmation</h2>
+            <b> Total amount : <?= $_SESSION['net_payable_total'] ?></b>
             <p><strong>Name:</strong> Jayesh patel</p>
             <p><strong>Date:</strong> 2024-09-24</p>
             <p><strong>Time:</strong> 3:00 PM</p>

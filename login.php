@@ -3,7 +3,9 @@ include 'db.php';
 $error_message = '';
 
 if (!isset($_GET['code']) || empty(trim($_GET['code']))) {
-   $error_message = 'Error: Event code is missing. Please provide a valid event code.';
+   
+   header('Location: https://glowupwithmanisha.com/upcoming-event/');
+   // $error_message = 'Error: Event code is missing. Please provide a valid event code.';
 } else {
    $code = trim($_GET['code']);
 
