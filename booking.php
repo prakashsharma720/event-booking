@@ -15,8 +15,8 @@ if (!$user_id) {
     exit();
 }
 
-$base_url = 'https://gwmadmin.muskowl.com';
-// $base_url = 'http://localhost/CI/event-portal';
+// $base_url = 'https://gwmadmin.muskowl.com';
+$base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
     CURLOPT_URL => $base_url . '/index.php/api/Events_api/EvtD',
