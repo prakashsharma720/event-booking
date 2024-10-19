@@ -15,7 +15,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(to bottom right, #000, #444);
+            background: black;
             margin: 0;
             color: white;
         }
@@ -28,32 +28,30 @@
 
         .container {
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
             align-items: center;
             background: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            max-width: 800px;
-            width: 90%;
+            max-width: 61%;
             backdrop-filter: blur(10px);
         }
 
         .image-container {
             animation: bounceIn 1s forwards;
-            margin-right: 40px;
+            margin-bottom: 20px;
         }
 
         .details {
             animation: fadeIn 1s forwards;
-            flex: 1;
-            text-align: left;
+            text-align: center;
         }
 
         h2 {
             color: #bb9433;
-            margin-top: -27px;
-            margin-bottom: 13px;
+            margin-top: -10px;
+            margin-bottom: 10px;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
         }
 
@@ -62,17 +60,17 @@
             margin: 5px 0;
             font-size: 16px;
         }
-b{
-    color: black;
-}
+
         @keyframes bounceIn {
             0% {
                 transform: translateY(-100%);
                 opacity: 0;
             }
+
             60% {
                 transform: translateY(30%);
             }
+
             100% {
                 transform: translateY(0);
                 opacity: 1;
@@ -83,19 +81,43 @@ b{
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
         }
 
         img {
-            max-width: 200px;
+            max-width: 150px;
             border-radius: 10px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
-            max-width: 160px;
+            max-width: 120px;
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+
+            .image-container {
+                margin-right: 40px;
+                margin-bottom: 0;
+            }
+
+            .details {
+                text-align: left;
+            }
+
+            img {
+                max-width: 200px;
+            }
+
+            .logo {
+                max-width: 160px;
+            }
         }
     </style>
 </head>
@@ -110,7 +132,7 @@ b{
         </div>
         <div class="details">
             <h2>Booking Confirmation</h2>
-            <p><strong>Booking Date:</strong> <?= ($_SESSION['booking_date']) ?><p>
+            <p><strong>Booking Date:</strong> <?= ($_SESSION['booking_date']) ?></p>
             <p><strong>Event Name:</strong> <?= ($_SESSION['event_name']) ?></p>
             <p><strong>Address:</strong> <?= ($_SESSION['address']) ?></p>
             <p><strong>Total Amount:</strong> <?= ($_SESSION['net_payable_total']) ?></p>
