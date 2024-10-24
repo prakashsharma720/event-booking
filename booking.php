@@ -178,6 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['net_payable_total'] = $net_total;
         $_SESSION['advanced_pay'] = $advanced_pay;
         $_SESSION['remaining_amount'] = $remaining_amount;
+        $_SESSION['selected_event_types'] = $selected_event_types;
         header('Location: thankyou.php?code=' . $event_code);
     } else {
         echo "Error saving booking: " . $conn->error;
