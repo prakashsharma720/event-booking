@@ -186,15 +186,17 @@ $code = $_GET['code'];
                <input type="radio" name="user_type" value="Visitor" id="user_type"> Visitor
             </label>
          </div> -->
-
+       
          <div class="send-otp-container">
+            
             <div class="field mobile-number">
+               
                <input type="text" id="mobile-number" name="mobile" placeholder="Enter Mobile" required>
             </div>
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>
-         <div id="success-message" style="color: green; text-align: center; display: none; border: 1px solid green; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
-
+         <div id="success-message" style="color: green; text-align: left; display: none;   padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
+         <div id="mobile-error-message" style="color: red; display: none; margin-top: 5px; padding: 10px;  text-align:left;   " ></div>
          <input type="hidden" id="order_id" name="order_id" value="">
 
          <div class="otp-container" style="display: none;">
@@ -214,7 +216,6 @@ $code = $_GET['code'];
          const mobileNumber = document.getElementById('mobile-number').value;
          const userType = 'participant';
 
-
          fetch('send_otp.php', {
                method: 'POST',
                headers: {
@@ -227,19 +228,27 @@ $code = $_GET['code'];
             })
             .then(response => response.json())
             .then(data => {
-               console.log('result' + data.OrderID);
                if (data.status === 'success') {
                   document.querySelector('.otp-container').style.display = 'flex';
                   document.getElementById('order_id').value = data.OrderID;
                   showSuccessMessage('OTP sent successfully!');
+                  document.getElementById('mobile-error-message').style.display = 'none';
                } else {
-                  alert('Error sending OTP: ' + data.message);
+                  document.getElementById('mobile-error-message').innerText = data.message;
+                  document.getElementById('mobile-error-message').style.display = 'block';
+                  document.getElementById('mobile-number').style.border = '1px solid red';
                }
             })
             .catch(error => {
                console.error('Error:', error);
             });
+
+         document.getElementById('mobile-number').addEventListener('input', function() {
+            this.style.border = '';
+            document.getElementById('mobile-error-message').style.display = 'none';
+         });
       });
+
       // Function to show success messages
       function showSuccessMessage(message) {
          const successMessage = document.getElementById('success-message');
