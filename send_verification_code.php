@@ -186,29 +186,31 @@ $code = $_GET['code'];
                <input type="radio" name="user_type" value="Visitor" id="user_type"> Visitor
             </label>
          </div> -->
-       
+
          <div class="send-otp-container">
-            
+
             <div class="field mobile-number">
-               
+
                <input type="text" id="mobile-number" name="mobile" placeholder="Enter Mobile" required>
             </div>
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>
          <div id="success-message" style="color: green; text-align: left; display: none;   padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
-         <div id="mobile-error-message" style="color: red; display: none; margin-top: 5px; padding: 10px;  text-align:left;   " ></div>
+         <div id="mobile-error-message" style="color: red; display: none; margin-top: 5px; padding: 10px;  text-align:left;   "></div>
          <input type="hidden" id="order_id" name="order_id" value="">
 
          <div class="otp-container" style="display: none;">
             <div class="field otp-inputs">
                <input type="text" maxlength="6" name="otp" required>
             </div>
+
             <div class="verify-button-container">
                <input type="submit" value="Verify OTP">
             </div>
-            <div id="success-message" style="color: green; text-align: center; display: none; border: 1px solid green; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
 
          </div>
+         <div id="otp-success-message" style="color: green; text-align: center; display: none; border: 1px solid green; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
+         <div id="otp-error-message" style="color: red; display: none; margin-top: 5px; padding: 10px; text-align: left;"></div>
       </form>
    </div>
    <script>
@@ -279,12 +281,18 @@ $code = $_GET['code'];
             })
             .then(response => response.json())
             .then(data => {
-               // console.log('response data'+response_data);
+            
+               document.getElementById('otp-success-message').style.display = 'none';
+               document.getElementById('otp-error-message').style.display = 'none';
+
                if (data.status === 'success') {
-                  showSuccessMessage('OTP verified successfully!');
-                  window.location.href = 'reset_password.php?code=<?= $code ?>   ';
+                  document.getElementById('otp-success-message').innerText = 'OTP verified successfully!';
+                  document.getElementById('otp-success-message').style.display = 'block';
+                  window.location.href = 'reset_password.php?code=<?= $code ?>';
                } else {
-                  alert('Error verifying OTP: ' + data.message);
+
+                  document.getElementById('otp-error-message').innerText = 'Incorrect OTP, please try again.';
+                  document.getElementById('otp-error-message').style.display = 'block';
                }
             })
             .catch(error => {

@@ -158,12 +158,36 @@ $conn->close();
       .error-message-otp-sent {
          border: 1px solid red;
          background-color: #f8d7da;
-         /* Light red background */
          color: red;
-         /* Dark red text */
          padding: 10px;
          border-radius: 5px;
          margin-top: 10px;
+      }
+
+      .otp-inputs input {
+         border: 1px solid #ccc;
+       
+         transition: border 0.3s;
+      }
+
+      .otp-inputs input.error {
+         border: 1px solid red;
+        
+      }
+
+      .otp-inputs input.success {
+         border: 1px solid green;
+        
+      }
+
+      .error-message-otp {
+         color: red;
+         display: block;
+         border: 1px solid red;
+         border-radius: 5px;
+         padding: 2px;
+         margin-top: 11px;
+         background-color: #f8d7da;
       }
    </style>
    <!-- OTPLESS SDK -->
@@ -265,6 +289,7 @@ $conn->close();
          <div class="otp-container" style="display: none;">
             <div class="field otp-inputs">
                <input type="text" maxlength="6" name="otp" required id="otp_box">
+               <div class="error-message-otp" style="color: red; display: none;"></div> <!-- Error Message Container -->
             </div>
             <div class="verify-button-container">
                <input type="button" value="Verify OTP" class="verify_otp">
@@ -356,7 +381,7 @@ $conn->close();
                      otpSentMessage.innerText = data.message || 'Error sending OTP. Please try again.';
 
 
-                     setTimeout(() => {   
+                     setTimeout(() => {
                         otpSentMessage.style.display = 'none';
                      }, 3000);
 
@@ -396,14 +421,26 @@ $conn->close();
                }
             }, 1000);
          }
-
-
-         document.querySelector('.verify_otp').addEventListener('click', function() {
+         document.querySelector('.verify_otp').addEventListener('click', function(event) {
             event.preventDefault();
 
             const otpValue = document.getElementById('otp_box').value;
             const mobileNumber = '91' + document.getElementById('mobile-number').value;
             const orderId = document.getElementById('order_id').value;
+            const otpErrorMessage = document.querySelector('.error-message-otp');
+            const otpInput = document.getElementById('otp_box');
+
+            otpErrorMessage.style.display = 'none';
+            otpErrorMessage.innerText = '';
+            otpInput.classList.remove('error');
+
+
+            if (!/^\d{6}$/.test(otpValue)) {
+               otpErrorMessage.style.display = 'block';
+               otpErrorMessage.innerText = 'Please enter a valid 6-digit OTP.';
+               otpInput.classList.add('error');
+               return;
+            }
 
             fetch('verify_otp.php', {
                   method: 'POST',
@@ -418,24 +455,34 @@ $conn->close();
                })
                .then(response => response.json())
                .then(data => {
-                  // console.log('response data'+response_data);
                   const otpverifyMessage = document.querySelector('.status-message-otp-verified');
-                  otpverifyMessage.style.display = 'block';
+                  const otpInputContainer = document.querySelector('.otp-inputs'); // Reference to the OTP input container
+                  const verifyButton = document.querySelector('.verify_otp'); // Reference to the verify button
+
                   if (data.status === 'success') {
+                     otpverifyMessage.style.display = 'block';
                      otpverifyMessage.innerText = 'OTP Verified successfully!';
+
+
+                     otpInputContainer.style.display = 'none';
+                     verifyButton.style.display = 'none';
+
                      setTimeout(() => {
                         otpverifyMessage.style.display = 'none';
                      }, 3000);
-
                   } else {
-                     alert('Error verifying OTP: ' + data.message);
+                     otpErrorMessage.style.display = 'block';
+                     otpErrorMessage.innerText = 'Incorrect OTP. Please try again..';
+                     otpInput.classList.add('error');
                   }
                })
                .catch(error => {
                   console.error('Error:', error);
                   alert('Failed to verify OTP. Please try again later.');
                });
+
          });
+
       });
    </script>
 </body>
