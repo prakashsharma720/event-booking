@@ -1,0 +1,346 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body,
+html {
+	height: 100vh;
+	display: grid;
+    font-family: "League Spartan", sans-serif;
+	background: #d83565;
+	color: black;
+	font-size: 14px;
+	letter-spacing: 0.1em;
+}
+
+.ticket {
+	margin: 0 30px;
+	display: flex;
+    filter: drop-shadow(0px 19px 38px rgba(0, 0, 0, 0.3)) drop-shadow(0px 15px 12px rgba(0, 0, 0, 0.22));
+	justify-content: center;
+	margin-bottom: 40px;
+}
+
+.left {
+	display: flex;
+    background: #fff;
+	width: 70%;
+}
+
+.image {
+	height: 300px;
+	width: 300px;
+	background-image: url("../image/event_img.webp");
+	background-size: contain;
+	opacity: 0.85;
+}
+
+.admit-one {
+	position: absolute;
+	color: darkgray;
+	height: 300px;
+	padding: 0 10px;
+	letter-spacing: 0.15em;
+	display: flex;
+	text-align: center;
+	justify-content: space-around;
+	writing-mode: vertical-rl;
+	transform: rotate(-180deg);
+}
+
+.admit-one span:nth-child(2) {
+	color: white;
+	font-weight: 700;
+}
+
+.left .ticket-number {
+	height: 300px;
+	width: 300px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-end;
+	padding: 5px;
+}
+
+.ticket-number>p{
+    color: #fff;
+}
+
+.ticket-info {
+	padding: 10px 10px;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.ticket-date {
+	border-top: 1px solid gray;
+	border-bottom: 1px solid gray;
+	padding: 5px 0;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.ticket-date span {
+	width: 100px;
+}
+
+.ticket-date span:first-child {
+	text-align: left;
+}
+
+.ticket-date span:last-child {
+	text-align: right;
+}
+
+.ticket-date .ticket-date-month {
+	color: #d83565;
+	font-size: 20px;
+	text-transform: uppercase;
+}
+
+.show-name {
+	font-size: 18px;
+    font-family: "League Spartan", sans-serif;
+	color: #d83565;
+}
+
+.show-name h1 {
+	font-size: 40px;
+	font-weight: 700;
+	color: #4a437e;
+}
+
+.time {
+	padding: 10px 0;
+	color: #4a437e;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-weight: 700;
+}
+
+
+
+.time span {
+	font-weight: 400;
+	color: gray;
+}
+
+.left .time {
+	font-size: 16px;
+}
+
+.left  .time p{
+	margin-top: 10px;
+}
+
+.location .venue-title{
+	font-size: 18px;
+	color: #4a437e;
+	font-weight: 700;
+	padding-right: 10px;
+}
+
+.location {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding-top: 8px;
+	border-top: 1px solid gray;
+}
+
+.location .separator {
+	font-size: 20px;
+}
+
+.location .separator>i{
+	padding: 0 7px;
+}
+
+.right {
+	/* width: 210px; */
+	width: 30%;
+    background: #fff;
+}
+
+.right .admit-one {
+	color: darkgray;
+}
+
+.right .admit-one span:nth-child(2) {
+	color: gray;
+}
+
+.right .right-info-container {
+	height: 300px;
+	padding: 10px 10px 10px 10px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.right .show-name h1 {
+	font-size: 18px;
+}
+
+.barcode {
+	height: 140px;
+}
+
+.barcode img {
+	height: 100%;
+}
+
+.right .ticket-number {
+	color: gray;
+}
+
+
+.rip{
+    width: 20px;
+    position: relative;
+    margin: 10px 0;
+    background: #fff;
+}
+
+.rip::before{
+    top: -10px !important;
+    left: 10px;
+}
+
+.rip::after{
+    transform: translate(-50%, -50%) rotate(-45deg) !important;
+    bottom: -40px;
+    left: 10px;
+}
+
+.rip::before, .rip::after{
+    content: "";
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    /* top: 50%; */
+    transform: translate(-50%, -50%) rotate(135deg);
+    border: 5px solid transparent;
+    border-top-color: #fff;
+    border-right-color: #fff;
+    border-radius: 100%;
+    pointer-events: none;
+}
+
+.rip>.dashes{
+    border-right: 1px dashed #404040;
+    width: 50%;
+    height: 100%;
+    position: relative;
+    z-index: 999;
+}
+
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* index2 CSS  */
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+    animation: fadeIn 0.5s ease-out; /* Animation for modal background */
+}
+
+/* Modal content */
+.modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    /* max-width: 600px; */
+    border-radius: 8px;
+    position: relative;
+    transform: scale(0.7); /* Start smaller */
+    opacity: 0; /* Initially invisible */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.modal.show .modal-content {
+    transform: scale(1); /* Full size */
+    opacity: 1; /* Fully visible */
+}
+
+.view-ticket-btn{
+	text-align: center;
+    top: 50%;
+    position: relative;
+}
+
+#viewTicketButton, .download_Btn{
+	padding: 10px 20px;
+    border: none;
+    box-shadow: 0 0 10px gray;
+	cursor: pointer;
+	color: #d83565;
+	font-size: 18px;
+	font-family: "League Spartan", sans-serif;
+}
+
+.download_Btn{
+	background: #d83565;
+	color: #fff;
+}
+
+/* Fade-in effect for modal background */
+@keyframes fadeIn {
+    from {
+        background-color: rgba(0, 0, 0, 0);
+    }
+    to {
+        background-color: rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* Close button styles */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
