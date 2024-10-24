@@ -470,7 +470,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
                                             <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
                                                 style="display: none;">
-                                                <input type="text" name="package_amount[<?= $event_type_arr['id'] ?>]" class="package_amount" />
+                                                <input type="hidden" name="package_amount[<?= $event_type_arr['id'] ?>]" class="package_amount" />
                                                 <div class="checkbox-item">
                                                     <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
                                                         name="package_selection[<?= $event_type_arr['id'] ?>]" value="VIP"
