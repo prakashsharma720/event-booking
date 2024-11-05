@@ -191,7 +191,7 @@ $code = $_GET['code'];
 
             <div class="field mobile-number">
 
-               <input type="text" id="mobile-number" name="mobile" placeholder="Enter Mobile" required>
+               <input type="text" id="mobile-number" name="mobile" placeholder="Enter Mobile" required maxlength="10">
             </div>
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>

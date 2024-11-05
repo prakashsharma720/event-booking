@@ -76,6 +76,8 @@ if ($data['status'] == "true") {
 
 $_SESSION['event_name'] = $result['event_name'];
 $_SESSION['start_date'] = $result['start_date'];
+$_SESSION['start_time'] = $result['start_time'];
+$_SESSION['end_time'] = $result['end_time'];
 $_SESSION['address'] = $result['address'];
     
 
@@ -170,7 +172,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Insert into the bookings table using mysqli
     $sql = "INSERT INTO `bookings` 
     (`transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `total_amount`, `discount_value`, `coupon_code`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_mode`, `payment_reference_no`, `payment_screenshot`, `payment_status`, `area_of_interest`, `lead_source`, `booking_status`, `packageDetails`) 
-    VALUES ('$transaction_date', '$user_id', '$event_code', '$booking_date', '$packageDetailsJson', '$total_amount', '$discount_value', '$coupon_code', '$net_total', '$no_of_tickets', '$advanced_pay', '$remaining_amount', '$payment_mode', '$payment_reference_no', '$payment_screenshot', '$payment_status', '$area_of_interest', '$lead_source', '$booking_status', '$packageDetailsJson')";
+    VALUES ('$transaction_date', '$user_id', '$event_code', '$booking_date', '$packageDetailsJson', '$total_amount', '$discount_value', '$coupon_code', '$net_total', '$no_of_tickets', '$advanced_pay', '$remaining_amount', '$payment_mode', '$payment_reference_no', '$payment_screenshot', '$payment_status', '$area_of_interest', '$lead_source', '$booking_status', '$packageDetailsJson' )";
 
     if ($conn->query($sql) === TRUE) {
         $_SESSION['booking_date'] = $booking_date;
@@ -178,6 +180,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['net_payable_total'] = $net_total;
         $_SESSION['advanced_pay'] = $advanced_pay;
         $_SESSION['remaining_amount'] = $remaining_amount;
+        $_SESSION['city'] = $city;
+        $_SESSION['state_name'] = $state_name;
         $_SESSION['selected_event_types'] = $selected_event_types;
         header('Location: thankyou.php?code=' . $event_code);
     } else {

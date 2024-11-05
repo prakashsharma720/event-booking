@@ -68,7 +68,7 @@
 
         p:nth-child(n) {
             animation-delay: calc(0.1s * var(--i));
-            --i: 1; 
+            --i: 1;
         }
 
         @keyframes slideIn {
@@ -76,6 +76,7 @@
                 transform: translateY(-50px);
                 opacity: 0;
             }
+
             to {
                 transform: translateY(0);
                 opacity: 1;
@@ -87,9 +88,11 @@
                 transform: translateY(-100%);
                 opacity: 0;
             }
+
             60% {
                 transform: translateY(30%);
             }
+
             100% {
                 transform: translateY(0);
                 opacity: 1;
@@ -100,6 +103,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -109,6 +113,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -119,6 +124,7 @@
                 transform: scale(0.5);
                 opacity: 0;
             }
+
             100% {
                 transform: scale(1);
                 opacity: 1;
@@ -177,8 +183,10 @@
             <p style="--i:5"><strong>Number of Tickets:</strong> <?= ($_SESSION['no_of_tickets']) ?></p>
             <p style="--i:6"><strong>Advance Payment:</strong> <?= ($_SESSION['advanced_pay']) ?></p>
             <p style="--i:7"><strong>Remaining Amount:</strong> <?= ($_SESSION['remaining_amount']) ?></p>
+            <a href="ticket.php" class="btn btn-dark  mt-3">View Ticket</a>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
