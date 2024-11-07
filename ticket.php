@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -46,19 +47,19 @@
                                 <span>2024</span>
                             </p>
                             <div class="show-name">
-                                <h1>Mehendi Marathon</h1>
-                                <h2>Event Title</h2>
+                                <h1><?= ($_SESSION['event_name']) ?></h1>
+                                <h2><?= implode(', ', $_SESSION['selected_event_types']) ?></h2>
                             </div>
                             <div class="time">
-                                <p>09:00 AM <span>TO</span> 06:00 PM</p>
+                                <p><?= ($_SESSION['start_time']) ?> AM <span>TO</span> <?= ($_SESSION['end_time']) ?> PM</p>
                                 <!-- <p>DOORS <span>@</span> 7:00 PM</p> -->
                                 <p>Row No. _______ Seat No: _______</p>
                             </div>
                             <p class="location">
                                 <span class="venue-title">Venue: </span>
-                                <span>Banquet hall in Mumbai, </span>
+                                <span> <?= ($_SESSION['city']) ?> </span>
                                 <span class="separator"><i class="far fa-smile"></i></span>
-                                <span> Maharashtra</span>
+                                <span> <?= ($_SESSION['state_name']) ?> </span>
                             </p>
                         </div>
                     </div>
@@ -109,40 +110,40 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
-    // Get modal element
-    var modal = document.getElementById("ticketModal");
+        // Get modal element
+        var modal = document.getElementById("ticketModal");
 
-    // Get button that opens the modal
-    var btn = document.getElementById("viewTicketButton");
+        // Get button that opens the modal
+        var btn = document.getElementById("viewTicketButton");
 
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
 
-    // When the user clicks the button, open the modal 
-    btn.onclick = function() {
-        modal.style.display = "block";
-        setTimeout(function() {
-            modal.classList.add("show"); // Add the show class to trigger animation
-        }, 10);
-    }
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-        modal.classList.remove("show"); // Start closing animation
-        setTimeout(function() {
-            modal.style.display = "none"; // Hide modal after animation ends
-        }, 300); // Matches the 0.3s animation duration in CSS
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-            modal.classList.remove("show");
+        // When the user clicks the button, open the modal 
+        btn.onclick = function() {
+            modal.style.display = "block";
             setTimeout(function() {
-                modal.style.display = "none";
-            }, 300);
+                modal.classList.add("show"); // Add the show class to trigger animation
+            }, 10);
         }
-    }
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.classList.remove("show"); // Start closing animation
+            setTimeout(function() {
+                modal.style.display = "none"; // Hide modal after animation ends
+            }, 300); // Matches the 0.3s animation duration in CSS
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.classList.remove("show");
+                setTimeout(function() {
+                    modal.style.display = "none";
+                }, 300);
+            }
+        }
     </script>
 
     <!-- Download Ticket Scrpit  -->
@@ -178,27 +179,27 @@
     </script> -->
 
     <script>
-    document.getElementById("downloadTicketBtn").onclick = function() {
-        // Select the ticket element
-        const ticketElement = document.querySelector('.ticket');
+        document.getElementById("downloadTicketBtn").onclick = function() {
+            // Select the ticket element
+            const ticketElement = document.querySelector('.ticket');
 
-        // Use html2canvas to capture the ticket element
-        html2canvas(ticketElement, {
-            scale: 2, // Increase scale for better image resolution
-            useCORS: true, // Enable CORS for images from external domains
-        }).then(canvas => {
-            // Convert the canvas to an image (PNG)
-            const imgData = canvas.toDataURL('image/png');
+            // Use html2canvas to capture the ticket element
+            html2canvas(ticketElement, {
+                scale: 2, // Increase scale for better image resolution
+                useCORS: true, // Enable CORS for images from external domains
+            }).then(canvas => {
+                // Convert the canvas to an image (PNG)
+                const imgData = canvas.toDataURL('image/png');
 
-            // Create a download link
-            const downloadLink = document.createElement('a');
-            downloadLink.href = imgData;
-            downloadLink.download = 'ticket.png'; // Set download file name
+                // Create a download link
+                const downloadLink = document.createElement('a');
+                downloadLink.href = imgData;
+                downloadLink.download = 'ticket.png'; // Set download file name
 
-            // Trigger the download
-            downloadLink.click();
-        });
-    };
+                // Trigger the download
+                downloadLink.click();
+            });
+        };
     </script>
 </body>
 
