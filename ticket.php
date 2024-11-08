@@ -17,11 +17,6 @@
 </head>
 
 <body>
-    <!-- Button to trigger the modal -->
-    <div class="view-ticket-btn">
-        <button id="viewTicketButton" class="btn">View Ticket</button>
-    </div>
-
     <!-- Modal Structure -->
     <div id="ticketModal" class="modal">
         <div class="modal-content">
@@ -43,22 +38,25 @@
                         <div class="ticket-info">
                             <p class="ticket-date">
                                 <span>MONDAY</span>
-                                <span class="ticket-date-month">September 21ST</span>
+                                <span class="ticket-date-month"><?= ($_SESSION['booking_date']) ?></span>
                                 <span>2024</span>
                             </p>
                             <div class="show-name">
                                 <h1><?= ($_SESSION['event_name']) ?></h1>
+                                <br>
                                 <h2><?= implode(', ', $_SESSION['selected_event_types']) ?></h2>
                             </div>
+
                             <div class="time">
-                                <p><?= ($_SESSION['start_time']) ?> AM <span>TO</span> <?= ($_SESSION['end_time']) ?> PM</p>
+                                <p>
+                                <h2>From:</h2><?= ($_SESSION['start_date']) ?> <?= ($_SESSION['start_time']) ?> AM <span>TO</span><?= ($_SESSION['end_date']) ?> <?= ($_SESSION['end_time']) ?> PM</p>
                                 <!-- <p>DOORS <span>@</span> 7:00 PM</p> -->
                                 <p>Row No. _______ Seat No: _______</p>
                             </div>
                             <p class="location">
                                 <span class="venue-title">Venue: </span>
                                 <span> <?= ($_SESSION['city']) ?> </span>
-                                <span class="separator"><i class="far fa-smile"></i></span>
+                                ,
                                 <span> <?= ($_SESSION['state_name']) ?> </span>
                             </p>
                         </div>
@@ -102,104 +100,60 @@
         </div>
     </div>
 
-
-    <!-- Download Ticket Scrpit  -->
-
-    <!-- jsPDF library -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> -->
+    <!-- Download Ticket Script -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
     <script>
-        // Get modal element
-        var modal = document.getElementById("ticketModal");
-
-        // Get button that opens the modal
-        var btn = document.getElementById("viewTicketButton");
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-
-        // When the user clicks the button, open the modal 
-        btn.onclick = function() {
-            modal.style.display = "block";
+        // Show the modal as soon as the page loads
+        window.onload = function() {
+            var modal = document.getElementById("ticketModal");
+            modal.style.display = "block"; // Show the modal directly
             setTimeout(function() {
                 modal.classList.add("show"); // Add the show class to trigger animation
             }, 10);
-        }
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.classList.remove("show"); // Start closing animation
-            setTimeout(function() {
-                modal.style.display = "none"; // Hide modal after animation ends
-            }, 300); // Matches the 0.3s animation duration in CSS
-        }
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
+            // Close the modal when the user clicks the close button
+            var span = document.getElementsByClassName("close")[0];
+            span.onclick = function() {
                 modal.classList.remove("show");
                 setTimeout(function() {
                     modal.style.display = "none";
                 }, 300);
             }
+
+            // Close the modal if the user clicks anywhere outside the modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.classList.remove("show");
+                    setTimeout(function() {
+                        modal.style.display = "none";
+                    }, 300);
+                }
+            }
+
+            // Add the download ticket functionality
+            document.getElementById("downloadTicketBtn").onclick = function() {
+                // Select the ticket element
+                const ticketElement = document.querySelector('.ticket');
+
+                // Use html2canvas to capture the ticket element
+                html2canvas(ticketElement, {
+                    scale: 2, // Increase scale for better image resolution
+                    useCORS: true, // Enable CORS for images from external domains
+                }).then(canvas => {
+                    // Convert the canvas to an image (PNG)
+                    const imgData = canvas.toDataURL('image/png');
+
+                    // Create a download link
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = imgData;
+                    downloadLink.download = 'ticket.png'; // Set download file name
+
+                    // Trigger the download
+                    downloadLink.click();
+                });
+            };
         }
-    </script>
-
-    <!-- Download Ticket Scrpit  -->
-
-    <!-- <script>
-    window.onload = function() {
-        document.getElementById("downloadTicketBtn")
-            .addEventListener("click", () => {
-                const ticket = this.document.getElementById("ticket_download");
-                // console.log(ticket);
-                // console.log(window);
-
-                var opt = {
-                    margin: 1,
-                    filename: 'ticket.pdf',
-                    image: {
-                        type: 'jpeg',
-                        quality: 0.98
-                    },
-                    html2canvas: {
-                        scale: 2
-                    },
-                    jsPDF: {
-                        unit: 'in',
-                        format: 'letter',
-                        orientation: 'landscape'
-                    }
-                };
-
-                html2pdf().from(ticket).set(opt).save();
-            })
-    }
-    </script> -->
-
-    <script>
-        document.getElementById("downloadTicketBtn").onclick = function() {
-            // Select the ticket element
-            const ticketElement = document.querySelector('.ticket');
-
-            // Use html2canvas to capture the ticket element
-            html2canvas(ticketElement, {
-                scale: 2, // Increase scale for better image resolution
-                useCORS: true, // Enable CORS for images from external domains
-            }).then(canvas => {
-                // Convert the canvas to an image (PNG)
-                const imgData = canvas.toDataURL('image/png');
-
-                // Create a download link
-                const downloadLink = document.createElement('a');
-                downloadLink.href = imgData;
-                downloadLink.download = 'ticket.png'; // Set download file name
-
-                // Trigger the download
-                downloadLink.click();
-            });
-        };
     </script>
 </body>
 

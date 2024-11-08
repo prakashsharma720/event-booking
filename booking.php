@@ -78,6 +78,7 @@ $_SESSION['event_name'] = $result['event_name'];
 $_SESSION['start_date'] = $result['start_date'];
 $_SESSION['start_time'] = $result['start_time'];
 $_SESSION['end_time'] = $result['end_time'];
+$_SESSION['end_date'] = $result['end_date'];
 $_SESSION['address'] = $result['address'];
     
 

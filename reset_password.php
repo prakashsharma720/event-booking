@@ -1,5 +1,5 @@
 <?php
-   $code = $_GET['code'];
+$code = $_GET['code'];
 session_start();
 require 'db.php';
 

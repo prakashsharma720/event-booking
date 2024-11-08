@@ -183,6 +183,7 @@
             <p style="--i:5"><strong>Number of Tickets:</strong> <?= ($_SESSION['no_of_tickets']) ?></p>
             <p style="--i:6"><strong>Advance Payment:</strong> <?= ($_SESSION['advanced_pay']) ?></p>
             <p style="--i:7"><strong>Remaining Amount:</strong> <?= ($_SESSION['remaining_amount']) ?></p>
+
             <a href="ticket.php" class="btn btn-dark  mt-3">View Ticket</a>
         </div>
     </div>
