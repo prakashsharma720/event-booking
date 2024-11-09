@@ -183,6 +183,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['remaining_amount'] = $remaining_amount;
         $_SESSION['city'] = $city;
         $_SESSION['state_name'] = $state_name;
+        $_SESSION['coupon_value'] = $discount_value;
         $_SESSION['selected_event_types'] = $selected_event_types;
         header('Location: thankyou.php?code=' . $event_code);
     } else {

@@ -14,6 +14,56 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.js"
         referrerpolicy="no-referrer"></script>
+    <style>
+        .show-name h1 {
+            font-size: 29px;
+            font-weight: 700;
+            color: #4a437e;
+            padding-top: 10px;
+        }
+
+
+        .time span {
+            font-weight: 900;
+            color: #4a437e;
+        }
+
+        .ticket-date .ticket-date-month {
+            color: #d83565;
+            font-size: 17px;
+            text-transform: uppercase;
+        }
+
+        .time {
+            padding: 15px 20px;
+            margin-top: 10px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .time h2 {
+            font-size: 20px;
+            color: #4a437e;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .time .event-time {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .time .event-time-start,
+        .time .event-time-end {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: #d83565;
+            /* A more vibrant color for the event times */
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,24 +87,35 @@
                         </div>
                         <div class="ticket-info">
                             <p class="ticket-date">
-                                <span>MONDAY</span>
-                                <span class="ticket-date-month"><?= ($_SESSION['booking_date']) ?></span>
+                                <span><?= strtoupper(date('l', strtotime($_SESSION['booking_date']))) ?></span> <!-- Day of the week in uppercase -->
+                                <span class="ticket-date-month"><?= date('d-M-y', strtotime($_SESSION['booking_date'])) ?></span> <!-- Date in d-M-y format -->
                                 <span>2024</span>
                             </p>
+
                             <div class="show-name">
                                 <h1><?= ($_SESSION['event_name']) ?></h1>
                                 <br>
                                 <h2><?= implode(', ', $_SESSION['selected_event_types']) ?></h2>
                             </div>
 
+                            <!-- Modify the time section to improve formatting -->
                             <div class="time">
-                                <p>
-                                <h2>From:</h2><?= ($_SESSION['start_date']) ?> <?= ($_SESSION['start_time']) ?> AM <span>TO</span><?= ($_SESSION['end_date']) ?> <?= ($_SESSION['end_time']) ?> PM</p>
-                                <!-- <p>DOORS <span>@</span> 7:00 PM</p> -->
-                                <p>Row No. _______ Seat No: _______</p>
+                                <h2>From:</h2>
+                                <p class="event-time">
+                                    <span class="event-time-start"><?= date('l, d-M-Y', strtotime($_SESSION['start_date'])) ?> at <?= date('h:i A', strtotime($_SESSION['start_time'])) ?></span>
+                                </p>
+                                <h2>To:</h2>
+                                <p class="event-time">
+                                    <span class="event-time-end"><?= date('l, d-M-Y', strtotime($_SESSION['end_date'])) ?> at <?= date('h:i A', strtotime($_SESSION['end_time'])) ?></span>
+                                </p>
+                                <br>
+                                <p >Row No. _______ Seat No: _______</p>
                             </div>
+
+
                             <p class="location">
                                 <span class="venue-title">Venue: </span>
+                           
                                 <span> <?= ($_SESSION['city']) ?> </span>
                                 ,
                                 <span> <?= ($_SESSION['state_name']) ?> </span>

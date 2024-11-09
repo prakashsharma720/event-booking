@@ -66,6 +66,43 @@
             animation: fadeInText 1s forwards;
         }
 
+        .details p {
+            color: black;
+            margin: 5px 0;
+            font-size: 18px;
+            /* Adjusted font size */
+            opacity: 0;
+            animation: fadeInText 1s forwards;
+        }
+
+        .details p:nth-child(1) {
+            font-size: 18px;
+        }
+
+        .details p:nth-child(2) {
+            font-size: 18px;
+        }
+
+        .details p:nth-child(3) {
+            font-size: 18px;
+        }
+
+        .details p:nth-child(4) {
+            font-size: 18px;
+        }
+
+        .details p:nth-child(5) {
+            font-size: 18px;
+        }
+
+        .details p:nth-child(6) {
+            font-size: 18px;
+        }
+
+        .details p:nth-child(7) {
+            font-size: 18px;
+        }
+
         p:nth-child(n) {
             animation-delay: calc(0.1s * var(--i));
             --i: 1;
@@ -163,6 +200,42 @@
                 max-width: 160px;
             }
         }
+
+
+        .dis {
+            font-size: 32px;
+            font-weight: bold;
+            justify-content: flex-end;
+            color: #FF6347;
+            text-align: right;
+            width: 100%;
+            margin-top: 15px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6);
+        }
+
+        .circle-badge {
+            position: absolute;
+            top: 50%;
+            right: 5%;
+            background-color: #bb9433;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            animation: bounceIn 1s forwards;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .container {
+            position: relative;
+        }
     </style>
 </head>
 
@@ -184,9 +257,14 @@
             <p style="--i:6"><strong>Advance Payment:</strong> <?= ($_SESSION['advanced_pay']) ?></p>
             <p style="--i:7"><strong>Remaining Amount:</strong> <?= ($_SESSION['remaining_amount']) ?></p>
 
-            <a href="ticket.php" class="btn btn-dark  mt-3">View Ticket</a>
+            <div class="circle-badge">
+                Discount ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
+            </div>
+
+            <a href="ticket.php" class="btn btn-dark mt-3">View Ticket</a>
         </div>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
