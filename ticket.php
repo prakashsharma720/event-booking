@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.js"
         referrerpolicy="no-referrer"></script>
     <style>
@@ -63,6 +63,18 @@
             /* A more vibrant color for the event times */
             margin-bottom: 8px;
         }
+        .image {
+	height: 300px;
+	width: 300px;
+	background-image: url("logo-gwm.jpg");
+	background-size: contain;
+	opacity: 0.85;
+}
+ .jay{
+    margin-top: 15px;
+ font-weight: bold;
+    font-size: 16px;
+ }
     </style>
 </head>
 
@@ -83,6 +95,12 @@
                             </p> -->
                             <div class="ticket-number">
                                 <p>#20030220</p>
+                            </div>
+                            <div class="jay">
+                                <span> <i class="bi bi-telephone-fill"></i>  +91 9166973012</span>
+                            </div>
+                            <div class="jay">
+                                <span> <i class="bi bi-envelope-fill"></i>  jayeshpatel.muskowl@gmail.com</span>
                             </div>
                         </div>
                         <div class="ticket-info">

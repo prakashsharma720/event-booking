@@ -41,6 +41,15 @@ if ($data['status'] == "true") {
     $result = $data['result'];
     $bank_arr = json_decode($result['bank_master_ids'], true);;
 
+    // Check for event expiry
+    $event_end_date = $result['end_date']; // Event end date
+    $current_date = date('Y-m-d'); // Current date
+
+    if ($current_date > $event_end_date) {
+        $event_expired = true;
+    } else {
+        $event_expired = false;
+    }
     // print_r($bank_arr['0']);exit;
 
     // Query to select data from discounts_master table
@@ -80,7 +89,7 @@ $_SESSION['start_time'] = $result['start_time'];
 $_SESSION['end_time'] = $result['end_time'];
 $_SESSION['end_date'] = $result['end_date'];
 $_SESSION['address'] = $result['address'];
-    
+
 
 ?>
 <?php
@@ -212,10 +221,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        .head {
+            background-color: #000;
 
+        }
+
+        .button {
+            background-color: #bb9433;
+            color: #fff;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+
+        }
+
+        .button:hover {
+            background-color: #896c25;
+        }
+
+
+        .btn-danger {
+            background-color: #DC3545;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+
+        }
+    </style>
 </head>
 
 <body>
+    <?php if ($event_expired): ?>
+        <div style="background-color: red; color: white; padding: 10px; text-align: center; font-weight: bold; font-size:30px">
+            Event Expired
+        </div>
+    <?php endif; ?>
+
+    <header class="head py-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-3 d-flex align-items-center">
+                    <img src="logo-gwm.jpg" alt="Event Logo" style="width: 100px; height: auto;">
+                </div>
+
+                <div class="col-md-6 text-center">
+                    <a href=" https://glowupwithmanisha.com/" class="button">Go Website</a>
+                    <a href="https://portal.glowupwithmanisha.com/" class="button">Go Admin portal </a>
+                </div>
+
+
+                <div class="col-md-3 text-end">
+                    <a href="login.php?code=<?= $code ?>" class="btn btn-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="container-fluid">
         <div class="row content">
             <div class="col-md-5 sidenav">
