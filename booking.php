@@ -10,10 +10,7 @@ $user_type = $_SESSION['user_type'];
 $name = $_SESSION['name'];
 $email = $_SESSION['email'];
 
-if (!$user_id) {
-    header('Location: login.php?code=' . $code);
-    exit();
-}
+
 
 $base_url = 'https://gwmadmin.muskowl.com';
 // $base_url = 'http://localhost/CI/event-portal';
@@ -265,7 +262,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <?php if ($event_expired): ?>
         <div style="background-color: red; color: white; padding: 10px; text-align: center; font-weight: bold; font-size:30px">
-            Event Expired
+        This event has expired.
+    
+        
         </div>
     <?php endif; ?>
 
