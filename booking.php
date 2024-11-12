@@ -260,13 +260,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body>
-    <?php if ($event_expired): ?>
+    <?php if ($event_expired)  ?>
         <div style="background-color: red; color: white; padding: 10px; text-align: center; font-weight: bold; font-size:30px">
-        This event has expired.
+        hy
     
         
         </div>
-    <?php endif; ?>
+    <?php  ?>
 
     <header class="head py-3">
         <div class="container">
