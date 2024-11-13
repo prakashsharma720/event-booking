@@ -10,8 +10,6 @@ $user_type = $_SESSION['user_type'];
 $name = $_SESSION['name'];
 $email = $_SESSION['email'];
 
-
-
 $base_url = 'https://gwmadmin.muskowl.com';
 // $base_url = 'http://localhost/CI/event-portal';
 
@@ -256,17 +254,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #c82333;
 
         }
+
+
+        .event-expired-message {
+            background-color: #d9534f;
+            color: white;
+            padding: 20px 30px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 32px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+
+        }
+
+        .center-container {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 24px 78px;
+        }
     </style>
 </head>
 
 <body>
-    <?php if ($event_expired)  ?>
-        <div style="background-color: red; color: white; padding: 10px; text-align: center; font-weight: bold; font-size:30px">
-        hy
-    
-        
-        </div>
-    <?php  ?>
+
 
     <header class="head py-3">
         <div class="container">
@@ -291,10 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container-fluid">
         <div class="row content">
             <div class="col-md-5 sidenav">
-                <div class="greebie_image">
-                    <img src="logo-gwm.jpg" style="width:10%;">
-                    &nbsp; &nbsp;<h2> Event Registration Form</h2>
-                </div>
+
                 <div class="event-details">
                     <p><strong>Event Name:</strong> <?= $result['event_name'] ?></p>
                     <p><strong>Start Date:</strong>
@@ -328,362 +340,373 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                 <?php } ?>
             </div>
+
             <div class="col-md-7 p-3">
                 <!-- <div class="img greebie_image" >
                     <img src="freebie2.png" style="width:100%;">
                 </div> -->
-                <h2>Event Registration Form</h2>
-                <hr>
-                <form action="#" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="event_code" value="<?= $result['identity_code'] ?>">
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label for="gender">Participant Name</label>
-                            <input type="text" id="name" name="name" placeholder="Enter Company Name"
-                                class="form-control" value="<?= $name ?>" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="name">Email </label>
-                            <input type="text" name="email" placeholder="Enter Email " class="form-control"
-                                value="<?= $email ?>" readonly>
+                <?php if ($event_expired): ?>
+                    <!-- Event Expired Message -->
+                    <div class="center-container">
+                        <!-- Event Expired Message -->
+                        <div class="event-expired-message">
+                            Event 
                         </div>
                     </div>
-
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label for="gender">Mobile Number </label>
-                            <input type="text" name="mobile" placeholder="Enter Mobile" class="form-control"
-                                value="<?= $mobile ?>" readonly>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="gender">Gender <span class="required-icon">*</span></label>
-                            <div>
-                                <input type="radio" name="gender" value="Male"> Male
-                                &nbsp; &nbsp; &nbsp;
-                                <input type="radio" name="gender" value="Female"> Female
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label for="category-type">Category <span class="required-icon">*</span></label>
-                            <select id="category-type" name="category_type" class="form-control">
-                                <option value="" disabled selected>Choose Category</option>
-                                <option value="Salon">Salon</option>
-                                <option value="Spa">Spa</option>
-                                <option value="Nail Studio">Nail Studio</option>
-                                <option value="Parlour">Parlour</option>
-                                <option value="Association">Association</option>
-                                <option value="Manufacturer">Manufacturer</option>
-                                <option value="Distributor">Distributor</option>
-                                <option value="Wholesaler">Wholesaler</option>
-                                <option value="Retailer">Retailer</option>
-                                <option value="Freelancer">Freelancer</option>
-                                <option value="Academy">Academy</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="category-type">Sub Category <span class="required-icon">*</span></label>
-                            <select id="category-type" name="subcategory_type" class="form-control">
-                                <option value="" disabled selected>Choose Sub Category</option>
-                                <option value="Salon">Salon</option>
-                                <option value="Spa">Spa</option>
-                                <option value="Nail Studio">Nail Studio</option>
-                                <option value="Parlour">Parlour</option>
-                                <option value="Association">Association</option>
-                                <option value="Manufacturer">Manufacturer</option>
-                                <option value="Distributor">Distributor</option>
-                                <option value="Wholesaler">Wholesaler</option>
-                                <option value="Retailer">Retailer</option>
-                                <option value="Freelancer">Freelancer</option>
-                                <option value="Academy">Academy</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label for="name">Company Name </label>
-                            <input type="text" name="company_name" placeholder="Enter Company Name"
-                                class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="state">City <span class="required-icon">*</span></label>
-                            <input type="text" name="city" placeholder="Enter City" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <label for="name">State </label>
-                            <select name="state_name" id="indian-states" class="form-control">
-                                <option value="">Choose State</option>
-                                <option value="andhra-pradesh">Andhra Pradesh</option>
-                                <option value="arunachal-pradesh">Arunachal Pradesh</option>
-                                <option value="assam">Assam</option>
-                                <option value="bihar">Bihar</option>
-                                <option value="chhattisgarh">Chhattisgarh</option>
-                                <option value="goa">Goa</option>
-                                <option value="gujarat">Gujarat</option>
-                                <option value="haryana">Haryana</option>
-                                <option value="himachal-pradesh">Himachal Pradesh</option>
-                                <option value="jharkhand">Jharkhand</option>
-                                <option value="karnataka">Karnataka</option>
-                                <option value="kerala">Kerala</option>
-                                <option value="madhya-pradesh">Madhya Pradesh</option>
-                                <option value="maharashtra">Maharashtra</option>
-                                <option value="manipur">Manipur</option>
-                                <option value="meghalaya">Meghalaya</option>
-                                <option value="mizoram">Mizoram</option>
-                                <option value="nagaland">Nagaland</option>
-                                <option value="odisha">Odisha</option>
-                                <option value="punjab">Punjab</option>
-                                <option value="rajasthan">Rajasthan</option>
-                                <option value="sikkim">Sikkim</option>
-                                <option value="tamil-nadu">Tamil Nadu</option>
-                                <option value="telangana">Telangana</option>
-                                <option value="tripura">Tripura</option>
-                                <option value="uttar-pradesh">Uttar Pradesh</option>
-                                <option value="uttarakhand">Uttarakhand</option>
-                                <option value="west-bengal">West Bengal</option>
-
-                                <!-- Union Territories -->
-                                <option value="andaman-nicobar">Andaman and Nicobar Islands</option>
-                                <option value="chandigarh">Chandigarh</option>
-                                <option value="dadra-nagar-haveli-daman-diu">Dadra and Nagar Haveli and Daman and Diu
-                                </option>
-                                <option value="delhi">Delhi</option>
-                                <option value="lakshadweep">Lakshadweep</option>
-                                <option value="puducherry">Puducherry</option>
-                                <option value="ladakh">Ladakh</option>
-                                <option value="jammu-kashmir">Jammu and Kashmir</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label for="pincode">Pincode <span class="required-icon">*</span></label>
-                            <input type="text" name="pincode" id="pincode" placeholder="Enter Pincode"
-                                class="form-control">
-                        </div>
-
-                    </div>
-
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-
-                            <label for="lead-source">Lead Source Master <span class="required-icon">*</span></label>
-                            <select id="lead-source" name="lead_source" class="form-control mb-2">
-                                <option value="" disabled selected>Select an option</option>
-                                <option value="Friends Reference">Friends Reference</option>
-                                <option value="GWM Instagram Page">GWM Instagram Page</option>
-                                <option value="GWM Facebook Page">GWM Facebook Page</option>
-                                <option value="Mehndi Marathon 24 Instagram Page">Mehndi Marathon 24 Instagram Page
-                                </option>
-                                <option value="Mehndi Marathon 24 Facebook Page">Mehndi Marathon 24 Facebook Page
-                                </option>
-                                <option value="GWM Website">GWM Website</option>
-                                <option value="GWM WhatsApp">GWM WhatsApp</option>
-                                <option value="Ads Campaign">Ads Campaign</option>
-                                <option value="Google Ads">Google Ads</option>
-                                <option value="YouTube">YouTube</option>
-                                <option value="SMS">SMS</option>
-                                <option value="Email Marketing">Email Marketing</option>
-                                <option value="Tele Calling">Tele Calling</option>
-                                <option value="LinkedIn">LinkedIn</option>
-                                <option value="Artists Page">Artists Page</option>
-                                <option value="Others" id="lead-source-other">Others</option>
-                            </select>
-                            <input type="text" id="lead-source-others" name="lead_source_others" style="display: none;"
-                                class="form-control" placeholder="Please specify">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="area-interest">Area of Interest <span class="required-icon">*</span></label>
-                            <select id="area-interest" name="area_interest" class="form-control mb-2">
-                                <option value="" disabled selected>Select area of interest</option>
-                                <option value="Competitions">Competitions</option>
-                                <option value="Discounts">Discounts</option>
-                                <option value="B2B Meetings / Networking">B2B Meetings / Networking</option>
-                                <option value="Salon & Spa">Salon & Spa</option>
-                                <option value="Equipment Supply Chain">Equipment Supply Chain</option>
-                                <option value="Products Supply Chain">Products Supply Chain</option>
-                                <option value="Make-up">Make-up</option>
-                                <option value="Skin Care">Skin Care</option>
-                                <option value="Products Branding & Marketing">Products Branding & Marketing</option>
-                                <option value="Product Knowledge">Product Knowledge</option>
-                                <option value="Product Awareness">Product Awareness</option>
-                                <option value="Education">Education</option>
-                                <option value="Hair Care">Hair Care</option>
-                                <option value="Nail Art">Nail Art</option>
-                                <option value="Others">Others</option>
-                            </select>
-                            <input type="text" id="category-others" name="area_interest_others" style="display: none;"
-                                class="form-control" placeholder="Please specify">
-                        </div>
-                    </div>
+                <?php else: ?>
+                    <h2>Event Registration Form</h2>
                     <hr>
-                    <h2>Event Type </h2>
-                    <hr>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="area-interest"> Booking Date<span class="required-icon">*</span></label>
-                            <input type="date" id="booking_date" name="booking_date" class="form-control" min="<?php echo date('Y-m-d'); ?>">
-                        </div>
-                    </div>
-
-
-                    <?php $i = 0;
-                    foreach ($result['event_types_details'] as $event_type_arr) {
-                        $i++; ?>
+                    <form action="#" method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="event_code" value="<?= $result['identity_code'] ?>">
                         <div class="row mb-2">
                             <div class="col-md-6">
-                                <div class="field-container">
-                                    <div class="checkbox-container">
-                                        <div class="checkbox-item">
-                                            <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
-                                                name="event_type[<?= $event_type_arr['id'] ?>]"
-                                                value="<?= $event_type_arr['event_type'] ?>">
-                                            <label for="event-<?= $event_type_arr['id'] ?>">
-                                                <?= $event_type_arr['event_type'] ?>
-                                                <?php if ($event_type_arr['package_available'] != 'Yes') { ?>
-                                                    - ₹<?= $event_type_arr['single_price'] ?><?php } ?>
-                                            </label>
-                                        </div>
+                                <label for="gender">Participant Name</label>
+                                <input type="text" id="name" name="name" placeholder="Enter Company Name"
+                                    class="form-control" value="<?= $name ?>" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="name">Email </label>
+                                <input type="text" name="email" placeholder="Enter Email " class="form-control"
+                                    value="<?= $email ?>" readonly>
+                            </div>
+                        </div>
 
-                                        <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
-                                            <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
-                                                style="display: none;">
-                                                <input type="hidden" name="package_amount[<?= $event_type_arr['id'] ?>]" class="package_amount" />
-                                                <div class="checkbox-item">
-                                                    <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
-                                                        name="package_selection[<?= $event_type_arr['id'] ?>]" value="VIP"
-                                                        data-fee="<?= $event_type_arr['vip_row_price'] ?>">
-                                                    <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
-                                                        ₹<?= $event_type_arr['vip_row_price'] ?></label>
-                                                </div>
-                                                <div class="checkbox-item">
-                                                    <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
-                                                        name="package_selection[<?= $event_type_arr['id'] ?>]" value="Gold"
-                                                        data-fee="<?= $event_type_arr['gold_row_price'] ?>">
-                                                    <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
-                                                        ₹<?= $event_type_arr['gold_row_price'] ?></label>
-                                                </div>
-                                                <div class="checkbox-item">
-                                                    <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
-                                                        name="package_selection[<?= $event_type_arr['id'] ?>]" value="Silver"
-                                                        data-fee="<?= $event_type_arr['silver_row_price'] ?>">
-                                                    <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
-                                                        ₹<?= $event_type_arr['silver_row_price'] ?></label>
-                                                </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="gender">Mobile Number </label>
+                                <input type="text" name="mobile" placeholder="Enter Mobile" class="form-control"
+                                    value="<?= $mobile ?>" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="gender">Gender <span class="required-icon">*</span></label>
+                                <div>
+                                    <input type="radio" name="gender" value="Male"> Male
+                                    &nbsp; &nbsp; &nbsp;
+                                    <input type="radio" name="gender" value="Female"> Female
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="category-type">Category <span class="required-icon">*</span></label>
+                                <select id="category-type" name="category_type" class="form-control">
+                                    <option value="" disabled selected>Choose Category</option>
+                                    <option value="Salon">Salon</option>
+                                    <option value="Spa">Spa</option>
+                                    <option value="Nail Studio">Nail Studio</option>
+                                    <option value="Parlour">Parlour</option>
+                                    <option value="Association">Association</option>
+                                    <option value="Manufacturer">Manufacturer</option>
+                                    <option value="Distributor">Distributor</option>
+                                    <option value="Wholesaler">Wholesaler</option>
+                                    <option value="Retailer">Retailer</option>
+                                    <option value="Freelancer">Freelancer</option>
+                                    <option value="Academy">Academy</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="category-type">Sub Category <span class="required-icon">*</span></label>
+                                <select id="category-type" name="subcategory_type" class="form-control">
+                                    <option value="" disabled selected>Choose Sub Category</option>
+                                    <option value="Salon">Salon</option>
+                                    <option value="Spa">Spa</option>
+                                    <option value="Nail Studio">Nail Studio</option>
+                                    <option value="Parlour">Parlour</option>
+                                    <option value="Association">Association</option>
+                                    <option value="Manufacturer">Manufacturer</option>
+                                    <option value="Distributor">Distributor</option>
+                                    <option value="Wholesaler">Wholesaler</option>
+                                    <option value="Retailer">Retailer</option>
+                                    <option value="Freelancer">Freelancer</option>
+                                    <option value="Academy">Academy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="name">Company Name </label>
+                                <input type="text" name="company_name" placeholder="Enter Company Name"
+                                    class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="state">City <span class="required-icon">*</span></label>
+                                <input type="text" name="city" placeholder="Enter City" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <label for="name">State </label>
+                                <select name="state_name" id="indian-states" class="form-control">
+                                    <option value="">Choose State</option>
+                                    <option value="andhra-pradesh">Andhra Pradesh</option>
+                                    <option value="arunachal-pradesh">Arunachal Pradesh</option>
+                                    <option value="assam">Assam</option>
+                                    <option value="bihar">Bihar</option>
+                                    <option value="chhattisgarh">Chhattisgarh</option>
+                                    <option value="goa">Goa</option>
+                                    <option value="gujarat">Gujarat</option>
+                                    <option value="haryana">Haryana</option>
+                                    <option value="himachal-pradesh">Himachal Pradesh</option>
+                                    <option value="jharkhand">Jharkhand</option>
+                                    <option value="karnataka">Karnataka</option>
+                                    <option value="kerala">Kerala</option>
+                                    <option value="madhya-pradesh">Madhya Pradesh</option>
+                                    <option value="maharashtra">Maharashtra</option>
+                                    <option value="manipur">Manipur</option>
+                                    <option value="meghalaya">Meghalaya</option>
+                                    <option value="mizoram">Mizoram</option>
+                                    <option value="nagaland">Nagaland</option>
+                                    <option value="odisha">Odisha</option>
+                                    <option value="punjab">Punjab</option>
+                                    <option value="rajasthan">Rajasthan</option>
+                                    <option value="sikkim">Sikkim</option>
+                                    <option value="tamil-nadu">Tamil Nadu</option>
+                                    <option value="telangana">Telangana</option>
+                                    <option value="tripura">Tripura</option>
+                                    <option value="uttar-pradesh">Uttar Pradesh</option>
+                                    <option value="uttarakhand">Uttarakhand</option>
+                                    <option value="west-bengal">West Bengal</option>
+
+                                    <!-- Union Territories -->
+                                    <option value="andaman-nicobar">Andaman and Nicobar Islands</option>
+                                    <option value="chandigarh">Chandigarh</option>
+                                    <option value="dadra-nagar-haveli-daman-diu">Dadra and Nagar Haveli and Daman and Diu
+                                    </option>
+                                    <option value="delhi">Delhi</option>
+                                    <option value="lakshadweep">Lakshadweep</option>
+                                    <option value="puducherry">Puducherry</option>
+                                    <option value="ladakh">Ladakh</option>
+                                    <option value="jammu-kashmir">Jammu and Kashmir</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="pincode">Pincode <span class="required-icon">*</span></label>
+                                <input type="text" name="pincode" id="pincode" placeholder="Enter Pincode"
+                                    class="form-control">
+                            </div>
+
+                        </div>
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+
+                                <label for="lead-source">Lead Source Master <span class="required-icon">*</span></label>
+                                <select id="lead-source" name="lead_source" class="form-control mb-2">
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="Friends Reference">Friends Reference</option>
+                                    <option value="GWM Instagram Page">GWM Instagram Page</option>
+                                    <option value="GWM Facebook Page">GWM Facebook Page</option>
+                                    <option value="Mehndi Marathon 24 Instagram Page">Mehndi Marathon 24 Instagram Page
+                                    </option>
+                                    <option value="Mehndi Marathon 24 Facebook Page">Mehndi Marathon 24 Facebook Page
+                                    </option>
+                                    <option value="GWM Website">GWM Website</option>
+                                    <option value="GWM WhatsApp">GWM WhatsApp</option>
+                                    <option value="Ads Campaign">Ads Campaign</option>
+                                    <option value="Google Ads">Google Ads</option>
+                                    <option value="YouTube">YouTube</option>
+                                    <option value="SMS">SMS</option>
+                                    <option value="Email Marketing">Email Marketing</option>
+                                    <option value="Tele Calling">Tele Calling</option>
+                                    <option value="LinkedIn">LinkedIn</option>
+                                    <option value="Artists Page">Artists Page</option>
+                                    <option value="Others" id="lead-source-other">Others</option>
+                                </select>
+                                <input type="text" id="lead-source-others" name="lead_source_others" style="display: none;"
+                                    class="form-control" placeholder="Please specify">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="area-interest">Area of Interest <span class="required-icon">*</span></label>
+                                <select id="area-interest" name="area_interest" class="form-control mb-2">
+                                    <option value="" disabled selected>Select area of interest</option>
+                                    <option value="Competitions">Competitions</option>
+                                    <option value="Discounts">Discounts</option>
+                                    <option value="B2B Meetings / Networking">B2B Meetings / Networking</option>
+                                    <option value="Salon & Spa">Salon & Spa</option>
+                                    <option value="Equipment Supply Chain">Equipment Supply Chain</option>
+                                    <option value="Products Supply Chain">Products Supply Chain</option>
+                                    <option value="Make-up">Make-up</option>
+                                    <option value="Skin Care">Skin Care</option>
+                                    <option value="Products Branding & Marketing">Products Branding & Marketing</option>
+                                    <option value="Product Knowledge">Product Knowledge</option>
+                                    <option value="Product Awareness">Product Awareness</option>
+                                    <option value="Education">Education</option>
+                                    <option value="Hair Care">Hair Care</option>
+                                    <option value="Nail Art">Nail Art</option>
+                                    <option value="Others">Others</option>
+                                </select>
+                                <input type="text" id="category-others" name="area_interest_others" style="display: none;"
+                                    class="form-control" placeholder="Please specify">
+                            </div>
+                        </div>
+                        <hr>
+                        <h2>Event Type </h2>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="area-interest"> Booking Date<span class="required-icon">*</span></label>
+                                <input type="date" id="booking_date" name="booking_date" class="form-control" min="<?php echo date('Y-m-d'); ?>">
+                            </div>
+                        </div>
+
+
+                        <?php $i = 0;
+                        foreach ($result['event_types_details'] as $event_type_arr) {
+                            $i++; ?>
+                            <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <div class="field-container">
+                                        <div class="checkbox-container">
+                                            <div class="checkbox-item">
+                                                <input type="checkbox" id="event-<?= $event_type_arr['id'] ?>"
+                                                    name="event_type[<?= $event_type_arr['id'] ?>]"
+                                                    value="<?= $event_type_arr['event_type'] ?>">
+                                                <label for="event-<?= $event_type_arr['id'] ?>">
+                                                    <?= $event_type_arr['event_type'] ?>
+                                                    <?php if ($event_type_arr['package_available'] != 'Yes') { ?>
+                                                        - ₹<?= $event_type_arr['single_price'] ?><?php } ?>
+                                                </label>
                                             </div>
-                                            <input type="hidden" name="package_price[<?= $event_type_arr['id'] ?>]" value="" ?>
-                                        <?php } else { ?>
-                                            <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]"
-                                                value="<?= $event_type_arr['single_price'] ?>" ?>
-                                        <?php } ?>
+
+                                            <?php if (strcasecmp($event_type_arr['package_available'], 'Yes') == 0) { ?>
+                                                <div class="package-selection" id="package-selection-<?= $event_type_arr['id'] ?>"
+                                                    style="display: none;">
+                                                    <input type="hidden" name="package_amount[<?= $event_type_arr['id'] ?>]" class="package_amount" />
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-vip-<?= $event_type_arr['id'] ?>"
+                                                            name="package_selection[<?= $event_type_arr['id'] ?>]" value="VIP"
+                                                            data-fee="<?= $event_type_arr['vip_row_price'] ?>">
+                                                        <label for="package-vip-<?= $event_type_arr['id'] ?>">VIP -
+                                                            ₹<?= $event_type_arr['vip_row_price'] ?></label>
+                                                    </div>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-gold-<?= $event_type_arr['id'] ?>"
+                                                            name="package_selection[<?= $event_type_arr['id'] ?>]" value="Gold"
+                                                            data-fee="<?= $event_type_arr['gold_row_price'] ?>">
+                                                        <label for="package-gold-<?= $event_type_arr['id'] ?>">Gold -
+                                                            ₹<?= $event_type_arr['gold_row_price'] ?></label>
+                                                    </div>
+                                                    <div class="checkbox-item">
+                                                        <input type="radio" id="package-silver-<?= $event_type_arr['id'] ?>"
+                                                            name="package_selection[<?= $event_type_arr['id'] ?>]" value="Silver"
+                                                            data-fee="<?= $event_type_arr['silver_row_price'] ?>">
+                                                        <label for="package-silver-<?= $event_type_arr['id'] ?>">Silver -
+                                                            ₹<?= $event_type_arr['silver_row_price'] ?></label>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="package_price[<?= $event_type_arr['id'] ?>]" value="" ?>
+                                            <?php } else { ?>
+                                                <input type="hidden" name="single_price[<?= $event_type_arr['id'] ?>]"
+                                                    value="<?= $event_type_arr['single_price'] ?>" ?>
+                                            <?php } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div id="terms-section-<?= $event_type_arr['id'] ?>"
+                                        style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
+                                        <h5>Terms And Conditions</h5>
+                                        <p><?php echo $event_type_arr['tnc']; ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php } ?>
+
+                        <div class="row mb-2">
+                            <div class="col-md-6">
+                                <div class="total-area mb-2">
+                                    <input type="hidden" name="total_amount" id="payment_total">
+                                    <div class="quantity-box mb-2">
+                                        <label> No Of Tickets : </label>&nbsp;&nbsp;
+                                        <!-- <button type="button" onclick="changeQuantity(-1)">-</button> -->
+                                        <input type="number" id="quantity" value="1" min="1" class="form-control" name="no_of_tickets">
+                                        <!-- <button type="button" onclick="changeQuantity(1)">+</button> -->
+                                    </div>
+                                    <div class="amounts">
+                                        <div class="amount-item">
+                                            <span class="label">Net payable Total:</span>
+                                            ₹
+                                            <input type="text" id="net_payable_total" name="net_payable_total" value=""
+                                                class="form-control" style="width:30%;" readonly>
+                                            <!-- <span id="">0.00</span> -->
+                                        </div>
+                                        <div class="amount-item">
+                                            <span class="label">Advance:</span>
+                                            ₹<input type="text" id="Advance" value="" class="form-control" name="Advance"
+                                                style="width:30%;" readonly>
+
+                                            <input type="hidden" name="advance_amount">
+                                        </div>
+                                        <div class="amount-item">
+                                            <span class="label">Remaining:</span>
+                                            ₹<input type="text" id="remaining_amount" value="" name="remaining_amount"
+                                                class="form-control" style="width:30%;" readonly>
+                                            <!-- <input type="hidden" name="remaining_amount"> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div id="terms-section-<?= $event_type_arr['id'] ?>"
-                                    style="display: none; height: 250px; overflow-y: scroll;border: 1px solid #c5c1c1;padding: 10px;font-size:0.8rem;">
-                                    <h5>Terms And Conditions</h5>
-                                    <p><?php echo $event_type_arr['tnc']; ?></p>
+                                <div id="coupon-container">
+                                    <div class="field">
+                                        <label for="coupon_code">Enter Coupon Code<span
+                                                class="required-icon">*</span></label>
+                                        <div class="row">
+                                            <div class="col-9 jay">
+                                                <input type="text" id="coupon_code" name="coupon_code" class="form-control"
+                                                    placeholder="Enter coupon code">
+                                            </div>
+                                            <div class="col-3 d-flex align-items-center">
+                                                <button type="button" id="apply-coupon"
+                                                    class="btn btn-primary mr-2">Apply</button>
+                                                <button type="button" id="cancel-coupon" class="btn btn-danger hide">
+                                                    <i class="bi bi-x-circle-fill"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="coupon_value" name="coupon_value" class="form-control">
+                                <div class="sms">
+                                    <p id="coupon-message"></p>
+                                </div>
+                                <div class="sms">
+                                    <p id="coupon-alert"></p>
                                 </div>
                             </div>
                         </div>
-                    <?php } ?>
-
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="total-area mb-2">
-                                <input type="hidden" name="total_amount" id="payment_total">
-                                <div class="quantity-box mb-2">
-                                    <label> No Of Tickets : </label>&nbsp;&nbsp;
-                                    <!-- <button type="button" onclick="changeQuantity(-1)">-</button> -->
-                                    <input type="number" id="quantity" value="1" min="1" class="form-control" name="no_of_tickets">
-                                    <!-- <button type="button" onclick="changeQuantity(1)">+</button> -->
-                                </div>
-                                <div class="amounts">
-                                    <div class="amount-item">
-                                        <span class="label">Net payable Total:</span>
-                                        ₹
-                                        <input type="text" id="net_payable_total" name="net_payable_total" value=""
-                                            class="form-control" style="width:30%;" readonly>
-                                        <!-- <span id="">0.00</span> -->
-                                    </div>
-                                    <div class="amount-item">
-                                        <span class="label">Advance:</span>
-                                        ₹<input type="text" id="Advance" value="" class="form-control" name="Advance"
-                                            style="width:30%;" readonly>
-
-                                        <input type="hidden" name="advance_amount">
-                                    </div>
-                                    <div class="amount-item">
-                                        <span class="label">Remaining:</span>
-                                        ₹<input type="text" id="remaining_amount" value="" name="remaining_amount"
-                                            class="form-control" style="width:30%;" readonly>
-                                        <!-- <input type="hidden" name="remaining_amount"> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div id="coupon-container">
+                        <div class="row mb-2">
+                            <div class="col-md-6">
                                 <div class="field">
-                                    <label for="coupon_code">Enter Coupon Code<span
+                                    <label for="payment-ref-no">Payment Reference No <span
                                             class="required-icon">*</span></label>
-                                    <div class="row">
-                                        <div class="col-9 jay">
-                                            <input type="text" id="coupon_code" name="coupon_code" class="form-control"
-                                                placeholder="Enter coupon code">
-                                        </div>
-                                        <div class="col-3 d-flex align-items-center">
-                                            <button type="button" id="apply-coupon"
-                                                class="btn btn-primary mr-2">Apply</button>
-                                            <button type="button" id="cancel-coupon" class="btn btn-danger hide">
-                                                <i class="bi bi-x-circle-fill"></i>
-                                            </button>
-                                        </div>
+                                    <input type="text" id="payment-ref-no" name="payment_ref_no"
+                                        placeholder="Enter Payment Reference No" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="file-upload-container">
+                                    <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span>
+                                    </h3>
+                                    <div class="file-upload-area">
+                                        <input type="file" id="file-upload" name="screenshot" multiple accept="image/*"
+                                            class="form-control">
+                                        <label for="file-upload" class="upload-button">
+                                            <span>Add file</span>
+                                        </label>
+                                        <div id="selected-files" class="selected-files"></div>
                                     </div>
                                 </div>
                             </div>
-                            <input type="hidden" id="coupon_value" name="coupon_value" class="form-control">
-                            <div class="sms">
-                                <p id="coupon-message"></p>
-                            </div>
-                            <div class="sms">
-                                <p id="coupon-alert"></p>
-                            </div>
                         </div>
-                    </div>
-                    <div class="row mb-2">
-                        <div class="col-md-6">
-                            <div class="field">
-                                <label for="payment-ref-no">Payment Reference No <span
-                                        class="required-icon">*</span></label>
-                                <input type="text" id="payment-ref-no" name="payment_ref_no"
-                                    placeholder="Enter Payment Reference No" class="form-control">
-                            </div>
+                        <div class="row mb-2">
+                            <button type="submit" class="btn btn-primary"> Submit</button>
                         </div>
-
-                        <div class="col-md-6">
-                            <div class="file-upload-container">
-                                <h3 class="upload-heading">Payment Screenshot<span class="required-marker"> *</span>
-                                </h3>
-                                <div class="file-upload-area">
-                                    <input type="file" id="file-upload" name="screenshot" multiple accept="image/*"
-                                        class="form-control">
-                                    <label for="file-upload" class="upload-button">
-                                        <span>Add file</span>
-                                    </label>
-                                    <div id="selected-files" class="selected-files"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row mb-2">
-                        <button type="submit" class="btn btn-primary"> Submit</button>
-                    </div>
-                </form>
+                    </form>
             </div>
         </div>
+    <?php endif; ?>
     </div>
     <footer class="footer_v1 ova-trans" style="background:#000;">
         <div class="wrap_widget">
