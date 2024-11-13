@@ -350,7 +350,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="center-container">
                         <!-- Event Expired Message -->
                         <div class="event-expired-message">
-                            Event 
+                            Event Expired
                         </div>
                     </div>
                 <?php else: ?>
