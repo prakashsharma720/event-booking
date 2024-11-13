@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php session_start(); 
+ 
+$code = $_GET['code'];
+ 
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php?code=' . $code);
+    exit;
+}
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -268,7 +278,7 @@
             <p style="--i:6"><strong>Advance Payment:</strong> <?= ($_SESSION['advanced_pay']) ?></p>
             <p style="--i:7"><strong>Remaining Amount:</strong> <?= ($_SESSION['remaining_amount']) ?></p>
 
-            
+
             <?php if (!empty($_SESSION['coupon_value'])): ?>
                 <div class="circle-badge">
                     Discount ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>

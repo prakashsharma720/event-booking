@@ -1,4 +1,5 @@
 <?php
+
 include 'db.php';
 $error_message = '';
 
@@ -78,7 +79,7 @@ $conn->close();
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    <style>
       body {
-         background-color: #dbd3a9;
+         background-color:#e1ddc9;
       }
 
       .error-message {
@@ -316,10 +317,10 @@ $conn->close();
       </div>
 
 
-      <div class="profile-container">
+      <div class="profile-container profile-hidden">
 
          <a href="profile.php" class="profile-icon">
-            <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Profile Icon" class="profile-img">
+            <!-- <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Profile Icon" class="profile-img"> -->
          </a>
       </div>
 

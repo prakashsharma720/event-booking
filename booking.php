@@ -2,8 +2,15 @@
 include('db.php');
 $code = $_GET['code'];
 
-$curl = curl_init();
 session_start();
+
+if (!isset($_SESSION['user_id']) || !isset($_SESSION['mobile'])) {
+    header('Location: login.php?code=' . $code);
+    exit();
+}
+$curl = curl_init();
+ 
+
 $user_id = $_SESSION['user_id'];
 $mobile = $_SESSION['mobile'];
 $user_type = $_SESSION['user_type'];
@@ -346,9 +353,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <img src="freebie2.png" style="width:100%;">
                 </div> -->
                 <?php if ($event_expired): ?>
-                    <!-- Event Expired Message -->
                     <div class="center-container">
-                        <!-- Event Expired Message -->
                         <div class="event-expired-message">
                             Event Expired
                         </div>
