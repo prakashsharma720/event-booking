@@ -47,7 +47,7 @@ if ($data['status'] == "true") {
     $event_end_date = $result['end_date']; // Event end date
     $current_date = date('Y-m-d'); // Current date
 
-    if ($current_date > $event_end_date) {
+    if ($current_date < $event_end_date) {
         $event_expired = true;
     } else {
         $event_expired = false;
