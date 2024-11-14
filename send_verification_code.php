@@ -10,7 +10,7 @@ $code = $_GET['code'];
    <title>Send Verification Code | CodeLab</title>
    <style>
       body {
-         display: grid;
+
          height: 100%;
          width: 100%;
          place-items: center;
@@ -30,7 +30,7 @@ $code = $_GET['code'];
          background: #fff;
          box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
          padding: 30px 25px;
-
+         margin-bottom: 55px;
          margin-top: 50px;
       }
 
@@ -241,6 +241,80 @@ $code = $_GET['code'];
          height: 45px;
          border-radius: 50%;
       }
+
+      footer {
+         background-color: #555;
+         color: white;
+         padding: 30px;
+      }
+
+      .footer_v1 .container {
+         display: flex;
+         justify-content: space-between;
+         flex-wrap: wrap;
+      }
+
+      .footer_v1 .row {
+         width: 100%;
+         display: flex;
+         justify-content: space-between;
+         margin-bottom: 20px;
+      }
+
+      .footer_v1 .col-sm-6 {
+         flex: 0 0 48%;
+         
+         padding: 0 10px;
+      }
+
+      .footer_v1 .widget-title {
+         font-size: 25px;
+         font-weight: bold;
+         margin-bottom: 20px;
+      }
+
+      .footer_v1 .textwidget custom-html-widget ul {
+         list-style-type: none;
+         padding-left: 0;
+ 
+         padding: 5px;
+      }
+
+      .footer_v1 .textwidget custom-html-widget li {
+         margin-bottom: 8px;
+        
+      }
+
+      .footer_v1 .textwidget.custom-html-widget a {
+         color: white;
+         font-weight: 600;
+      
+      }
+
+      .footer_v1 .textwidget.custom-html-widget a:hover {
+         text-decoration: underline;
+         color: white;
+      }
+
+      .footer_v1 .textwidget custom-html-widget a:hover {
+         text-decoration: underline;
+      }
+
+
+      .footer_v1 .wrap_bellow {
+         background-color: black;
+       
+         color: white;
+      }
+
+      .footer_v1 .wrap_bellow .container .row {
+         justify-content: center;
+         text-align: center;
+      }
+
+      .footer_v1 .wrap_bellow .container .row .col-sm-12 {
+         margin-top: 10px;
+      }
    </style>
 
 </head>
@@ -315,12 +389,12 @@ $code = $_GET['code'];
       </form>
    </div>
 
-   <footer class="footer_v1 ova-trans" style="background:#000;">
+   <footer class="footer_v1 ova-trans" style="background:#000; width: 100%;">
       <div class="wrap_widget">
          <div class="container">
             <div class="row">
                <div class="col-sm-4 category pd_0 pd_l_0">
-                  <div id="media_image-3" class="widget widget_media_image">
+                  <div id="media_image-3" class="widget widget_media_image" style="padding: 0px 40px;">
                      <img width="150" height="150"
                         src="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg"
                         class="image wp-image-12947  attachment-thumbnail size-thumbnail" alt=""
@@ -332,8 +406,8 @@ $code = $_GET['code'];
                <div class="col-sm-4 gallery pd_0">
                   <div id="custom_html-9" class="widget_text widget widget_custom_html">
                      <h4 class="widget-title">Quick Links</h4>
-                     <div class="textwidget custom-html-widget">
-                        <ul style="color:white">
+                     <div class="textwidget custom-html-widget ">
+                        <ul style="color:white  ">
                            <li>
                               <a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank"
                                  rel="noopener">Terms &amp; conditions</a>
@@ -351,10 +425,10 @@ $code = $_GET['code'];
                   </div>
                </div>
 
-               <div class="col-sm-4 tags  pd_0 pd_r_0">
-                  <div id="custom_html-4" class="widget_text widget widget_custom_html">
+               <div class="col-sm-4 tags  pd_0 pd_r_0 ">
+                  <div id="custom_html-4" class="widget_text widget widget_custom_html" style="padding: 0px 8px;">
                      <h4 class="widget-title">Contact Details</h4>
-                     <div class="textwidget custom-html-widget">
+                     <div class="textwidget custom-html-widget" style="font-weight: 700;">
                         <p style="color:white">
                            <strong>Phone -</strong> +91 98204 90762 / +91 98204 90460
                         </p>
