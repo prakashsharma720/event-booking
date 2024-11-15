@@ -460,5 +460,22 @@ if (!isset($_SESSION['user_id'])) {
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
+<<<<<<< HEAD
+=======
+ <script src="https://moerp.modevcloud.com/assets/plugins/jquery/jquery.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      <!-- Download Ticket Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.js" referrerpolicy="no-referrer"></script>
+<script>
+        // Show the modal as soon as the page loads
+        window.onload = function() {
+            var modal = document.getElementById("ticketModal");
+            modal.style.display = "block"; // Show the modal directly
+            setTimeout(function() {
+                modal.classList.add("show"); // Add the show class to trigger animation
+            }, 10);
+>>>>>>> a8bbff624e5888915c9a007dca76511e3e6be3f9
 
 </html>
