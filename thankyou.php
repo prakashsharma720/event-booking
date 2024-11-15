@@ -1,12 +1,11 @@
-<?php session_start();
-
+<?php
+session_start();
 $code = $_GET['code'];
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php?code=' . $code);
     exit;
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -247,25 +246,31 @@ if (!isset($_SESSION['user_id'])) {
             .logo-container img {
                 max-width: 160px;
             }
-            .logout_icon{
+
+            .logout_icon {
                 width: 20%;
             }
         }
-         /* Responsive adjustments */
-       @media (max-width: 767px) {
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
             .container {
                 max-width: 100%;
             }
-            .image-container img{
-               max-width: 100%;  
+
+            .image-container img {
+                max-width: 100%;
             }
+
             .header {
                 padding: 5px 5px;
             }
+
             .logo-container img {
                 max-width: 70px;
             }
-            .logout_icon{
+
+            .logout_icon {
                 width: 50%;
             }
         }
@@ -360,8 +365,9 @@ if (!isset($_SESSION['user_id'])) {
             <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
         </div>
         <div class="btn-container" style="padding-left: 30px;">
-            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"> Logout</a>
+            <a href="login.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"> Logout</a>
         </div>
+
 
     </div>
 
@@ -383,7 +389,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <?php if (!empty($_SESSION['coupon_value'])): ?>
                 <div class="circle-badge">
-                    You Saved  ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
+                    You Saved ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
                 </div>
             <?php endif; ?>
 
@@ -462,13 +468,8 @@ if (!isset($_SESSION['user_id'])) {
         </div>
 
     </footer>
-  
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
- <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
 
 
 </html>

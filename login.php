@@ -187,49 +187,54 @@ $conn->close();
          background-color: #f8d7da;
       }
 
+      /* Header Style */
       .header {
-         display: flex;
-         justify-content: space-between;
-         align-items: center;
-         padding: 10px 20px;
-         background-color: black;
-         color: white;
-         width: 100%;
-      }
+            width: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 80px;
+        }
 
-      .header .logo {
-         width: 120px;
-         height: auto;
-      }
+        .logo-container img {
+            max-width: 100px;
+            padding-left: 5px;
+        }
 
-      .header .logout-btn {
-         padding: 10px 20px;
-         background-color: #b62b2b;
-         color: white;
-         font-weight: bold;
-         border: none;
-         border-radius: 5px;
-         cursor: pointer;
-         text-decoration: none;
-         font-size: 16px;
-      }
+        .header .btn-container {
+            display: flex;
+            gap: 15px;
+        }
 
-      .header .button {
-         padding: 10px 20px;
-         background-color: #bb9433;
-         color: white;
-         font-weight: bold;
-         border: none;
-         border-radius: 5px;
-         cursor: pointer;
-         text-decoration: none;
-         font-size: 16px;
-      }
+        .header .btn-container .btn {
+            /* background-color: #bb9433; */
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
-      .header .logout-btn:hover {
-         background-color: #a12727;
-      }
+        .button {
+            background-color: #ee2828;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
+        .button:hover {
+            background-color: #ca2424;
+        }
+
+        .header .btn-container .btn:hover {
+            background-color: #a0822e;
+        }
       * {
          box-sizing: border-box;
          font-weight: 600;
@@ -287,51 +292,147 @@ $conn->close();
          background-color: #e67e22;
       }
 
-      @media (max-width: 576px) {
-         .header {
-            padding: 10px;
-         }
+   
+      @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
 
-         .wrapper {
-            margin: 5px 10px;
-            padding: 15px;
-         }
-      }
+            .image-container {
+                margin-right: 40px;
+                margin-bottom: 0;
+            }
 
-      footer {
-         color: white;
-         width: 100%;
-         padding: 20px;
-      }
+            .details {
+                text-align: left;
+            }
 
-      .footer_v1 .textwidget.custom-html-widget a {
-         color: white;
-         font-weight: 600;
+            img {
+                max-width: 200px;
+            }
 
-      }
+            .logo-container img {
+                max-width: 160px;
+            }
+            .logout_icon{
+                width: 20%;
+            }
+        }
+         /* Responsive adjustments */
+       @media (max-width: 767px) {
+            .container {
+                max-width: 100%;
+            }
+            .image-container img{
+               max-width: 100%;  
+            }
+            .header {
+                padding: 5px 5px;
+            }
+            .logo-container img {
+                max-width: 70px;
+            }
+            .logout_icon{
+                width: 50%;
+            }
+        }
+
+ 
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 30px;
+            width: 100%;
+        }
+
+        .footer_v1 .container1 {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer_v1 .row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer_v1 .col-sm-6 {
+            flex: 0 0 48%;
+
+            padding: 0 10px;
+        }
+
+        .footer_v1 .widget-title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer_v1 .textwidget custom-html-widget ul {
+            list-style-type: none;
+            padding-left: 0;
+
+            padding: 5px;
+        }
+
+        .footer_v1 .textwidget custom-html-widget li {
+            margin-bottom: 8px;
+
+        }
+
+        .footer_v1 .textwidget.custom-html-widget a {
+            color: white;
+            font-weight: 600;
+
+        }
+
+        .footer_v1 .textwidget.custom-html-widget a:hover {
+            text-decoration: underline;
+            color: white;
+        }
+
+        .footer_v1 .textwidget custom-html-widget a:hover {
+            text-decoration: underline;
+        }
+
+
+        .footer_v1 .wrap_bellow {
+            background-color: black;
+
+            color: white;
+        }
+
+        .footer_v1 .wrap_bellow .container1 .row {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .footer_v1 .wrap_bellow .container1 .row .col-sm-12 {
+            margin-top: 10px;
+        }
    </style>
 </head>
 
 <body>
-   <header class="header">
-      <div class="container">
-         <div class="row align-items-center">
-            <div class="col-6 col-md-4">
-               <div class="logo-container">
-                  <img src="logo-gwm.jpg" alt="GWM Logo" class="logo img-fluid">
-               </div>
-            </div>
+     <!-- Header Section -->
+     <div class="header">
+        <div class="logo-container">
+            <img src="logo-gwm.jpg" class="logo" alt="Logo">
+        </div>
 
-            <div class="col-6 col-md-8 text-end">
-               <div class="logout-container d-flex justify-content-end flex-wrap">
-                  <a href="https://glowupwithmanisha.com/" class="button me-2 mb-2 mb-md-0">Go Website</a>
-                  <a href="https://portal.glowupwithmanisha.com/" class=" button mb-2 mb-md-0">Go Admin </a>
-               </div>
-            </div>
-         </div>
-      </div>
-   </header>
+        <!-- Center Buttons -->
+        <div class="btn-container">
+            <a href="https://glowupwithmanisha.com/" class="btn"> Website</a>
+            <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
+        </div>
+        <div class="btn-container" style="padding-left: 30px;">
+            
+        </div>
 
+        
+    </div>
    <div class="wrapper login-wrapper <?php if (!isset($_GET['error'])) echo 'active'; ?>">
       <?php if (!empty($error_message)): ?>
          <div class="error-message">
@@ -429,53 +530,72 @@ $conn->close();
       </form>
    </div>
 
-   <footer class="footer_v1" style="background:#000;">
-      <div class="wrap_widget">
-         <div class="container">
-            <div class="row">
-               <div class="col-sm-4 category pd_0 pd_l_0">
-                  <div id="media_image-3" class="widget widget_media_image">
-                     <img width="150" height="150" src="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg" class="image wp-image-12947  attachment-thumbnail size-thumbnail" alt="Logo">
-                  </div>
-               </div>
-               <div class="col-sm-4 gallery pd_0">
-                  <div id="custom_html-9" class="widget_text widget widget_custom_html">
-                     <h4 class="widget-title">Quick Links</h4>
-                     <div class="textwidget custom-html-widget ">
-                        <ul style="color:white">
-                           <li><a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank">Terms & Conditions</a></li>
-                           <li><a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank">Privacy Policy</a></li>
-                           <li><a href="https://glowupwithmanisha.com/disclaimer/" target="_blank">Legal Disclaimer</a></li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-               <div class="col-sm-4 tags pd_0 pd_r_0">
-                  <div id="custom_html-4" class="widget_text widget widget_custom_html">
-                     <h4 class="widget-title">Contact Details</h4>
-                     <div class="textwidget custom-html-widget">
-                        <p style="color:white"><strong>Phone -</strong> +91 98204 90762 / +91 98204 90460</p>
-                        <p style="color:white"><strong>Email -</strong> glowupwithmanisha@gmail.com</p>
-                     </div>
-                  </div>
-               </div>
+   <footer class="footer_v1 ova-trans" style="background:#000;">
+        <div class="wrap_widget">
+            <div class="container1">
+                <div class="row">
+                    <div class="col-sm-4 category pd_0 pd_l_0">
+                        <div id="media_image-3" class="widget widget_media_image">
+                            <img width="150" height="150"
+                                src="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg"
+                                class="image wp-image-12947  attachment-thumbnail size-thumbnail" alt=""
+                                style="max-width: 100%; height: auto;" decoding="async" loading="lazy"
+                                srcset="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg 150w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-300x300.jpg 300w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-600x600.jpg 600w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-100x100.jpg 100w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file.jpg 640w"
+                                sizes="(max-width: 150px) 100vw, 150px">
+                        </div>
+                    </div>
+                    <div class="col-sm-4 gallery pd_0">
+                        <div id="custom_html-9" class="widget_text widget widget_custom_html">
+                            <h4 class="widget-title">Quick Links</h4>
+                            <div class="textwidget custom-html-widget">
+                                <ul style="color:white">
+                                    <li>
+                                        <a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank"
+                                            rel="noopener">Terms &amp; conditions</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank"
+                                            rel="noopener">Privacy Policy</a>
+                                    </li>
+                                    <li>
+                                        <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank"
+                                            rel="noopener">Legal Disclaimer</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 tags  pd_0 pd_r_0">
+                        <div id="custom_html-4" class="widget_text widget widget_custom_html">
+                            <h4 class="widget-title">Contact Details</h4>
+                            <div class="textwidget custom-html-widget">
+                                <p style="color:white">
+                                    <strong>Phone -</strong> +91 98204 90762 / +91 98204 90460
+                                </p>
+                                <p style="color:white"><strong>Email -</strong> glowupwithmanisha@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-      <div class="wrap_bellow">
-         <div class="container">
-            <div class="row">
-               <div class="col-sm-12 pd_0 logo_white text-center">
-                  <div id="custom_html-7" class="widget_text widget widget_custom_html">
-                     <div class="textwidget custom-html-widget">
-                        <p style="color:white">Copyright ©2024 Glow Up with Manisha, All rights reserved.</p>
-                     </div>
-                  </div>
-               </div>
+        </div>
+
+        <div class="wrap_bellow">
+            <div class="container1">
+                <div class="row">
+                    <div class="col-sm-12 pd_0 logo_white text-center">
+                        <div id="custom_html-7" class="widget_text widget widget_custom_html">
+                            <div class="textwidget custom-html-widget">
+                                <p style="color:white">Copyright ©2024 Glow Up with Manisha, All rights reserved.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-         </div>
-      </div>
-   </footer>
+        </div>
+
+    </footer>
    <script>
       document.addEventListener('DOMContentLoaded', () => {
 
