@@ -48,7 +48,7 @@ if ($data['status'] == "true") {
     $current_date = date('Y-m-d'); // Current date
 
     if ($current_date > $event_end_date) {
-    
+
         $event_expired = true;
     } else {
         $event_expired = false;
@@ -230,39 +230,55 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         }
 
-        .button {
-            background-color: #bb9433;
-            color: #fff;
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
 
+        /* Header Style */
+        .header {
+            width: 100%;
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 80px;
+        }
+
+        .logo-container img {
+            max-width: 100px;
+            padding-left: 5px;
+        }
+
+        .header .btn-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        .header .btn-container .btn {
+            /* background-color: #bb9433; */
+            color: white;
+            border: none;
+            padding: 8px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .button {
+            background-color: #ee2828;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
         }
 
         .button:hover {
-            background-color: #896c25;
+            background-color: #ca2424;
         }
 
-
-        .btn-danger {
-            background-color: #DC3545;
-            color: #fff;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-weight: bold;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-
+        .header .btn-container .btn:hover {
+            background-color: #a0822e;
         }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-
-        }
-
 
         .event-expired-message {
             background-color: #d9534f;
@@ -285,32 +301,152 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             height: 100vh;
             margin: 24px 78px;
         }
+
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row;
+            }
+
+            .image-container {
+                margin-right: 40px;
+                margin-bottom: 0;
+            }
+
+            .details {
+                text-align: left;
+            }
+
+            img {
+                max-width: 200px;
+            }
+
+            .logo-container img {
+                max-width: 160px;
+            }
+
+            .logout_icon {
+                width: 20%;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 767px) {
+            .container {
+                max-width: 100%;
+            }
+
+            .image-container img {
+                max-width: 100%;
+            }
+
+            .header {
+                padding: 5px 5px;
+            }
+
+            .logo-container img {
+                max-width: 70px;
+            }
+
+            .logout_icon {
+                width: 50%;
+            }
+        }
+
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 30px;
+            width: 100%;
+        }
+
+        .footer_v1 .container1 {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .footer_v1 .row {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .footer_v1 .col-sm-6 {
+            flex: 0 0 48%;
+
+            padding: 0 10px;
+        }
+
+        .footer_v1 .widget-title {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .footer_v1 .textwidget custom-html-widget ul {
+            list-style-type: none;
+            padding-left: 0;
+
+            padding: 5px;
+        }
+
+        .footer_v1 .textwidget custom-html-widget li {
+            margin-bottom: 8px;
+
+        }
+
+        .footer_v1 .textwidget.custom-html-widget a {
+            color: white;
+            font-weight: 600;
+
+        }
+
+        .footer_v1 .textwidget.custom-html-widget a:hover {
+            text-decoration: underline;
+            color: white;
+        }
+
+        .footer_v1 .textwidget custom-html-widget a:hover {
+            text-decoration: underline;
+        }
+
+
+        .footer_v1 .wrap_bellow {
+            background-color: black;
+
+            color: white;
+        }
+
+        .footer_v1 .wrap_bellow .container1 .row {
+            justify-content: center;
+            text-align: center;
+        }
+
+        .footer_v1 .wrap_bellow .container1 .row .col-sm-12 {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
 <body>
 
 
-    <header class="head py-3">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Logo Section -->
-                <div class="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start">
-                    <img src="logo-gwm.jpg" alt="Event Logo" style="width: 100px; height: auto;">
-                </div>
-
-
-                <div class="col-12 col-md-6 text-center mt-2 mt-md-0">
-                    <a href="https://glowupwithmanisha.com/" class="button mb-2 mb-md-0 me-2">Go Website</a>
-                    <a href="https://portal.glowupwithmanisha.com/" class=" button mb-2 mb-md-0">Go Admin portal</a>
-                </div>
-
-                <div class="col-12 col-md-3 text-center text-md-end mt-3 mt-md-0">
-                    <a href="login.php?code=<?= $code ?>" class="btn btn-danger">Logout</a>
-                </div>
-            </div>
+    <div class="header">
+        <div class="logo-container">
+            <img src="logo-gwm.jpg" class="logo" alt="Logo">
         </div>
-    </header>
+
+        <!-- Center Buttons -->
+        <div class="btn-container">
+            <a href="https://glowupwithmanisha.com/" class="btn"> Website</a>
+            <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
+        </div>
+        <div class="btn-container" style="padding-left: 30px;">
+            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"> Logout</a>
+        </div>
+
+    </div>
 
     <div class="container-fluid">
         <div class="row content">
@@ -717,7 +853,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <footer class="footer_v1 ova-trans" style="background:#000;">
         <div class="wrap_widget">
-            <div class="container">
+            <div class="container1">
                 <div class="row">
                     <div class="col-sm-4 category pd_0 pd_l_0">
                         <div id="media_image-3" class="widget widget_media_image">
@@ -767,7 +903,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <div class="wrap_bellow">
-            <div class="container">
+            <div class="container1">
                 <div class="row">
                     <div class="col-sm-12 pd_0 logo_white text-center">
                         <div id="custom_html-7" class="widget_text widget widget_custom_html">
