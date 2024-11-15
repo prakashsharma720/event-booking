@@ -2,8 +2,9 @@
 
 include 'db.php';
 $error_message = '';
+// echo $_GET['code'];exit;
 
-if (!isset($_GET['code']) || empty(trim($_GET['code']))) {
+if (empty($_GET['code'])) {
    header('Location: https://glowupwithmanisha.com/upcoming-event/');
 } else {
    $code = trim($_GET['code']);
@@ -44,6 +45,7 @@ if (!isset($_GET['code']) || empty(trim($_GET['code']))) {
                   $_SESSION['user_type'] = $user_type;
                   $_SESSION['name'] = $name;
                   $_SESSION['email'] = $email;
+                  $_SESSION['event_code'] = $code;
 
                   if ($user_type === 'participant') {
                      header('Location: booking.php?code=' . $code);
