@@ -27,7 +27,7 @@ if (!isset($_SESSION['user_id'])) {
             align-items: center;
             background-color: #e1ddc9;
             margin: 0;
-            color: white;
+            /* color: white; */
             overflow-y: auto;
             /* Enable vertical scrolling */
         }
@@ -132,16 +132,16 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .circle-badge {
-            position: absolute;
+            position: relative;
             top: 50%;
             right: 5%;
-            background-color: #bb9433;
-            color: white;
+            /* background-color: #bb9433; */
+            color: #128742;
             font-size: 22px;
             font-weight: bold;
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
+            /* width: 160px; */
+            /* height: 160px; */
+            /* border-radius: 50%; */
             padding: 10px;
             display: flex;
             justify-content: center;
@@ -241,6 +241,21 @@ if (!isset($_SESSION['user_id'])) {
 
             .logo-container img {
                 max-width: 160px;
+            }
+        }
+         /* Responsive adjustments */
+       @media (max-width: 767px) {
+            .container {
+                max-width: 100%;
+            }
+            .image-container img{
+               max-width: 100%;  
+            }
+            .header {
+                padding: 5px 5px;
+            }
+            .logo-container img {
+                max-width: 70px;
             }
         }
 
@@ -356,7 +371,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <?php if (!empty($_SESSION['coupon_value'])): ?>
                 <div class="circle-badge">
-                    You Saved ! ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
+                    You Saved  ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
                 </div>
             <?php endif; ?>
 
