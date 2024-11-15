@@ -312,12 +312,21 @@ $conn->close();
 
 <body>
    <header class="header">
-      <div class="logo-container">
-         <img src="logo-gwm.jpg" alt="GWM Logo" class="logo">
-      </div>
-      <div class="logout-container">
-         <a href="https://glowupwithmanisha.com/" class="button me-2">Go Website</a>
-         <a href="https://portal.glowupwithmanisha.com/" class="button">Go Admin portal</a>
+      <div class="container">
+         <div class="row align-items-center">
+            <div class="col-6 col-md-4">
+               <div class="logo-container">
+                  <img src="logo-gwm.jpg" alt="GWM Logo" class="logo img-fluid">
+               </div>
+            </div>
+
+            <div class="col-6 col-md-8 text-end">
+               <div class="logout-container d-flex justify-content-end flex-wrap">
+                  <a href="https://glowupwithmanisha.com/" class="button me-2 mb-2 mb-md-0">Go Website</a>
+                  <a href="https://portal.glowupwithmanisha.com/" class=" button mb-2 mb-md-0">Go Admin </a>
+               </div>
+            </div>
+         </div>
       </div>
    </header>
 

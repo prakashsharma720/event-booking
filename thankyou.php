@@ -322,23 +322,20 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-    <!-- Header Section -->
+
     <div class="header">
         <div class="logo-container">
-            <img src="logo-gwm.jpg" class="logo" alt="Logo">
+            <img src="logo-gwm.jpg" class="logo" alt="Logo" width="120px">
         </div>
 
-        <!-- Center Buttons -->
         <div class="btn-container">
             <a href="https://glowupwithmanisha.com/" class="btn">Go Website</a>
             <a href="https://portal.glowupwithmanisha.com/" class="btn">Go Admin portal</a>
         </div>
 
-        <!-- Logout Button -->
         <button class="button" onclick="window.location.href='logout.php'">Logout</button>
     </div>
 
-    <!-- Main Content -->
     <div class="container">
         <div class="image-container">
             <img src="https://www.funimada.com/assets/images/cards/big/congrats-1.gif" alt="Congratulations">
