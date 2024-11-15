@@ -73,13 +73,14 @@ $conn->close();
 
 <head>
    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Login and Signup Forms | GWM</title>
-   <link rel="stylesheet" href="login.css"> <!-- Link to external CSS file -->
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <link rel="stylesheet" href="login.css">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    <style>
       body {
-         background-color:#e1ddc9;
+         background-color: #e1ddc9;
       }
 
       .error-message {
@@ -114,14 +115,7 @@ $conn->close();
          font-weight: bold;
          color: #cfbc6d;
          margin-top: 23px;
-
       }
-
-      .verify-button-container .verify_otp:hover {
-         background-color: #e60074;
-      }
-
-
 
       .status-message,
       .status-message-otp-sent {
@@ -132,7 +126,6 @@ $conn->close();
 
       .send-otp-container {
          position: relative;
-
       }
 
       .time-display {
@@ -157,10 +150,8 @@ $conn->close();
          color: green;
          display: none;
          text-align: left;
-         margin-right: 10px;/
+         margin-right: 10px;
       }
-
-
 
       .error-message-otp-sent {
          border: 1px solid red;
@@ -173,18 +164,15 @@ $conn->close();
 
       .otp-inputs input {
          border: 1px solid #ccc;
-
          transition: border 0.3s;
       }
 
       .otp-inputs input.error {
          border: 1px solid red;
-
       }
 
       .otp-inputs input.success {
          border: 1px solid green;
-
       }
 
       .error-message-otp {
@@ -197,12 +185,11 @@ $conn->close();
          background-color: #f8d7da;
       }
 
-
       .header {
          display: flex;
          justify-content: space-between;
          align-items: center;
-         padding: 10px 80px;
+         padding: 10px 20px;
          background-color: black;
          color: white;
          width: 100%;
@@ -241,123 +228,114 @@ $conn->close();
          background-color: #a12727;
       }
 
-      *,
-      ::after,
-      ::before {
+      * {
          box-sizing: border-box;
          font-weight: 600;
       }
 
-      /* Set height of the grid so .sidenav can be 100% (adjust if needed) */
-      .row.content {
-         height: auto;
-      }
-
-      /* Set gray background color and 100% height */
-      .sidenav {
-         background-color: #f1f1f1;
-         height: 100%;
-         padding: 10px;
-      }
-
-      /* Set black background color, white text and some padding */
-      footer {
-         background-color: #555;
-         color: white;
-         padding: 30px;
-         width: 100%;
-      }
-
-      a {
-         color: white;
-      }
 
       .wrapper {
-         width: 90%;
-         /* Adjusted for responsiveness */
-         max-width: 420px;
-         /* Limit maximum width */
+         width: 100%;
+         max-width: 450px;
          background: #fff;
          box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
          padding: 20px;
+         margin: 40px auto;
+      }
+
+      .wrapper .login-wrapper,
+      .wrapper .signup-wrapper {
          display: none;
-         margin: 40px;
-
       }
 
-      .logout-hidden {
-         display: none;
+      .wrapper.active {
+         display: block;
       }
 
-
-      .profile-container {
-         display: flex;
-         align-items: center;
+      .wrapper .title {
+         font-size: 24px;
+         font-weight: 700;
+         text-align: center;
+         margin-bottom: 30px;
       }
 
-      .profile-icon img {
-         width: 45px;
-       height: 45px;
-         border-radius: 50%;
+      .wrapper input {
+         width: 100%;
+         padding: 10px;
+         margin-bottom: 15px;
+         border: 1px solid #ccc;
+         border-radius: 5px;
+         font-size: 16px;
+      }
+
+      .wrapper .login-btn,
+      .wrapper .signup-btn {
+         background-color: #f39c12;
+         color: white;
+         padding: 10px;
+         border: none;
+         border-radius: 5px;
+         width: 100%;
+         font-size: 18px;
+         cursor: pointer;
+      }
+
+      .wrapper .login-btn:hover,
+      .wrapper .signup-btn:hover {
+         background-color: #e67e22;
+      }
+
+      @media (max-width: 576px) {
+         .header {
+            padding: 10px;
+         }
+
+         .wrapper {
+            margin: 5px 10px;
+            padding: 15px;
+         }
+      }
+
+      footer {
+         color: white;
+         width: 100%;
+         padding: 20px;
+      }
+
+      .footer_v1 .textwidget.custom-html-widget a {
+         color: white;
+         font-weight: 600;
+
       }
    </style>
-   <!-- OTPLESS SDK -->
-
 </head>
 
 <body>
-
    <header class="header">
       <div class="logo-container">
          <img src="logo-gwm.jpg" alt="GWM Logo" class="logo">
       </div>
       <div class="logout-container">
          <a href="https://glowupwithmanisha.com/" class="button me-2">Go Website</a>
-         <a href="https://portal.glowupwithmanisha.com/" class="button">Go Admin portal </a>
-      </div>
-
-
-      <div class="profile-container profile-hidden">
-
-         <a href="profile.php" class="profile-icon">
-            <!-- <img src="https://images.rawpixel.com/image_png_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIzLTAxL3JtNjA5LXNvbGlkaWNvbi13LTAwMi1wLnBuZw.png" alt="Profile Icon" class="profile-img"> -->
-         </a>
-      </div>
-
-
-      <div class="logout-container logout-hidden">
-         <a href="login.php?code=<?= $code ?>" class="logout-btn">Logout</a>
+         <a href="https://portal.glowupwithmanisha.com/" class="button">Go Admin portal</a>
       </div>
    </header>
 
-
-
-   <div class="wrapper login-wrapper <?php if (!isset($_GET['error'])) echo "active"; ?>">
+   <div class="wrapper login-wrapper <?php if (!isset($_GET['error'])) echo 'active'; ?>">
       <?php if (!empty($error_message)): ?>
          <div class="error-message">
             <?php echo htmlspecialchars($error_message); ?>
          </div>
       <?php endif; ?>
       <div class="title">Login Form</div>
-
       <form action="#" method="POST">
          <input type="hidden" name="user_type" value="participant">
-         <!-- <div class="role-selection">
-               <label>
-                  <input type="radio" name="user_type" value="participant" checked> Participant
-               </label>
-               <label>
-                  <input type="radio" name="user_type" value="visitor"> Visitor
-               </label>
-            </div> -->
-
          <div class="field">
             <input type="text" name="mobile" placeholder="Enter Number" minlength="10" required>
          </div>
          <div class="field">
             <input type="password" name="password" placeholder="Enter Password" required>
          </div>
-
          <div class="content">
             <div class="checkbox">
                <input type="checkbox" id="remember-me">
@@ -367,16 +345,15 @@ $conn->close();
                <a href="send_verification_code.php?code=<?= $code ?>" target="_blank">Forgot password?</a>
             </div>
          </div>
-
          <div class="field">
             <input type="submit" value="Login" class="login-btn">
          </div>
-
          <div class="signup-link">
             Not a member? <a href="#" class="signup-link-btn">Signup now</a>
          </div>
       </form>
    </div>
+
    <div class="wrapper signup-wrapper form <?php if (isset($_GET['error'])) echo "active"; ?>">
       <?php
       if (isset($_GET['error'])) {
@@ -440,49 +417,33 @@ $conn->close();
          </div>
       </form>
    </div>
-   <footer class="footer_v1 ova-trans" style="background:#000;">
+
+   <footer class="footer_v1" style="background:#000;">
       <div class="wrap_widget">
          <div class="container">
             <div class="row">
                <div class="col-sm-4 category pd_0 pd_l_0">
                   <div id="media_image-3" class="widget widget_media_image">
-                     <img width="150" height="150"
-                        src="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg"
-                        class="image wp-image-12947  attachment-thumbnail size-thumbnail" alt=""
-                        style="max-width: 100%; height: auto;" decoding="async" loading="lazy"
-                        srcset="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg 150w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-300x300.jpg 300w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-600x600.jpg 600w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-100x100.jpg 100w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file.jpg 640w"
-                        sizes="(max-width: 150px) 100vw, 150px">
+                     <img width="150" height="150" src="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg" class="image wp-image-12947  attachment-thumbnail size-thumbnail" alt="Logo">
                   </div>
                </div>
                <div class="col-sm-4 gallery pd_0">
                   <div id="custom_html-9" class="widget_text widget widget_custom_html">
                      <h4 class="widget-title">Quick Links</h4>
-                     <div class="textwidget custom-html-widget">
+                     <div class="textwidget custom-html-widget ">
                         <ul style="color:white">
-                           <li>
-                              <a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank"
-                                 rel="noopener">Terms &amp; conditions</a>
-                           </li>
-                           <li>
-                              <a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank"
-                                 rel="noopener">Privacy Policy</a>
-                           </li>
-                           <li>
-                              <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank"
-                                 rel="noopener">Legal Disclaimer</a>
-                           </li>
+                           <li><a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank">Terms & Conditions</a></li>
+                           <li><a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank">Privacy Policy</a></li>
+                           <li><a href="https://glowupwithmanisha.com/disclaimer/" target="_blank">Legal Disclaimer</a></li>
                         </ul>
                      </div>
                   </div>
                </div>
-
-               <div class="col-sm-4 tags  pd_0 pd_r_0">
+               <div class="col-sm-4 tags pd_0 pd_r_0">
                   <div id="custom_html-4" class="widget_text widget widget_custom_html">
                      <h4 class="widget-title">Contact Details</h4>
                      <div class="textwidget custom-html-widget">
-                        <p style="color:white">
-                           <strong>Phone -</strong> +91 98204 90762 / +91 98204 90460
-                        </p>
+                        <p style="color:white"><strong>Phone -</strong> +91 98204 90762 / +91 98204 90460</p>
                         <p style="color:white"><strong>Email -</strong> glowupwithmanisha@gmail.com</p>
                      </div>
                   </div>
@@ -490,7 +451,6 @@ $conn->close();
             </div>
          </div>
       </div>
-
       <div class="wrap_bellow">
          <div class="container">
             <div class="row">
@@ -504,7 +464,6 @@ $conn->close();
             </div>
          </div>
       </div>
-
    </footer>
    <script>
       document.addEventListener('DOMContentLoaded', () => {

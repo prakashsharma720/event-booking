@@ -9,7 +9,7 @@ if (!isset($_SESSION['user_id']) || !isset($_SESSION['mobile'])) {
     exit();
 }
 $curl = curl_init();
- 
+
 
 $user_id = $_SESSION['user_id'];
 $mobile = $_SESSION['mobile'];
@@ -293,17 +293,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <header class="head py-3">
         <div class="container">
             <div class="row align-items-center">
-                <div class="col-md-3 d-flex align-items-center">
+                <!-- Logo Section -->
+                <div class="col-12 col-md-3 d-flex align-items-center justify-content-center justify-content-md-start">
                     <img src="logo-gwm.jpg" alt="Event Logo" style="width: 100px; height: auto;">
                 </div>
 
-                <div class="col-md-6 text-center">
-                    <a href=" https://glowupwithmanisha.com/" class="button">Go Website</a>
-                    <a href="https://portal.glowupwithmanisha.com/" class="button">Go Admin portal </a>
+
+                <div class="col-12 col-md-6 text-center mt-2 mt-md-0">
+                    <a href="https://glowupwithmanisha.com/" class="button mb-2 mb-md-0 me-2">Go Website</a>
+                    <a href="https://portal.glowupwithmanisha.com/" class=" button mb-2 mb-md-0">Go Admin portal</a>
                 </div>
 
-
-                <div class="col-md-3 text-end">
+                <div class="col-12 col-md-3 text-center text-md-end mt-3 mt-md-0">
                     <a href="login.php?code=<?= $code ?>" class="btn btn-danger">Logout</a>
                 </div>
             </div>
@@ -353,9 +354,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <img src="freebie2.png" style="width:100%;">
                 </div> -->
                 <?php if ($event_expired): ?>
-                    <div class="center-container">
+                    <div class="center-container text-center">
                         <div class="event-expired-message">
-                            Event Expired
+                            <h2>Event Expired</h2>
                         </div>
                     </div>
                 <?php else: ?>
