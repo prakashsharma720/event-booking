@@ -137,7 +137,7 @@ if (!isset($_SESSION['user_id'])) {
             right: 5%;
             background-color: #bb9433;
             color: white;
-            font-size: 28px;
+            font-size: 22px;
             font-weight: bold;
             width: 160px;
             height: 160px;
@@ -281,7 +281,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <?php if (!empty($_SESSION['coupon_value'])): ?>
                 <div class="circle-badge">
-                    Discount ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
+                    You Saved ! ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
                 </div>
             <?php endif; ?>
 
