@@ -54,10 +54,10 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .header .btn-container .btn {
-            background-color: #bb9433;
+            /* background-color: #bb9433; */
             color: white;
             border: none;
-            padding: 8px 20px;
+            padding: 8px 10px;
             font-size: 16px;
             cursor: pointer;
             border-radius: 5px;
@@ -242,6 +242,9 @@ if (!isset($_SESSION['user_id'])) {
             .logo-container img {
                 max-width: 160px;
             }
+            .logout_icon{
+                width: 20%;
+            }
         }
          /* Responsive adjustments */
        @media (max-width: 767px) {
@@ -256,6 +259,9 @@ if (!isset($_SESSION['user_id'])) {
             }
             .logo-container img {
                 max-width: 70px;
+            }
+            .logout_icon{
+                width: 50%;
             }
         }
 
@@ -337,20 +343,25 @@ if (!isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-
+    <!-- Header Section -->
     <div class="header">
         <div class="logo-container">
-            <img src="logo-gwm.jpg" class="logo" alt="Logo" width="120px">
+            <img src="logo-gwm.jpg" class="logo" alt="Logo">
         </div>
 
+        <!-- Center Buttons -->
         <div class="btn-container">
-            <a href="https://glowupwithmanisha.com/" class="btn">Go Website</a>
-            <a href="https://portal.glowupwithmanisha.com/" class="btn">Go Admin portal</a>
+            <a href="https://glowupwithmanisha.com/" class="btn"> Website</a>
+            <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
+        </div>
+        <div class="btn-container" style="padding-left: 30px;">
+            <a href="login.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"> Logout</a>
         </div>
 
-        <button class="button" onclick="window.location.href='logout.php'">Logout</button>
+        
     </div>
 
+    <!-- Main Content -->
     <div class="container">
         <div class="image-container">
             <img src="https://www.funimada.com/assets/images/cards/big/congrats-1.gif" alt="Congratulations">
