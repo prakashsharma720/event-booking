@@ -94,13 +94,13 @@
                                 <span>ADMIT ONE</span>
                             </p> -->
                             <div class="ticket-number">
-                                <p>#20030220</p>
+                                <!-- <p>#20030220</p> -->
                             </div>
                             <div class="jay">
-                                <span> <i class="bi bi-telephone-fill"></i>  +91 9166973012</span>
+                                <span> <i class="bi bi-telephone-fill"></i>  +91 9820490762</span>
                             </div>
                             <div class="jay">
-                                <span> <i class="bi bi-envelope-fill"></i>  jayeshpatel.muskowl@gmail.com</span>
+                                <span> <i class="bi bi-envelope-fill"></i>  glowupwithmanisha@gmail.com</span>
                             </div>
                         </div>
                         <div class="ticket-info">
