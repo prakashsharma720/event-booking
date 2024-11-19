@@ -389,10 +389,7 @@ if (!isset($_SESSION['user_id'])) {
 
             <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ticketModal">Open Modal</button> -->
         </div>
-    </div>
-    <br>
-   
-
+    </div><br>
     <footer class="footer_v1 ova-trans" style="background:#000;">
         <div class="wrap_widget">
             <div class="container1">
