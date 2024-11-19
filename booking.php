@@ -47,7 +47,7 @@ if ($data['status'] == "true") {
     $event_end_date = $result['end_date']; // Event end date
     $current_date = date('Y-m-d'); // Current date
 
-    if ($current_date > $event_end_date) {
+    if ($current_date < $event_end_date) {
 
         $event_expired = true;
     } else {
@@ -316,9 +316,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 text-align: left;
             }
 
-            img {
+            /* img {
                 max-width: 200px;
-            }
+            } */
 
             .logo-container img {
                 max-width: 160px;
@@ -1065,6 +1065,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $('#coupon-alert').text('').removeClass('show');
                     couponDiscount = 0;
                     currentCoupon = '';
+                    $('#coupon_value').val('');
                     updateTotal();
                     $('#cancel-coupon').addClass('hide');
                 } else {

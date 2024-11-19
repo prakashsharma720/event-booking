@@ -16,25 +16,15 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
+    <link
+    href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
   
 </head>
 
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            /* Allow content to flow normally */
-            align-items: center;
-            background-color: #e1ddc9;
-            margin: 0;
-            /* color: white; */
-            overflow-y: auto;
-            /* Enable vertical scrolling */
-        }
+        
 
         /* Header Style */
         .header {
@@ -374,17 +364,18 @@ if (!isset($_SESSION['user_id'])) {
     <!-- Main Content -->
     <div class="container">
         <div class="image-container">
-            <img src="https://www.funimada.com/assets/images/cards/big/congrats-1.gif" alt="Congratulations">
+            <img src="image/congrates.gif" alt="Congratulations">
         </div>
         <div class="details">
-            <h2>Booking Confirmation</h2>
-            <p style="--i:1"><strong>Booking Date:</strong> <?= ($_SESSION['booking_date']) ?></p>
+            <h2>Booking Confirmation</h2> 
+            <p style="--i:1"><strong>Order ID:</strong> GWM-001</p>
+            <p style="--i:1"><strong>Booking Date:</strong> <?= date('d-M-Y',strtotime($_SESSION['booking_date'])) ?></p>
             <p style="--i:2"><strong>Event Name:</strong> <?= ($_SESSION['event_name']) ?></p>
             <p style="--i:3"><strong>Address:</strong> <?= ($_SESSION['address']) ?></p>
-            <p style="--i:4"><strong>Total Amount:</strong> <?= ($_SESSION['net_payable_total']) ?></p>
+            <p style="--i:4"><strong>Total Amount:</strong> <b style="color:#128742;">&#8377;<?= round($_SESSION['net_payable_total'],2) ?></b></p>
             <p style="--i:5"><strong>Number of Tickets:</strong> <?= ($_SESSION['no_of_tickets']) ?></p>
-            <p style="--i:6"><strong>Advance Payment:</strong> <?= ($_SESSION['advanced_pay']) ?></p>
-            <p style="--i:7"><strong>Remaining Amount:</strong> <?= ($_SESSION['remaining_amount']) ?></p>
+            <p style="--i:6"><strong>Advance Payment:</strong> <b style="color:#128742;">&#8377;<?= round($_SESSION['advanced_pay'],2) ?></b> (Paid)</p>
+            <p style="--i:5"><strong>Remaining Amount:</strong> <b style="color:red;">&#8377;<?= round($_SESSION['remaining_amount'],2) ?></b></p>
 
 
             <?php if (!empty($_SESSION['coupon_value'])): ?>
