@@ -365,7 +365,7 @@ if (!isset($_SESSION['user_id'])) {
             <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
         </div>
         <div class="btn-container" style="padding-left: 30px;">
-            <a href="login.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"> Logout</a>
+            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"> Logout</a>
         </div>
 
 
