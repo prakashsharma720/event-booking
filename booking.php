@@ -2,7 +2,26 @@
 include('db.php');
 $code = $_GET['code'];
 
+function generateOrderID()
+{
+    $orderID = 'GWM-' . time() . rand(1000, 9999);
+    return $orderID;
+}
+
 session_start();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (empty($_POST['booking_date']) || empty($_POST['event_type'])) {
+        $_SESSION['error'] = 'Please select a booking date and event type before submitting.';
+        header('Location: booking.php?code=' . $code);
+        exit();
+    } else {
+
+        $_SESSION['booking_date'] = $_POST['booking_date'];
+        $_SESSION['event_type'] = $_POST['event_type'];
+    }
+}
 
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['mobile'])) {
     header('Location: login.php?code=' . $code);
@@ -179,15 +198,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $booking_date = date('Y-m-d', strtotime($_POST['booking_date']));
     $payment_status = 'Pending';
     $booking_status = 'Pending';
-
+    $order_id = generateOrderID();
     $transaction_date = date('Y-m-d'); // For the current date
 
     // Insert into the bookings table using mysqli
     $sql = "INSERT INTO `bookings` 
-    (`transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `total_amount`, `discount_value`, `coupon_code`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_mode`, `payment_reference_no`, `payment_screenshot`, `payment_status`, `area_of_interest`, `lead_source`, `booking_status`, `packageDetails`) 
-    VALUES ('$transaction_date', '$user_id', '$event_code', '$booking_date', '$packageDetailsJson', '$total_amount', '$discount_value', '$coupon_code', '$net_total', '$no_of_tickets', '$advanced_pay', '$remaining_amount', '$payment_mode', '$payment_reference_no', '$payment_screenshot', '$payment_status', '$area_of_interest', '$lead_source', '$booking_status', '$packageDetailsJson' )";
+    (`order_id`, `transaction_date`, `user_id`, `event_code`, `booking_date`, `package_type`, `total_amount`, `discount_value`, `coupon_code`, `net_total`, `no_of_tickets`, `advanced_pay`, `remaining_amount`, `payment_mode`, `payment_reference_no`, `payment_screenshot`, `payment_status`, `area_of_interest`, `lead_source`, `booking_status`, `packageDetails`) 
+    VALUES ( '$order_id ','$transaction_date', '$user_id', '$event_code', '$booking_date', '$packageDetailsJson', '$total_amount', '$discount_value', '$coupon_code', '$net_total', '$no_of_tickets', '$advanced_pay', '$remaining_amount', '$payment_mode', '$payment_reference_no', '$payment_screenshot', '$payment_status', '$area_of_interest', '$lead_source', '$booking_status', '$packageDetailsJson' )";
 
     if ($conn->query($sql) === TRUE) {
+
+        $_SESSION['order_id'] = $order_id;
         $_SESSION['booking_date'] = $booking_date;
         $_SESSION['no_of_tickets'] = $no_of_tickets;
         $_SESSION['net_payable_total'] = $net_total;
@@ -843,6 +864,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </div>
                         </div>
+                        <?php
+
+                        if (isset($_SESSION['error'])) {
+                            echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
+                            unset($_SESSION['error']); // Clear the error message after displaying
+                        }
+                        ?>
                         <div class="row mb-2">
                             <button type="submit" class="btn btn-primary"> Submit</button>
                         </div>
