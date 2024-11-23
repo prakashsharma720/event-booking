@@ -179,12 +179,6 @@ body {
    height: 15px;
 }
 
-.wrapper form .content label {
-   color: #262626;
-   user-select: none;
-   padding-left: 5px;
-}
-
 .wrapper form .content .pass-link {
    color: #cfbc6d;
 }

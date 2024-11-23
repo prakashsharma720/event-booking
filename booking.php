@@ -4,24 +4,12 @@ $code = $_GET['code'];
 
 function generateOrderID()
 {
-    $orderID = 'GWM-' . time() . rand(1000, 9999);
+    $orderID =   time() . rand(1000, 9999);
     return $orderID;
 }
 
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    if (empty($_POST['booking_date']) || empty($_POST['event_type'])) {
-        $_SESSION['error'] = 'Please select a booking date and event type before submitting.';
-        header('Location: booking.php?code=' . $code);
-        exit();
-    } else {
-
-        $_SESSION['booking_date'] = $_POST['booking_date'];
-        $_SESSION['event_type'] = $_POST['event_type'];
-    }
-}
 
 if (!isset($_SESSION['user_id']) || !isset($_SESSION['mobile'])) {
     header('Location: login.php?code=' . $code);
@@ -520,7 +508,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php else: ?>
                     <h2>Event Registration Form</h2>
                     <hr>
-                    <form action="#" method="POST" enctype="multipart/form-data">
+                    <form action="" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="event_code" value="<?= $result['identity_code'] ?>">
                         <div class="row mb-2">
                             <div class="col-md-6">
@@ -705,6 +693,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                         <hr>
                         <h2>Event Type </h2>
+                        <input type="hidden" id="event_type" name="event_type" value=""> <!-- You can set a default value or keep it empty -->
                         <hr>
                         <div class="row">
                             <div class="col-md-6">
@@ -864,15 +853,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </div>
                         </div>
-                        <?php
+                        <div id="error-messages" style="color: red; font-size: 1rem; margin-bottom: 20px;"></div>
 
-                        if (isset($_SESSION['error'])) {
-                            echo '<div class="alert alert-danger">' . $_SESSION['error'] . '</div>';
-                            unset($_SESSION['error']); // Clear the error message after displaying
-                        }
-                        ?>
                         <div class="row mb-2">
-                            <button type="submit" class="btn btn-primary"> Submit</button>
+                            <button type="submit" class="btn btn-primary" onclick="validateForm(event)">Submit</button>
                         </div>
                     </form>
             </div>
@@ -1181,8 +1165,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             });
         });
     </script>
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            var errorMessages = []; // To store error messages
+            var bookingDate = document.getElementById('booking_date').value;
+            var eventTypeChecked = false;
 
+            // Check if any event type checkbox is checked
+            document.querySelectorAll('input[name^="event_type"]:checked').forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    eventTypeChecked = true;
+                }
+            });
 
+            // Clear any previous error messages
+            document.getElementById('error-messages').innerHTML = '';
+
+            // If booking date is not selected, add an error message
+            if (!bookingDate) {
+                errorMessages.push("Please select a booking date.");
+            }
+
+            // If no event type is selected, add an error message
+            if (!eventTypeChecked) {
+                errorMessages.push("Please select at least one event type.");
+            }
+
+            // If there are errors, prevent form submission and display the errors
+            if (errorMessages.length > 0) {
+                event.preventDefault(); // Prevent form submission
+
+                // Display errors in the #error-messages div
+                var errorHtml = '<ul>';
+                errorMessages.forEach(function(message) {
+                    errorHtml += '<li>' + message + '</li>';
+                });
+                errorHtml += '</ul>';
+
+                document.getElementById('error-messages').innerHTML = errorHtml;
+            }
+        });
+    </script>
 </body>
 
 </html>
