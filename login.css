@@ -258,10 +258,7 @@ body {
    padding: 8px 9px;
 }
 
-.send-otp-button:hover,
-.verify-button-container input[type="submit"]:hover {
-   background: #e60074;
-}
+ 
  
 /* OTP fields styling */
 .otp-container .field input {

@@ -10,5 +10,5 @@ session_destroy();
 session_abort();
 session_unset();
 // echo $code;exit;
-header('Location: login.php?code=' . $code);
+header('Location: login.php?code=' . $code . '&message=logout_successful');
 ?>

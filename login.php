@@ -2,6 +2,11 @@
 
 include 'db.php';
 $error_message = '';
+$logout_message = '';
+
+if (isset($_GET['message']) && $_GET['message'] === 'logout_successful') {
+   $logout_message = 'You have logged out successfully.';
+}
 // echo $_GET['code'];exit;
 
 if (empty($_GET['code'])) {
@@ -292,12 +297,13 @@ $conn->close();
       .wrapper .signup-btn:hover {
          background-color: #e67e22;
       }
+
       .wrapper form .content label {
-   color: #262626;
-   user-select: none;
-   padding-left: 13px;
-   padding-bottom: 12px;
-}
+         color: #262626;
+         user-select: none;
+         padding-left: 13px;
+         padding-bottom: 12px;
+      }
 
 
       @media (min-width: 768px) {
@@ -425,6 +431,18 @@ $conn->close();
       .footer_v1 .wrap_bellow .container1 .row .col-sm-12 {
          margin-top: 10px;
       }
+
+      .success-message {
+         background-color: #d4edda;
+         color: #155724;
+         padding: 15px;
+         border: 1px solid #c3e6cb;
+         border-radius: 5px;
+         margin-top: 20px;
+         display: inline-block;
+      }
+
+      
    </style>
 </head>
 
@@ -446,12 +464,21 @@ $conn->close();
 
 
    </div>
+   <!-- Display Logout Successful Message -->
+   <?php if (!empty($logout_message)): ?>
+      <div class="success-message" id="logoutMessage">
+         <?php echo htmlspecialchars($logout_message); ?>
+      </div>
+   <?php endif; ?>
+
    <div class="wrapper login-wrapper <?php if (!isset($_GET['error'])) echo 'active'; ?>">
       <?php if (!empty($error_message)): ?>
          <div class="error-message">
             <?php echo htmlspecialchars($error_message); ?>
          </div>
       <?php endif; ?>
+
+
       <div class="title">Login Form</div>
       <form action="#" method="POST">
          <input type="hidden" name="user_type" value="participant">
@@ -784,6 +811,17 @@ $conn->close();
          });
 
       });
+   </script>
+
+   <script>
+      window.onload = function() {
+         var logoutMessage = document.getElementById('logoutMessage');
+         if (logoutMessage) {
+            setTimeout(function() {
+               logoutMessage.style.display = 'none';
+            }, 3000);
+         }
+      }
    </script>
 </body>
 

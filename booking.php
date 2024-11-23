@@ -1175,6 +1175,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.querySelectorAll('input[name^="event_type"]:checked').forEach(function(checkbox) {
                 if (checkbox.checked) {
                     eventTypeChecked = true;
+
+                    // Check if the selected event type has packages
+                    var eventId = checkbox.id.split('-')[1]; // Get the event ID from checkbox ID (e.g., event-1)
+                    var packageSelected = false;
+
+                    // Check if packages are available for the event type and ensure one is selected
+                    if (document.getElementById('package-selection-' + eventId)) {
+                        var selectedPackage = document.querySelector('input[name="package_selection[' + eventId + ']"]:checked');
+                        if (selectedPackage) {
+                            packageSelected = true;
+                        }
+                    }
+
+                    // If event has packages and no package is selected, add error
+                    if (!packageSelected && document.getElementById('package-selection-' + eventId)) {
+                        errorMessages.push("Please select a package for " + checkbox.value + ".");
+                    }
                 }
             });
 
