@@ -43,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+   integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
 <head>
    <meta charset="utf-8">
    <title>Reset Password | CodeLab</title>
@@ -53,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          width: 100%;
          place-items: center;
          background: black;
-         font-family: Arial, sans-serif;
+         font-family: "Raleway", system-ui;
          margin: 0;
          padding: 0;
          margin-top: 80px;
@@ -176,7 +179,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" id="new-password" name="new_password" placeholder="New Password" required>
          </div>
          <div class="field">
-            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm Password" required>
+            <input type="password" id="confirm-password" name="confirm_password" placeholder="Confirm Password"
+               required>
          </div>
          <div class="error" id="error-message">Passwords do not match.</div>
          <button type="submit" class="reset-password-button">Reset Password</button>
@@ -193,7 +197,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       const newPassword = document.getElementById('new-password');
       const confirmPassword = document.getElementById('confirm-password');
 
-      form.addEventListener('submit', function(event) {
+      form.addEventListener('submit', function (event) {
          event.preventDefault();
          if (newPassword.value !== confirmPassword.value) {
             errorMessage.style.display = 'block';
@@ -202,12 +206,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
             fetch('', {
-                  method: 'POST',
-                  headers: {
-                     'Content-Type': 'application/x-www-form-urlencoded'
-                  },
-                  body: new URLSearchParams(new FormData(form)).toString()
-               })
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+               },
+               body: new URLSearchParams(new FormData(form)).toString()
+            })
                .then(response => response.json())
                .then(data => {
                   if (data.success) {

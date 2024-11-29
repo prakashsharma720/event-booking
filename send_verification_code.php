@@ -8,20 +8,29 @@ $code = $_GET['code'];
 <head>
    <meta charset="utf-8">
    <title>Send Verification Code | CodeLab</title>
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet">
    <style>
       body {
-         font-family: 'Arial', sans-serif;
+         font-family: "Raleway", system-ui;
+         font-optical-sizing: auto;
+         font-weight: 600;
+         font-style: normal;
+         font-variation-settings:
+            "wdth" 100;
          display: flex;
          flex-direction: column;
          justify-content: flex-start;
-         /* Allow content to flow normally */
+  
          align-items: center;
          background-color: #e1ddc9;
          margin: 0;
-         /* color: white; */
+    display: ;
          overflow-y: auto;
-         /* Enable vertical scrolling */
+ 
       }
 
 
@@ -183,181 +192,181 @@ $code = $_GET['code'];
          text-decoration: underline;
       }
 
-              /* Header Style */
-              .header {
-            width: 100%;
-            background-color: black;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 80px;
-        }
+      /* Header Style */
+      .header {
+         width: 100%;
+         background-color: black;
+         color: white;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         padding: 10px 80px;
+      }
 
-        .logo-container img {
-            max-width: 100px;
-            padding-left: 5px;
-        }
+      .logo-container img {
+         max-width: 100px;
+         padding-left: 5px;
+      }
 
-        .header .btn-container {
-            display: flex;
-            gap: 15px;
-            
-        }
+      .header .btn-container {
+         display: flex;
+         gap: 15px;
 
-        .header .btn-container .btn {
+      }
 
-            /* background-color: #bb9433; */
-            color: white;
-            border: none;
-            padding: 8px 10px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+      .header .btn-container .btn {
 
-        .button {
-            background-color: #ee2828;
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+         /* background-color: #bb9433; */
+         color: white;
+         border: none;
+         padding: 8px 10px;
+         font-size: 16px;
+         cursor: pointer;
+         border-radius: 5px;
+      }
 
-        .button:hover {
-            background-color: #ca2424;
-        }
+      .button {
+         background-color: #ee2828;
+         color: white;
+         border: none;
+         padding: 8px 20px;
+         font-size: 16px;
+         cursor: pointer;
+         border-radius: 5px;
+      }
 
-        .header .btn-container .btn:hover {
-            background-color: #a0822e;
-        }
+      .button:hover {
+         background-color: #ca2424;
+      }
 
-        @media (min-width: 768px) {
-            .container {
-                flex-direction: row;
-            }
+      .header .btn-container .btn:hover {
+         background-color: #a0822e;
+      }
 
-            .image-container {
-                margin-right: 40px;
-                margin-bottom: 0;
-            }
+      @media (min-width: 768px) {
+         .container {
+            flex-direction: row;
+         }
 
-            .details {
-                text-align: left;
-            }
+         .image-container {
+            margin-right: 40px;
+            margin-bottom: 0;
+         }
 
-            img {
-                max-width: 200px;
-            }
+         .details {
+            text-align: left;
+         }
 
-            .logo-container img {
-                max-width: 160px;
-            }
+         img {
+            max-width: 200px;
+         }
 
-            .logout_icon {
-                width: 20%;
-            }
-        }
+         .logo-container img {
+            max-width: 160px;
+         }
 
-        /* Responsive adjustments */
-        @media (max-width: 767px) {
-            .container {
-                max-width: 100%;
-            }
+         .logout_icon {
+            width: 20%;
+         }
+      }
 
-            .image-container img {
-                max-width: 100%;
-            }
+      /* Responsive adjustments */
+      @media (max-width: 767px) {
+         .container {
+            max-width: 100%;
+         }
 
-            .header {
-                padding: 5px 5px;
-            }
+         .image-container img {
+            max-width: 100%;
+         }
 
-            .logo-container img {
-                max-width: 70px;
-            }
+         .header {
+            padding: 5px 5px;
+         }
 
-            .logout_icon {
-                width: 50%;
-            }
-        }
-        
-        footer {
-            background-color: #555;
-            color: white;
-            padding: 30px;
-            width: 100%;
-        }
+         .logo-container img {
+            max-width: 70px;
+         }
 
-        .footer_v1 .container1 {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
+         .logout_icon {
+            width: 50%;
+         }
+      }
 
-        .footer_v1 .row {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+      footer {
+         background-color: #555;
+         color: white;
+         padding: 30px;
+         width: 100%;
+      }
 
-        .footer_v1 .col-sm-6 {
-            flex: 0 0 48%;
+      .footer_v1 .container1 {
+         display: flex;
+         justify-content: space-between;
+         flex-wrap: wrap;
+      }
 
-            padding: 0 10px;
-        }
+      .footer_v1 .row {
+         width: 100%;
+         display: flex;
+         justify-content: space-between;
+         margin-bottom: 20px;
+      }
 
-        .footer_v1 .widget-title {
-            font-size: 25px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
+      .footer_v1 .col-sm-6 {
+         flex: 0 0 48%;
 
-        .footer_v1 .textwidget custom-html-widget ul {
-            list-style-type: none;
-            padding-left: 0;
+         padding: 0 10px;
+      }
 
-            padding: 5px;
-        }
+      .footer_v1 .widget-title {
+         font-size: 25px;
+         font-weight: bold;
+         margin-bottom: 20px;
+      }
 
-        .footer_v1 .textwidget custom-html-widget li {
-            margin-bottom: 8px;
+      .footer_v1 .textwidget custom-html-widget ul {
+         list-style-type: none;
+         padding-left: 0;
 
-        }
+         padding: 5px;
+      }
 
-        .footer_v1 .textwidget.custom-html-widget a {
-            color: white;
-            font-weight: 600;
+      .footer_v1 .textwidget custom-html-widget li {
+         margin-bottom: 8px;
 
-        }
+      }
 
-        .footer_v1 .textwidget.custom-html-widget a:hover {
-            text-decoration: underline;
-            color: white;
-        }
+      .footer_v1 .textwidget.custom-html-widget a {
+         color: white;
+         font-weight: 600;
 
-        .footer_v1 .textwidget custom-html-widget a:hover {
-            text-decoration: underline;
-        }
+      }
+
+      .footer_v1 .textwidget.custom-html-widget a:hover {
+         text-decoration: underline;
+         color: white;
+      }
+
+      .footer_v1 .textwidget custom-html-widget a:hover {
+         text-decoration: underline;
+      }
 
 
-        .footer_v1 .wrap_bellow {
-            background-color: black;
+      .footer_v1 .wrap_bellow {
+         background-color: black;
 
-            color: white;
-        }
+         color: white;
+      }
 
-        .footer_v1 .wrap_bellow .container1 .row {
-            justify-content: center;
-            text-align: center;
-        }
+      .footer_v1 .wrap_bellow .container1 .row {
+         justify-content: center;
+         text-align: center;
+      }
 
-        .footer_v1 .wrap_bellow .container1 .row .col-sm-12 {
-            margin-top: 10px;
-        }
+      .footer_v1 .wrap_bellow .container1 .row .col-sm-12 {
+         margin-top: 10px;
+      }
    </style>
 
 </head>
@@ -371,8 +380,9 @@ $code = $_GET['code'];
 
       <!-- Center Buttons -->
       <div class="btn-container">
-         <a href="https://glowupwithmanisha.com/"  style="color:#fff;text-decoration:none;"  class="btn"> Website</a>
-         <a href="https://portal.glowupwithmanisha.com/"  style="color:#fff;text-decoration:none;" class="btn"> Profile</a>
+         <a href="https://glowupwithmanisha.com/" style="color:#fff;text-decoration:none;" class="btn"> Website</a>
+         <a href="https://portal.glowupwithmanisha.com/" style="color:#fff;text-decoration:none;" class="btn">
+            Profile</a>
       </div>
       <div class="btn-container" style="padding-left: 30px;">
          <!-- <a href="login.php" style="color:#fff;text-decoration:none; "> <img src="image/logout.png" class="logout_icon"> Logout</a> -->
@@ -401,8 +411,11 @@ $code = $_GET['code'];
             </div>
             <button type="button" class="send-otp-button">Send OTP</button>
          </div>
-         <div id="success-message" style="color: green; text-align: left; display: none;   padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
-         <div id="mobile-error-message" style="color: red; display: none; margin-top: 5px; padding: 10px;  text-align:left;   "></div>
+         <div id="success-message"
+            style="color: green; text-align: left; display: none;   padding: 10px; margin-top: 10px; border-radius: 5px;">
+         </div>
+         <div id="mobile-error-message"
+            style="color: red; display: none; margin-top: 5px; padding: 10px;  text-align:left;   "></div>
          <input type="hidden" id="order_id" name="order_id" value="">
 
          <div class="otp-container" style="display: none;">
@@ -415,8 +428,11 @@ $code = $_GET['code'];
             </div>
 
          </div>
-         <div id="otp-success-message" style="color: green; text-align: center; display: none; border: 1px solid green; padding: 10px; margin-top: 10px; border-radius: 5px;"></div>
-         <div id="otp-error-message" style="color: red; display: none; margin-top: 5px; padding: 10px; text-align: left;"></div>
+         <div id="otp-success-message"
+            style="color: green; text-align: center; display: none; border: 1px solid green; padding: 10px; margin-top: 10px; border-radius: 5px;">
+         </div>
+         <div id="otp-error-message"
+            style="color: red; display: none; margin-top: 5px; padding: 10px; text-align: left;"></div>
 
          <div class="signup-link">
             Go back ? <a href="login.php?code=<?= $code ?>" class="login-link-btn me-2">Login now</a>
@@ -426,86 +442,86 @@ $code = $_GET['code'];
    </div>
 
    <footer class="footer_v1 ova-trans" style="background:#000;">
-        <div class="wrap_widget">
-            <div class="container1">
-                <div class="row">
-                    <div class="col-sm-4 category pd_0 pd_l_0">
-                        <div id="media_image-3" class="widget widget_media_image">
-                            <img width="150" height="150"
-                                src="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg"
-                                class="image wp-image-12947  attachment-thumbnail size-thumbnail" alt=""
-                                style="max-width: 100%; height: auto;" decoding="async" loading="lazy"
-                                srcset="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg 150w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-300x300.jpg 300w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-600x600.jpg 600w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-100x100.jpg 100w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file.jpg 640w"
-                                sizes="(max-width: 150px) 100vw, 150px">
-                        </div>
-                    </div>
-                    <div class="col-sm-4 gallery pd_0">
-                        <div id="custom_html-9" class="widget_text widget widget_custom_html">
-                            <h4 class="widget-title">Quick Links</h4>
-                            <div class="textwidget custom-html-widget">
-                                <ul style="color:white">
-                                    <li>
-                                        <a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank"
-                                            rel="noopener">Terms &amp; conditions</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank"
-                                            rel="noopener">Privacy Policy</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank"
-                                            rel="noopener">Legal Disclaimer</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+      <div class="wrap_widget">
+         <div class="container1">
+            <div class="row">
+               <div class="col-sm-4 category pd_0 pd_l_0">
+                  <div id="media_image-3" class="widget widget_media_image">
+                     <img width="150" height="150"
+                        src="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg"
+                        class="image wp-image-12947  attachment-thumbnail size-thumbnail" alt=""
+                        style="max-width: 100%; height: auto;" decoding="async" loading="lazy"
+                        srcset="https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-150x150.jpg 150w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-300x300.jpg 300w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-600x600.jpg 600w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file-100x100.jpg 100w, https://glowupwithmanisha.com/wp-content/uploads/2024/08/file.jpg 640w"
+                        sizes="(max-width: 150px) 100vw, 150px">
+                  </div>
+               </div>
+               <div class="col-sm-4 gallery pd_0">
+                  <div id="custom_html-9" class="widget_text widget widget_custom_html">
+                     <h4 class="widget-title">Quick Links</h4>
+                     <div class="textwidget custom-html-widget">
+                        <ul style="color:white">
+                           <li>
+                              <a href="https://glowupwithmanisha.com/terms-conditions/" target="_blank"
+                                 rel="noopener">Terms &amp; conditions</a>
+                           </li>
+                           <li>
+                              <a href="https://glowupwithmanisha.com/privacy-policies/" target="_blank"
+                                 rel="noopener">Privacy Policy</a>
+                           </li>
+                           <li>
+                              <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank" rel="noopener">Legal
+                                 Disclaimer</a>
+                           </li>
+                        </ul>
+                     </div>
+                  </div>
+               </div>
 
-                    <div class="col-sm-4 tags  pd_0 pd_r_0">
-                        <div id="custom_html-4" class="widget_text widget widget_custom_html">
-                            <h4 class="widget-title">Contact Details</h4>
-                            <div class="textwidget custom-html-widget">
-                                <p style="color:white">
-                                    <strong>Phone -</strong> +91 98204 90762 / +91 98204 90460
-                                </p>
-                                <p style="color:white"><strong>Email -</strong> glowupwithmanisha@gmail.com</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               <div class="col-sm-4 tags  pd_0 pd_r_0">
+                  <div id="custom_html-4" class="widget_text widget widget_custom_html">
+                     <h4 class="widget-title">Contact Details</h4>
+                     <div class="textwidget custom-html-widget">
+                        <p style="color:white">
+                           <strong>Phone -</strong> +91 98204 90762 / +91 98204 90460
+                        </p>
+                        <p style="color:white"><strong>Email -</strong> glowupwithmanisha@gmail.com</p>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
+         </div>
+      </div>
 
-        <div class="wrap_bellow">
-            <div class="container1">
-                <div class="row">
-                    <div class="col-sm-12 pd_0 logo_white text-center">
-                        <div id="custom_html-7" class="widget_text widget widget_custom_html">
-                            <div class="textwidget custom-html-widget">
-                                <p style="color:white">Copyright ©2024 Glow Up with Manisha, All rights reserved.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div class="wrap_bellow">
+         <div class="container1">
+            <div class="row">
+               <div class="col-sm-12 pd_0 logo_white text-center">
+                  <div id="custom_html-7" class="widget_text widget widget_custom_html">
+                     <div class="textwidget custom-html-widget">
+                        <p style="color:white">Copyright ©2024 Glow Up with Manisha, All rights reserved.</p>
+                     </div>
+                  </div>
+               </div>
             </div>
-        </div>
+         </div>
+      </div>
 
-    </footer>
+   </footer>
    <script>
-      document.querySelector('.send-otp-button').addEventListener('click', function() {
+      document.querySelector('.send-otp-button').addEventListener('click', function () {
          const mobileNumber = document.getElementById('mobile-number').value;
          const userType = 'participant';
 
          fetch('send_otp.php', {
-               method: 'POST',
-               headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-               },
-               body: new URLSearchParams({
-                  'mobile': mobileNumber,
-                  'user_type': userType
-               })
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+               'mobile': mobileNumber,
+               'user_type': userType
             })
+         })
             .then(response => response.json())
             .then(data => {
                if (data.status === 'success') {
@@ -523,7 +539,7 @@ $code = $_GET['code'];
                console.error('Error:', error);
             });
 
-         document.getElementById('mobile-number').addEventListener('input', function() {
+         document.getElementById('mobile-number').addEventListener('input', function () {
             this.style.border = '';
             document.getElementById('mobile-error-message').style.display = 'none';
          });
@@ -539,7 +555,7 @@ $code = $_GET['code'];
             successMessage.style.display = 'none';
          }, 3000); // Hide after 3 seconds
       }
-      document.getElementById('otp-form').addEventListener('submit', function(event) {
+      document.getElementById('otp-form').addEventListener('submit', function (event) {
          event.preventDefault();
 
          const otpValue = this.elements.otp.value;
@@ -547,16 +563,16 @@ $code = $_GET['code'];
          const orderId = document.getElementById('order_id').value;
 
          fetch('verify_otp.php', {
-               method: 'POST',
-               headers: {
-                  'Content-Type': 'application/x-www-form-urlencoded'
-               },
-               body: new URLSearchParams({
-                  'mobile': mobileNumber,
-                  'otp': otpValue,
-                  'order_id': orderId
-               })
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({
+               'mobile': mobileNumber,
+               'otp': otpValue,
+               'order_id': orderId
             })
+         })
             .then(response => response.json())
             .then(data => {
 

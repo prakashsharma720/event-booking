@@ -8,7 +8,7 @@ body,
 html {
 	height: 100vh;
 	display: grid;
-    font-family: "League Spartan", sans-serif;
+	font-family: "Raleway", system-ui;
 	background: #d83565;
 	color: black;
 	font-size: 14px;

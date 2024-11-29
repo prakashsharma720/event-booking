@@ -83,10 +83,19 @@ $conn->close();
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Login and Signup Forms | GWM</title>
    <link rel="stylesheet" href="login.css">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   <link
+      href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet">
    <style>
       body {
+         font-family: "Raleway", system-ui;
+         font-optical-sizing: auto;
+         font-weight: 600;
+         font-style: normal;
+         font-variation-settings:
+            "wdth" 100;
          background-color: #e1ddc9;
       }
 
@@ -441,8 +450,6 @@ $conn->close();
          margin-top: 20px;
          display: inline-block;
       }
-
-      
    </style>
 </head>
 
@@ -471,7 +478,8 @@ $conn->close();
       </div>
    <?php endif; ?>
 
-   <div class="wrapper login-wrapper <?php if (!isset($_GET['error'])) echo 'active'; ?>">
+   <div class="wrapper login-wrapper <?php if (!isset($_GET['error']))
+      echo 'active'; ?>">
       <?php if (!empty($error_message)): ?>
          <div class="error-message">
             <?php echo htmlspecialchars($error_message); ?>
@@ -506,7 +514,8 @@ $conn->close();
       </form>
    </div>
 
-   <div class="wrapper signup-wrapper form <?php if (isset($_GET['error'])) echo "active"; ?>">
+   <div class="wrapper signup-wrapper form <?php if (isset($_GET['error']))
+      echo "active"; ?>">
       <?php
       if (isset($_GET['error'])) {
          echo '<p style="color: #721c24; border:1px solid red; background-color: #f8d7da; padding: 10px; marging: 10px 0px; border-radius: 5px;">' . htmlspecialchars($_GET['error']) . '</p>';
@@ -598,8 +607,8 @@ $conn->close();
                                  rel="noopener">Privacy Policy</a>
                            </li>
                            <li>
-                              <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank"
-                                 rel="noopener">Legal Disclaimer</a>
+                              <a href="https://glowupwithmanisha.com/disclaimer/" target="_blank" rel="noopener">Legal
+                                 Disclaimer</a>
                            </li>
                         </ul>
                      </div>
@@ -665,7 +674,7 @@ $conn->close();
             document.querySelector('.login-wrapper').classList.add('active');
          });
 
-         document.querySelector('.send-otp-button').addEventListener('click', function() {
+         document.querySelector('.send-otp-button').addEventListener('click', function () {
             const mobileNumber = document.getElementById('mobile-number').value;
             const userType = 'participant';
 
@@ -674,14 +683,14 @@ $conn->close();
                return;
             }
             fetch('send_otp2.php', {
-                  method: 'POST',
-                  headers: {
-                     'Content-Type': 'application/x-www-form-urlencoded'
-                  },
-                  body: new URLSearchParams({
-                     'mobile': mobileNumber,
-                  })
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+               },
+               body: new URLSearchParams({
+                  'mobile': mobileNumber,
                })
+            })
                .then(response => response.json())
                .then(data => {
                   const otpSentMessage = document.querySelector('.status-message-otp-sent');
@@ -748,7 +757,7 @@ $conn->close();
                }
             }, 1000);
          }
-         document.querySelector('.verify_otp').addEventListener('click', function(event) {
+         document.querySelector('.verify_otp').addEventListener('click', function (event) {
             event.preventDefault();
 
             const otpValue = document.getElementById('otp_box').value;
@@ -770,16 +779,16 @@ $conn->close();
             }
 
             fetch('verify_otp.php', {
-                  method: 'POST',
-                  headers: {
-                     'Content-Type': 'application/x-www-form-urlencoded'
-                  },
-                  body: new URLSearchParams({
-                     'mobile': mobileNumber,
-                     'otp': otpValue,
-                     'order_id': orderId
-                  })
+               method: 'POST',
+               headers: {
+                  'Content-Type': 'application/x-www-form-urlencoded'
+               },
+               body: new URLSearchParams({
+                  'mobile': mobileNumber,
+                  'otp': otpValue,
+                  'order_id': orderId
                })
+            })
                .then(response => response.json())
                .then(data => {
                   const otpverifyMessage = document.querySelector('.status-message-otp-verified');
@@ -813,16 +822,16 @@ $conn->close();
       });
    </script>
 
-   <script>
-      window.onload = function() {
+   <!-- <script>
+      window.onload = function () {
          var logoutMessage = document.getElementById('logoutMessage');
          if (logoutMessage) {
-            setTimeout(function() {
+            setTimeout(function () {
                logoutMessage.style.display = 'none';
             }, 3000);
          }
       }
-   </script>
+   </script> -->
 </body>
 
 </html>
