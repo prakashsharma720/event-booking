@@ -90,13 +90,19 @@ $conn->close();
       rel="stylesheet">
    <style>
       body {
-         font-family: "Raleway", system-ui;
+
          font-optical-sizing: auto;
          font-weight: 600;
          font-style: normal;
          font-variation-settings:
             "wdth" 100;
+            display: flex;
+         flex-direction: column;
+         justify-content: flex-start;
+  
+         align-items: center;
          background-color: #e1ddc9;
+         margin: 0;
       }
 
       .error-message {
@@ -413,7 +419,7 @@ $conn->close();
       .footer_v1 .textwidget.custom-html-widget a {
          color: white;
          font-weight: 600;
-
+       text-decoration: none;
       }
 
       .footer_v1 .textwidget.custom-html-widget a:hover {
@@ -822,7 +828,7 @@ $conn->close();
       });
    </script>
 
-   <!-- <script>
+   <script>
       window.onload = function () {
          var logoutMessage = document.getElementById('logoutMessage');
          if (logoutMessage) {
@@ -831,7 +837,7 @@ $conn->close();
             }, 3000);
          }
       }
-   </script> -->
+   </script>
 </body>
 
 </html>

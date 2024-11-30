@@ -7,15 +7,18 @@ $code = $_GET['code'];
 
 <head>
    <meta charset="utf-8">
-   <title>Send Verification Code | CodeLab</title>
+   <title>Send Verification |GWM </title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    <link
       href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet">
+ 
+   
    <style>
+         @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
       body {
-         font-family: "Raleway", system-ui;
+       
          font-optical-sizing: auto;
          font-weight: 600;
          font-style: normal;
@@ -340,7 +343,7 @@ $code = $_GET['code'];
       .footer_v1 .textwidget.custom-html-widget a {
          color: white;
          font-weight: 600;
-
+     text-decoration: none;
       }
 
       .footer_v1 .textwidget.custom-html-widget a:hover {
