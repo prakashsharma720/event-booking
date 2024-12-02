@@ -16,7 +16,6 @@ $code = $_GET['code'];
 
 
    <style>
-      @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
       body {
 
@@ -32,7 +31,6 @@ $code = $_GET['code'];
          align-items: center;
          background-color: #e1ddc9;
          margin: 0;
-         display: ;
          overflow-y: auto;
 
       }
