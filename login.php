@@ -96,10 +96,10 @@ $conn->close();
          font-style: normal;
          font-variation-settings:
             "wdth" 100;
-            display: flex;
+         display: flex;
          flex-direction: column;
          justify-content: flex-start;
-  
+
          align-items: center;
          background-color: #e1ddc9;
          margin: 0;
@@ -419,7 +419,7 @@ $conn->close();
       .footer_v1 .textwidget.custom-html-widget a {
          color: white;
          font-weight: 600;
-       text-decoration: none;
+         text-decoration: none;
       }
 
       .footer_v1 .textwidget.custom-html-widget a:hover {
@@ -474,8 +474,6 @@ $conn->close();
       <div class="btn-container" style="padding-left: 30px;">
 
       </div>
-
-
    </div>
    <!-- Display Logout Successful Message -->
    <?php if (!empty($logout_message)): ?>
