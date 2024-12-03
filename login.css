@@ -171,6 +171,7 @@ html,
 
 .wrapper form .content .pass-link {
    color: #cfbc6d;
+   font-size: 18px;
 }
 
 .wrapper form .field input[type="submit"] {

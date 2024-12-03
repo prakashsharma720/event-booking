@@ -16,7 +16,8 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link
         href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
@@ -249,7 +250,7 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .image-container img {
-            max-width: 100%;
+            max-width: 80%;
         }
 
         .header {
@@ -367,7 +368,8 @@ if (!isset($_SESSION['user_id'])) {
             <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
         </div>
         <div class="btn-container" style="padding-left: 30px;">
-            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"> Logout</a>
+            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png"
+                    class="logout_icon"> Logout</a>
         </div>
     </div>
 
@@ -376,27 +378,39 @@ if (!isset($_SESSION['user_id'])) {
 
         <div class="image-container">
             <div class="order-id-container">
-                <p class="order-id-text"> <i class="bi bi-check-circle-fill" style="color: green; font-size: 20px;"></i> <strong>Order ID:</strong> <?= ($_SESSION['order_id']) ?></p>
+                <p class="order-id-text"> <i class="bi bi-check-circle-fill" style="color: green; font-size: 20px;"></i>
+                    <strong>Order ID:</strong> <?= ($_SESSION['order_id']) ?>
+                </p>
             </div>
             <img src="image/congrates.gif" alt="Congratulations">
         </div>
         <div class="details">
             <h2>Booking Confirmation</h2>
 
-            <p style="--i:1"><strong>Booking Date:</strong> <?= date('d-M-Y', strtotime($_SESSION['booking_date'])) ?></p>
+            <p style="--i:1"><strong>Booking Date:</strong> <?= date('d-M-Y', strtotime($_SESSION['booking_date'])) ?>
+            </p>
             <p style="--i:2"><strong>Event Name:</strong> <?= ($_SESSION['event_name']) ?></p>
             <p style="--i:3"><strong>Address:</strong> <?= ($_SESSION['address']) ?></p>
-            <p style="--i:4"><strong>Total Amount:</strong> <b style="color:#128742;">&#8377;<?= round($_SESSION['net_payable_total'], 2) ?></b></p>
+            <p style="--i:4"><strong>Total Amount:</strong> <b
+                    style="color:#128742;">&#8377;<?= round($_SESSION['net_payable_total'], 2) ?></b></p>
             <p style="--i:5"><strong>Number of Tickets:</strong> <?= ($_SESSION['no_of_tickets']) ?></p>
-            <p style="--i:6"><strong>Advance Payment:</strong> <b style="color:#128742;">&#8377;<?= round($_SESSION['advanced_pay'], 2) ?></b> (Paid)</p>
-            <p style="--i:5"><strong>Remaining Amount:</strong> <b style="color:red;">&#8377;<?= round($_SESSION['remaining_amount'], 2) ?></b></p>
+            <p style="--i:6"><strong>Advance Payment:</strong> <b
+                    style="color:#128742;">&#8377;<?= round($_SESSION['advanced_pay'], 2) ?></b> (Paid)</p>
+            <p style="--i:5"><strong>Remaining Amount:</strong> <b
+                    style="color:red;">&#8377;<?= round($_SESSION['remaining_amount'], 2) ?></b></p>
             <?php if (!empty($_SESSION['coupon_value'])): ?>
                 <div class="circle-badge">
                     You Saved ₹ <?= number_format($_SESSION['coupon_value'], 2) ?>
                 </div>
             <?php endif; ?>
+            <div class="note" style="text-align: center; font-size: 16px; margin-top: 20px; color: #555;">
+                <p><strong>Note : Please take a screenshot for future reference.</strong></p>
+            </div>
+
         </div>
-    </div><br>
+
+    </div>
+    <br>
     <footer class="footer_v1 ova-trans" style="background:#000;">
         <div class="wrap_widget">
             <div class="container1">
@@ -463,7 +477,10 @@ if (!isset($_SESSION['user_id'])) {
         </div>
 
     </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </body>
 
 

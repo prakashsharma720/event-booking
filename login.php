@@ -480,6 +480,11 @@ $conn->close();
          margin-top: 20px;
          display: inline-block;
       }
+      
+      .wrapper form .content .pass-link a {
+            color: #cfbc6d;
+            font-size: 18px;
+        }
    </style>
 </head>
 

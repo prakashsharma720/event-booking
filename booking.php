@@ -444,6 +444,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .footer_v1 .wrap_bellow .container1 .row .col-sm-12 {
             margin-top: 10px;
         }
+
     </style>
 </head>
 
@@ -827,7 +828,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 <button type="button" id="apply-coupon"
                                                     class="btn btn-primary mr-2">Apply</button>
                                                 <button type="button" id="cancel-coupon" class="btn btn-danger hide">
-                                                    <i class="bi bi-x-circle-fill"></i>
+                                                    Cancel
                                                 </button>
                                             </div>
                                         </div>
