@@ -1,7 +1,9 @@
 <?php
 session_start();
-require 'db.php';
+
 $code = $_GET['code'];
+require 'db.php';
+
 if (!isset($_SESSION['user_type']) || !isset($_SESSION['mobile'])) {
    echo json_encode(['success' => false, 'message' => 'User not authenticated.']);
    exit();
@@ -42,12 +44,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-   integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-
 <head>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta charset="utf-8">
    <title>Reset Password | GWM</title>
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
    <style>
       @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
@@ -171,11 +174,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          transition: background 0.3s ease;
       }
 
+      .reset-password-button:hover {
+         background-color: #af921a;
+      }
 
       .popup {
          display: none;
          position: fixed;
-         top: 50%;
+         top: 30%;
          left: 50%;
          transform: translate(-50%, -50%);
          width: 300px;
@@ -190,7 +196,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       .popup button {
          margin-top: 20px;
          padding: 10px 20px;
-         background-color: #ff0080;
+         background-color: #cfbc6d;
          border: none;
          color: white;
          border-radius: 5px;
@@ -198,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       }
 
       .popup button:hover {
-         background-color: #e60074;
+         background-color: #bc9b0f
       }
 
       .error {
@@ -206,6 +212,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          font-size: 14px;
          margin-top: 10px;
          display: none;
+      }
+
+      .signup-link {
+
+         margin-top: 20px;
+         text-align: center;
+         font-size: 18px;
+      }
+
+      .signup-link a {
+         color: #cfbc6d;
+         text-decoration: none;
+         font-weight: bold;
+
+      }
+
+      .signup-link a:hover {
+         text-decoration: underline;
       }
 
       @media (max-width: 480px) {
@@ -353,8 +377,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
    <!-- Header Section -->
    <div class="header">
       <div class="logo-container">
-         <img src="logo-gwm.jpg" class="logo" alt="Logo">
+         <a href="login.php?code=<?= $code ?>">
+            <img src="logo-gwm.jpg" class="logo" alt="Logo">
+         </a>
       </div>
+
 
       <!-- Center Buttons -->
       <div class="btn-container">
@@ -362,8 +389,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
       </div>
       <div class="btn-container" style="padding-left: 30px;">
-         <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon">
-            Logout</a>
+
       </div>
    </div>
 
@@ -379,6 +405,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          </div>
          <div class="error" id="error-message">Passwords do not match.</div>
          <button type="submit" class="reset-password-button">Reset Password</button>
+         <div class="signup-link">
+            Go back ? <a href="login.php?code=<?= $code ?>" class="login-link-btn me-2">Login now</a>
+         </div>
       </form>
    </div>
    <div class="popup" id="success-popup">

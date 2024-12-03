@@ -207,6 +207,30 @@ $conn->close();
          background-color: #f8d7da;
       }
 
+      .send-otp-button:hover {
+         background-color: #af921a;
+      }
+
+
+      .send-otp-container .send-otp-button,
+
+
+      .send-otp-button,
+      .verify-button-container input[type="submit"] {
+         margin-top: 20px;
+         height: 50px;
+         border: none;
+         border-radius: 5px;
+         font-size: 15px;
+         font-weight: 500;
+         color: #fff;
+         background: #cfbc6d;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         padding: 8px 9px;
+         width: 30%;
+      }
+
       /* Header Style */
       .header {
          width: 100%;

@@ -1,13 +1,14 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
 * {
    margin: 0;
    padding: 0;
    box-sizing: border-box;
-  
+
 }
 
 html,
- 
+
 
 ::selection {
    background: #4158d0;
@@ -231,26 +232,8 @@ html,
    flex: 70%;
 }
 
-.send-otp-container .send-otp-button,
- 
 
-.send-otp-button,
-.verify-button-container input[type="submit"] {
-   margin-top: 20px;
-   height: 50px;
-   border: none;
-   border-radius: 5px;
-   font-size: 18px;
-   font-weight: 500;
-   color: #fff;
-   background: #cfbc6d;
-   cursor: pointer;
-   transition: all 0.3s ease;
-   padding: 8px 9px;
-}
 
- 
- 
 /* OTP fields styling */
 .otp-container .field input {
    width: 80px;
@@ -485,16 +468,17 @@ html,
    .send-otp-button,
    .verify-button-container input[type="submit"] {
       margin-top: 20px;
-    height: 50px;
-    border: none;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: 500;
-    color: #fff;
-    background: #cfbc6d;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 8px 9px;
+      height: 50px;
+      border: none;
+      border-radius: 5px;
+      font-size: 15px;
+      width: 30%;
+      font-weight: 500;
+      color: #fff;
+      background: #cfbc6d;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      padding: 8px 9px;
    }
 
    .role-selection label {
@@ -503,6 +487,7 @@ html,
       padding: 5px;
    }
 }
+
 .error-message {
    border: 1px solid red;
    background-color: #f8d7da;
