@@ -445,6 +445,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-top: 10px;
         }
 
+        .hide {
+            display: none;
+        }
+
+        .col-3 {
+            display: flex;
+            justify-content: flex-start;
+            margin: 15px;
+        }
     </style>
 </head>
 
@@ -1100,6 +1109,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $('#coupon-message').text('').removeClass('show');
                     $('#cancel-coupon').addClass('hide');
                 }
+            });
+            $(document).ready(function () {
+                $('#apply-coupon').on('click', function () {
+                    var couponCode = $('#coupon_code').val();
+
+                    // If coupon code is entered, show the Cancel button
+                    if (couponCode) {
+                        $('#cancel-coupon').removeClass('hide');
+                    } else {
+                        $('#cancel-coupon').addClass('hide');
+                    }
+                });
+
+                $('#cancel-coupon').on('click', function () {
+                    // Clear the coupon code and hide the Cancel button
+                    $('#coupon_code').val('');
+                    $('#cancel-coupon').addClass('hide');
+                });
             });
 
             // Event listeners for checkboxes and radio buttons
