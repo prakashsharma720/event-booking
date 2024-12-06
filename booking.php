@@ -342,9 +342,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 max-width: 160px;
             }
 
-            .logout_icon {
-                width: 20%;
-            }
+           
         }
 
         /* Responsive adjustments */
@@ -365,9 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 max-width: 70px;
             }
 
-            .logout_icon {
-                width: 50%;
-            }
+            
         }
 
         footer {
@@ -376,6 +372,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             padding: 30px;
             width: 100%;
         }
+
+        .logout_icon {
+                width: 20%;
+            }
 
         .footer_v1 .container1 {
             display: flex;
@@ -470,9 +470,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="https://glowupwithmanisha.com/" class="btn"> Website</a>
             <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
         </div>
-        <div class="btn-container" style="padding-left: 30px;">
-            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png"
-                    class="logout_icon"> Logout</a>
+        <div class="btn-container text-center">
+            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"></a>
         </div>
 
     </div>
