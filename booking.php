@@ -532,11 +532,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
                         <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
                         <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
-                        <div class="qr-code-container qr_image" id="qr-code" name="qr-code">
+                        <div class="qr-code-container qr_image" name="qr-code">
                             <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
-                           
-                            <!-- <input type="hidden" value="http://www.glamquotes.com/wp-content/uploads/2011/11/QR-Code.png"> -->
-                            <a href="http://www.glamquotes.com/wp-content/uploads/2011/11/QR-Code.png" download="QR-Code.png">Download image</a>
                             <button class="jkp qr_btn text-white "><i class="bi bi-download"></i> download QR</button>
                         </div>
                     </div>
@@ -1313,36 +1310,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             document.getElementById('cancel-coupon').style.display = 'none'; // Hide the cancel button
         });
 
-
-
-
-        document.getElementById('qr-code').addEventListener('click', function() {
-        const qrCodeUrl = 'QR-Code.png';
-        const link = document.createElement('a');
-        link.href = qrCodeUrl;
-        link.download = '';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
-
-
-
     $(document).ready(function () {
-        $('.qr_btn').on('click', function () {
+    $('.qr_btn').on('click', async function () {
+        // Get the image URL
+        const qrCodeUrl = $(this).closest('.qr_image').find('img').attr('src');
+        
+        console.log('QR Code URL:', qrCodeUrl); // Debugging
 
-       
-    //    var img =     $('.qr_image').html();
-       const qrCodeUrl =  $(this).closest('div.qr_image').find('img').attr('src');
-       const link = document.createElement('a');
-        link.href = qrCodeUrl;
-        link.download = '';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        if (!qrCodeUrl) {
+            alert('Image URL not found!');
+            return;
+        }
 
+        try {
+            // Fetch the image
+            const response = await fetch(qrCodeUrl);
+
+            // Check if the response is okay
+            if (!response.ok) throw new Error('Failed to fetch the image');
+
+            // Convert response to a Blob
+            const blob = await response.blob();
+
+            // Create a temporary object URL
+            const blobUrl = URL.createObjectURL(blob);
+
+            // Create a downloadable link
+            const link = document.createElement('a');
+            link.href = blobUrl;
+            link.download = qrCodeUrl.split('/').pop(); // Extract filename from URL
+            document.body.appendChild(link);
+            link.click();
+
+            // Clean up
+            document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl); // Free memory
+        } catch (error) {
+            console.error('Error downloading the image:', error);
+            alert('Failed to download the image. Please try again later.');
+        }
+    });
 });
-});
+
     </script>
 </body>
 
