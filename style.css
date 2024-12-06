@@ -263,9 +263,7 @@
 
     }
 
-    #coupon-container .btn {
-        margin-left: -13px;
-    }
+ 
 
     .qr-code-container img {
 
@@ -465,15 +463,4 @@
 
    
 
-    @media (max-width: 576px) {
-
-        .col-9,
-        .col-3 {
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-
-        .col-3 .btn {
-            width: 100%;
-        }
-    }
+  

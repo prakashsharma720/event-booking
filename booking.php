@@ -24,7 +24,7 @@ $user_type = $_SESSION['user_type'];
 $name = $_SESSION['name'];
 $email = $_SESSION['email'];
 
-$base_url = 'https://gwmadmin.muskowl.com';
+$base_url = 'https://portal.glowupwithmanisha.com';
 // $base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
@@ -342,7 +342,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 max-width: 160px;
             }
 
-           
+
         }
 
         /* Responsive adjustments */
@@ -363,7 +363,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 max-width: 70px;
             }
 
-            
+
         }
 
         footer {
@@ -374,8 +374,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         .logout_icon {
-                width: 20%;
-            }
+            width: 20%;
+        }
 
         .footer_v1 .container1 {
             display: flex;
@@ -454,6 +454,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             justify-content: flex-start;
             margin: 15px;
         }
+
+        @media (max-width: 576px) {
+
+            .col-9,
+            .col-3 {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .col-3 .btn {
+                width: 30%;
+            }
+             
+
+        }
+        .jkp{
+            
+            background-color: #c0aa74;
+            border-color: #c0aa74;
+            padding: 5px;
+            border-radius: 8px;
+          
+            
+        }
     </style>
 </head>
 
@@ -471,7 +495,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
         </div>
         <div class="btn-container text-center">
-            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"></a>
+            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png"
+                    class="logout_icon"></a>
         </div>
 
     </div>
@@ -500,15 +525,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <hr>
                 <h4> Bank Details</h4>
                 <hr>
-                <?php foreach ($rows as $bank_master) { ?>
+                <?php foreach ($rows as $key=>  $bank_master) { ?>
                     <div class="event-details">
                         <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
                         <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
                         <p><strong>IFSC:</strong> <?= $bank_master['ifsc'] ?></p>
                         <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
                         <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
-                        <div class="qr-code-container " id="qr-code" name="qr-code">
+                        <div class="qr-code-container qr_image" id="qr-code" name="qr-code">
                             <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
+                           
+                            <!-- <input type="hidden" value="http://www.glamquotes.com/wp-content/uploads/2011/11/QR-Code.png"> -->
+                            <a href="http://www.glamquotes.com/wp-content/uploads/2011/11/QR-Code.png" download="QR-Code.png">Download image</a>
+                            <button class="jkp qr_btn text-white "><i class="bi bi-download"></i> download QR</button>
                         </div>
                     </div>
                 <?php } ?>
@@ -1263,6 +1292,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 document.getElementById('error-messages').innerHTML = errorHtml;
             }
         });
+    </script>
+    <script>
+        document.getElementById('apply-coupon').addEventListener('click', function () {
+            var couponInput = document.getElementById('coupon_code');
+            couponInput.setAttribute('readonly', true); // Make input readonly
+            document.getElementById('apply-coupon').disabled = true; // Disable the apply button
+            document.getElementById('apply-coupon').style.display = 'none'; // Hide the apply button
+
+            // Optionally, show the cancel button after the coupon is applied
+            document.getElementById('cancel-coupon').style.display = 'inline-block'; // Show the cancel button
+        });
+
+        // Optional: If you want to remove the readonly status and show the Apply button again when the cancel button is clicked
+        document.getElementById('cancel-coupon').addEventListener('click', function () {
+            var couponInput = document.getElementById('coupon_code');
+            couponInput.removeAttribute('readonly'); // Remove readonly status
+            document.getElementById('apply-coupon').disabled = false; // Enable the apply button
+            document.getElementById('apply-coupon').style.display = 'inline-block'; // Show the apply button again
+            document.getElementById('cancel-coupon').style.display = 'none'; // Hide the cancel button
+        });
+
+
+
+
+        document.getElementById('qr-code').addEventListener('click', function() {
+        const qrCodeUrl = 'QR-Code.png';
+        const link = document.createElement('a');
+        link.href = qrCodeUrl;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    });
+
+
+
+    $(document).ready(function () {
+        $('.qr_btn').on('click', function () {
+
+       
+    //    var img =     $('.qr_image').html();
+       const qrCodeUrl =  $(this).closest('div.qr_image').find('img').attr('src');
+       const link = document.createElement('a');
+        link.href = qrCodeUrl;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+});
+});
     </script>
 </body>
 

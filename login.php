@@ -480,11 +480,11 @@ $conn->close();
          margin-top: 20px;
          display: inline-block;
       }
-      
+
       .wrapper form .content .pass-link a {
-            color: #cfbc6d;
-            font-size: 18px;
-        }
+         color: #cfbc6d;
+         font-size: 18px;
+      }
    </style>
 </head>
 
@@ -524,7 +524,7 @@ $conn->close();
       <form action="#" method="POST">
          <input type="hidden" name="user_type" value="participant">
          <div class="field">
-            <input type="text" name="mobile" placeholder="Enter Number" minlength="10" required>
+            <input type="text" name="mobile" placeholder="Enter Number" minlength="10" required >
          </div>
          <div class="field">
             <input type="password" name="password" placeholder="Enter Password" required>
