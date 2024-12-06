@@ -16,8 +16,18 @@ $code = $_GET['code'];
       href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Nerko+One&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet">
    <link rel="stylesheet" href="css/send.css">
+<style>
+    .wrapper {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px 25px;
+    margin-bottom: 55px;
+    margin-top: 50px;
+ }
 
-
+</style>
 </head>
 
 <body>
