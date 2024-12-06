@@ -66,7 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
          justify-content: flex-start;
 
          align-items: center;
-         background-color: #e1ddc9;
+         background-color: #e5e5e5;
          margin: 0;
       }
 
