@@ -262,7 +262,7 @@ if (!isset($_SESSION['user_id'])) {
         }
 
         .logout_icon {
-            width: 50%;
+            width: 20%;
         }
     }
 
@@ -367,9 +367,8 @@ if (!isset($_SESSION['user_id'])) {
             <a href="https://glowupwithmanisha.com/" class="btn"> Website</a>
             <a href="https://portal.glowupwithmanisha.com/" class="btn"> Profile</a>
         </div>
-        <div class="btn-container" style="padding-left: 30px;">
-            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png"
-                    class="logout_icon"> Logout</a>
+        <div class="btn-container text-center">
+            <a href="logout.php" style="color:#fff;text-decoration:none;"> <img src="image/logout.png" class="logout_icon"></a>
         </div>
     </div>
 
