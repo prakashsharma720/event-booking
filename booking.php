@@ -314,7 +314,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             height: 100vh;
             margin: 24px 78px;
         }
-
+        .event-details .qr-code-container img {
+        max-width: 90%;
+        height: auto;
+        max-height: 200px;
+        margin-top: -220px;
+        margin-left: 7px;
+    }
         @media (min-width: 768px) {
             .container {
                 flex-direction: row;
