@@ -61,38 +61,33 @@ if ($data['status'] == "true") {
     } else {
         $event_expired = false;
     }
+}
     // print_r($bank_arr['0']);exit;
 
     // Query to select data from discounts_master table
-    $sql = "SELECT * FROM banks_master WHERE flag = '0'";
-
-    // Execute the query
-    $result1 = $conn->query($sql);
-
-    // Check if the query was successful
-    if ($result1) {
-        // Check if any rows were returned
-        if (mysqli_num_rows($result1) > 0) {
-            // Fetch the result
-            $rows = [];
-
-            // Loop through each row and store it in the $rows array
-            while ($row = $result1->fetch_assoc()) {
-                $rows[] = $row;
-            }
-        } else {
-            // Return -1 for an invalid coupon code
-            echo -1;
-        }
-    } else {
-        // Handle query error
-        echo 'Query error: ' . $conn->error;
-    }
-    // echo "<pre>";print_r($rows);exit;
-
-} else {
-    echo "Error: Unable to retrieve event details.";
-}
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $base_url . '/index.php/api/Events_api/banklist',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        // CURLOPT_POSTFIELDS => array('code' => $code, '_method' => 'post'),
+        CURLOPT_HTTPHEADER => array(
+            'Cookie: ci_session=40slq6epgmr07cbl6tjfvh3quvp5rsnp'
+        ),
+    ));
+    
+    $response1 = curl_exec($curl);
+    
+    curl_close($curl);
+    $bankdata = json_decode($response1, true);
+    $resultbank = $bankdata['result'];
+ 
+    
+    
 
 $_SESSION['event_name'] = $result['event_name'];
 $_SESSION['start_date'] = $result['start_date'];
@@ -525,7 +520,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <hr>
                 <h4> Bank Details</h4>
                 <hr>
-                <?php foreach ($rows as $key=>  $bank_master) { ?>
+                <?php foreach ($resultbank as $key=>  $bank_master) { ?>
                     <div class="event-details">
                         <p><strong>Bank Name:</strong> <?= $bank_master['bank_name'] ?></p>
                         <p><strong>Account Number:</strong> <?= $bank_master['account_no'] ?></p>
@@ -533,7 +528,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <p><strong>Branch:</strong><?= $bank_master['branch_address'] ?></p>
                         <p><strong>UPI Id:</strong><?= $bank_master['upi_id'] ?></p>
                         <div class="qr-code-container qr_image" name="qr-code">
-                            <img src="<?= $base_url . '/' . $bank_master['qr_code'] ?>" id="download-qr">
+                            <img src="<?=$bank_master['qr_code'] ?>" id="download-qr">
                             <button class="jkp qr_btn text-white "><i class="bi bi-download"></i> download QR</button>
                         </div>
                     </div>
