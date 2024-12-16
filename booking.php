@@ -24,8 +24,8 @@ $user_type = $_SESSION['user_type'];
 $name = $_SESSION['name'];
 $email = $_SESSION['email'];
 
-$base_url = 'https://portal.glowupwithmanisha.com';
-// $base_url = 'http://localhost/CI/event-portal';
+// $base_url = 'https://portal.glowupwithmanisha.com';
+$base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
     CURLOPT_URL => $base_url . '/index.php/api/Events_api/EvtD',
@@ -46,20 +46,22 @@ $response = curl_exec($curl);
 
 curl_close($curl);
 $data = json_decode($response, true);
+// echo "<pre>";print_r($data);exit;
+
 if ($data['status'] == "true") {
     $result = $data['result'];
     $bank_arr = json_decode($result['bank_master_ids'], true);
     ;
 
     // Check for event expiry
-    $event_end_date = $result['end_date']; // Event end date
-    $current_date = date('Y-m-d'); // Current date
-
+    $available_seats = $result['total_seats'] - $result['booked_seat']; // Event end date
+    $event_end_date = $result['start_date']; // Event end date
+     $current_date = date('Y-m-d'); // Current date
+    
     if ($current_date < $event_end_date) {
-
-        $event_expired = true;
-    } else {
         $event_expired = false;
+    } else {
+        $event_expired = true;
     }
 }
     // print_r($bank_arr['0']);exit;
@@ -476,9 +478,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             border-color: #c0aa74;
             padding: 5px;
             border-radius: 8px;
-          
-            
         }
+      /* Highlight Box Styling */
+        .highlight-box {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #ff0000; /* Red background for urgency */
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        animation: rotateHighlight 2s infinite, pulse 1.5s infinite; /* Combine rotation and pulsing */
+        transform-origin: center;
+        text-align: center;
+        }
+
+        /* Rotation Animation */
+        @keyframes rotateHighlight {
+        0%, 100% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(10deg);
+        }
+        }
+
+        /* Pulse Animation */
+        @keyframes pulse {
+        0%, 100% {
+            background-color: #ff0000;
+        }
+        50% {
+            background-color: #ff4500; /* Slightly brighter red */
+        }
+        }
+
+
     </style>
 </head>
 
@@ -505,8 +541,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="container-fluid">
         <div class="row content">
             <div class="col-md-5 sidenav">
-
+                <h2>Event Registration Form</h2>
                 <div class="event-details">
+                    
                     <p><strong>Event Name:</strong> <?= $result['event_name'] ?></p>
                     <p><strong>Start Date:</strong>
                         <?= date('d-M-y', strtotime($result['start_date'])) . ',' . date('h:i a', strtotime($result['start_time'])) ?>
@@ -552,7 +589,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </div>
                 <?php else: ?>
-                    <h2>Event Registration Form</h2>
+                    <span class="highlight-box"> Hurry Up ! Only <?= $available_seats?> Seats are available.</span>
                     <hr>
                     <form action="" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="event_code" value="<?= $result['identity_code'] ?>">
