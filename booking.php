@@ -493,6 +493,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         transform-origin: center;
         text-align: center;
         }
+        .total-available-seat {
+        display: inline-block;
+        padding: 5px 10px;
+        margin-left: 10px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        background-color:rgb(28, 197, 135); /* Red background for urgency */
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        animation: rotateHighlight 2s infinite, pulse 1.5s infinite;
+        transform-origin: right;
+        text-align: center;
+        }
 
         /* Rotation Animation */
         @keyframes rotateHighlight {
@@ -856,10 +870,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="total-area mb-2">
                                     <input type="hidden" name="total_amount" id="payment_total">
                                     <div class="quantity-box mb-2">
-                                        <label> No Of Tickets : </label>&nbsp;&nbsp;
+                                        <label> No Of Tickets : </label>&nbsp;&nbsp; 
                                         <!-- <button type="button" onclick="changeQuantity(-1)">-</button> -->
                                         <input type="number" id="quantity" value="1" min="1" class="form-control"
-                                            name="no_of_tickets">
+                                            name="no_of_tickets"> &nbsp;
+                                            Out Of <span class="total-available-seat"><?php echo $available_seats; ?></span>
                                         <!-- <button type="button" onclick="changeQuantity(1)">+</button> -->
                                     </div>
                                     <div class="amounts">
@@ -1064,28 +1079,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 });
                 const qty = $('input[name="no_of_tickets"]').val();
-                totalAmt = qty * totalPrice;
-                // Calculate advance payment
-                const advancePayment = (totalAmt * 50) / 100;
-                let paymentTotal = totalAmt;
+                var availableSeats = $(".total-available-seat").text();
+                // alert(availableSeats);
+                if(qty > availableSeats){
+                    alert('Limit Exceed');
+                    $('input[name="no_of_tickets"]').val('');
+                }else{
+                      totalAmt = qty * totalPrice;
+                    // Calculate advance payment
+                    const advancePayment = (totalAmt * 50) / 100;
+                    let paymentTotal = totalAmt;
 
-                console.log('couponDiscount' + couponDiscount);
-                // Apply coupon discount if available
-                if (couponDiscount > 0) {
-                    paymentTotal -= couponDiscount;
+                    console.log('couponDiscount' + couponDiscount);
+                    // Apply coupon discount if available
+                    if (couponDiscount > 0) {
+                        paymentTotal -= couponDiscount;
+                    }
+
+                    // Calculate remaining amount
+                    const remainingAmount = Math.max(0, paymentTotal - advancePayment);
+
+                    // Update the payment details on the page
+                    $('#payment_total').val(totalAmt.toFixed(2));
+                    $('input[name="net_payable_total"]').val(paymentTotal.toFixed(2));
+                    $('input[name="Advance"]').val(advancePayment.toFixed(2));
+                    $('input[name="remaining_amount"]').val(remainingAmount.toFixed(2));
+                    $('input[name="total_amount"]').val(totalPrice);
+                    $('input[name="advance_amount"]').val(advancePayment);
+                    $('input[name="remaining_amount"]').val(remainingAmount);
                 }
-
-                // Calculate remaining amount
-                const remainingAmount = Math.max(0, paymentTotal - advancePayment);
-
-                // Update the payment details on the page
-                $('#payment_total').val(totalAmt.toFixed(2));
-                $('input[name="net_payable_total"]').val(paymentTotal.toFixed(2));
-                $('input[name="Advance"]').val(advancePayment.toFixed(2));
-                $('input[name="remaining_amount"]').val(remainingAmount.toFixed(2));
-                $('input[name="total_amount"]').val(totalPrice);
-                $('input[name="advance_amount"]').val(advancePayment);
-                $('input[name="remaining_amount"]').val(remainingAmount);
+              
             }
 
             // Toggle visibility of package selection and terms and conditions based on event type checkbox state
