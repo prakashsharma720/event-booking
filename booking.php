@@ -1078,12 +1078,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
 
                 });
-                const qty = $('input[name="no_of_tickets"]').val();
-                var availableSeats = $(".total-available-seat").text();
-                // alert(availableSeats);
+                const qty = parseInt($('input[name="no_of_tickets"]').val());
+                var availableSeats = parseInt($(".total-available-seat").text());
+                //  alert(availableSeats);
                 if(qty > availableSeats){
                     alert('Limit Exceed');
                     $('input[name="no_of_tickets"]').val('');
+                    $('#payment_total').val('');
+                    $('input[name="net_payable_total"]').val('');
+                    $('input[name="Advance"]').val('');
+                    $('input[name="remaining_amount"]').val('');
+                    $('input[name="total_amount"]').val('');
+                    $('input[name="advance_amount"]').val('');
+                    $('input[name="remaining_amount"]').val('');
                 }else{
                       totalAmt = qty * totalPrice;
                     // Calculate advance payment
