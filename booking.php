@@ -24,8 +24,8 @@ $user_type = $_SESSION['user_type'];
 $name = $_SESSION['name'];
 $email = $_SESSION['email'];
 
-// $base_url = 'https://portal.glowupwithmanisha.com';
-$base_url = 'http://localhost/CI/event-portal';
+$base_url = 'https://portal.glowupwithmanisha.com';
+// $base_url = 'http://localhost/CI/event-portal';
 
 curl_setopt_array($curl, array(
     CURLOPT_URL => $base_url . '/index.php/api/Events_api/EvtD',
