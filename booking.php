@@ -57,7 +57,7 @@ if ($data['status'] == "true") {
     $available_seats = $result['total_seats'] - $result['booked_seat']; // Event end date
     $event_end_date = $result['start_date']; // Event end date
      $current_date = date('Y-m-d'); // Current date
-    
+    //  echo "DEBUG: " . $result['start_date']; exit;
     if ($current_date < $event_end_date) {
         $event_expired = false;
     } else {
@@ -229,6 +229,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- #region -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
     <style>
         .head {
             background-color: #000;
@@ -527,8 +529,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             background-color: #ff4500; /* Slightly brighter red */
         }
         }
-
-
+      
     </style>
 </head>
 
@@ -794,12 +795,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <!-- You can set a default value or keep it empty -->
                         <hr>
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="area-interest"> Booking Date<span class="required-icon">*</span></label>
-                                <input type="date" id="booking_date" name="booking_date" class="form-control"
-                                    min="<?php echo date('Y-m-d'); ?>">
-                            </div>
+                        <div class="col-md-6">
+                            <label for="booking_date">Session Date<span class="required-icon">*</span></label>
+                            <input type="date" id="booking_date" name="booking_date" class="form-control" 
+                                min="<?php echo date('Y-m-d'); ?>"  value="<?php echo date('Y-m-d', strtotime($result['start_date'])); ?>">
                         </div>
+                    </div>
 
 
                         <?php $i = 0;
@@ -1038,8 +1039,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         integrity="sha384-Tc5G3sS0u5S7nH6j27blOg9Q71GmA0m1m4U2F2mvDlV8z7F3Km/rI4b3r8ewpPpY" crossorigin="anonymous">
         </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
     <script>
         $(document).ready(function () {
+
+            flatpickr("#booking_date", {
+            minDate: "today", // restrict past dates
+            dateFormat: "Y-m-d", // customize format
+        });
+
 
             let totalPrice = 0.00;
             let currentCoupon = "";
