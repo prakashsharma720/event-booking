@@ -577,3 +577,48 @@ button.otp_verify_mobile:hover {
    justify-content: center;
    align-items: center;
 }
+
+span.loader {
+   border: 2px solid #f3f3f3; /* Light grey */
+   border-top: 2px solid #3498db; /* Blue */
+   border-radius: 50%;
+   width: 15px;
+   height: 15px;
+   animation: spin 1s linear infinite;
+   display: inline-block;
+   margin: 0 !important;
+}
+
+@keyframes spin {
+   0% {
+       transform: rotate(0deg);
+   }
+   100% {
+       transform: rotate(360deg);
+   }
+}
+
+span.btn-text{
+   color: #fff !important;
+}
+
+.send-otp-container .send-otp-button, .send-otp-button{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 0 !important;
+}
+
+.resend_otp{
+   display: flex;
+   justify-content: end;
+}
+.resend_otp>p{
+   cursor: pointer;
+   color: #3498db;
+   transition: 0.3s;
+}
+
+.resend_otp>p:hover{
+   color: green;
+}

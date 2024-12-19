@@ -585,6 +585,11 @@ $conn->close();
                 </div>
                 <button type="button" class="send-otp-button">Send OTP</button>
             </div>
+            <div class="resend_container">
+                <div class="resend_otp" style="display: none;">
+                    <p>Resend OTP</p>
+                </div>
+            </div>
             <div class="status-message-otp-sent" style="  display: none;"></div>
             <div class="error-message-otp-sent" style=" display: none;"></div>
             <input type="hidden" id="order_id" name="order_id" value="">
@@ -724,35 +729,103 @@ $conn->close();
             document.querySelector('.login-wrapper').classList.add('active');
         });
 
+        //   document.querySelector('.send-otp-button').addEventListener('click', function() {
+
+        //       const mobileNumber = document.getElementById('mobile-number').value;
+        //       const userType = 'participant';
+
+        //       if (document.getElementById('mobile-number').hasAttribute('readonly')) {
+
+        //           return;
+        //       }
+        //       fetch('send_otp2.php', {
+        //               method: 'POST',
+        //               headers: {
+        //                   'Content-Type': 'application/x-www-form-urlencoded'
+        //               },
+        //               body: new URLSearchParams({
+        //                   'mobile': mobileNumber,
+        //               })
+        //           })
+        //           .then(response => response.json())
+        //           .then(data => {
+        //               const otpSentMessage = document.querySelector('.status-message-otp-sent');
+        //               otpSentMessage.style.display = 'block';
+        //               otpSentMessage.classList.remove('error-message-otp-sent');
+        //               console.log('result' + data.OrderID);
+        //               if (data.status === 'success') {
+        //                   otpSentMessage.innerText = 'OTP sent successfully!';
+        //                   document.querySelector('.otp-container').style.display = 'flex';
+        //                   document.getElementById('order_id').value = data.OrderID;
+
+
+        //                   document.getElementById('mobile-number').setAttribute('readonly',
+        //                       'readonly');
+
+        //                   setTimeout(() => {
+        //                       otpSentMessage.style.display = 'none';
+        //                   }, 3000);
+
+
+        //                   startOtpTimer();
+        //               } else {
+        //                   otpSentMessage.classList.add('error-message-otp-sent');
+
+        //                   otpSentMessage.innerText = data.message ||
+        //                       'Error sending OTP. Please try again.';
+
+
+        //                   setTimeout(() => {
+        //                       otpSentMessage.style.display = 'none';
+        //                   }, 3000);
+
+        //               }
+
+        //           })
+        //           .catch(error => {
+        //               console.error('Error:', error);
+        //               alert('Failed to send OTP. Please try again later.');
+        //           });
+        //   });
+
         document.querySelector('.send-otp-button').addEventListener('click', function() {
+            const sendOtpButton = this;
             const mobileNumber = document.getElementById('mobile-number').value;
-            const userType = 'participant';
 
+            // Prevent multiple clicks by disabling the button
+            if (sendOtpButton.disabled) return;
+
+            // Show loader and disable the button
+            sendOtpButton.disabled = true;
+            sendOtpButton.innerHTML = '<span class="loader"></span>'; // Add loader and change text
+
+            // If mobile number is already readonly, return early
             if (document.getElementById('mobile-number').hasAttribute('readonly')) {
-
+                sendOtpButton.disabled = false;
+                sendOtpButton.innerHTML = 'Send OTP';
                 return;
             }
+
             fetch('send_otp2.php', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
+                        'Content-Type': 'application/x-www-form-urlencoded',
                     },
                     body: new URLSearchParams({
-                        'mobile': mobileNumber,
-                    })
+                        mobile: mobileNumber,
+                    }),
                 })
                 .then(response => response.json())
                 .then(data => {
                     const otpSentMessage = document.querySelector('.status-message-otp-sent');
                     otpSentMessage.style.display = 'block';
                     otpSentMessage.classList.remove('error-message-otp-sent');
-                    console.log('result' + data.OrderID);
+
+                    console.log('result:', data.OrderID);
                     if (data.status === 'success') {
                         otpSentMessage.innerText = 'OTP sent successfully!';
                         document.querySelector('.otp-container').style.display = 'flex';
                         document.getElementById('order_id').value = data.OrderID;
-
-
                         document.getElementById('mobile-number').setAttribute('readonly',
                             'readonly');
 
@@ -760,34 +833,70 @@ $conn->close();
                             otpSentMessage.style.display = 'none';
                         }, 3000);
 
-
                         startOtpTimer();
                     } else {
                         otpSentMessage.classList.add('error-message-otp-sent');
-
                         otpSentMessage.innerText = data.message ||
                             'Error sending OTP. Please try again.';
-
-
                         setTimeout(() => {
                             otpSentMessage.style.display = 'none';
                         }, 3000);
-
                     }
-
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Failed to send OTP. Please try again later.');
+                    const otpSentMessage = document.querySelector('.status-message-otp-sent');
+                    otpSentMessage.style.display = 'block';
+                    otpSentMessage.classList.add('error-message-otp-sent');
+                    otpSentMessage.innerText = 'Failed to send OTP. Please try again later.';
+                    setTimeout(() => {
+                        otpSentMessage.style.display = 'none';
+                    }, 3000);
+                })
+                .finally(() => {
+                    // Re-enable the button and reset the text
+                    sendOtpButton.disabled = false;
+                    sendOtpButton.innerHTML = 'Send OTP';
                 });
         });
 
+        //   function startOtpTimer() {
+        //       const button = document.querySelector('.send-otp-button');
+        //       let timer = 60;
+
+        //       button.disabled = true;
+        //       button.style.display = 'none';
+
+        //       const timerDisplay = document.createElement('span');
+        //       timerDisplay.className = 'time-display';
+        //       timerDisplay.style.marginLeft = '10px';
+        //       timerDisplay.style.fontWeight = 'bold';
+        //       timerDisplay.style.color = '#cfbc6d';
+        //       timerDisplay.innerText = `Please wait ${timer} seconds...`;
+        //       document.querySelector('.send-otp-container').appendChild(timerDisplay);
+
+        //       const countdown = setInterval(() => {
+        //           timer--;
+        //           timerDisplay.innerText = `Please wait ${timer} seconds...`;
+
+        //           if (timer <= 0) {
+        //               clearInterval(countdown);
+        //               button.disabled = false;
+        //               //   button.style.display = 'block';
+        //               timerDisplay.remove();
+        //           }
+        //       }, 1000);
+        //   }
+
+
+
         function startOtpTimer() {
-            const button = document.querySelector('.send-otp-button');
+            const sendOtpButton = document.querySelector('.send-otp-button');
+            const resendOtpContainer = document.querySelector('.resend_otp');
             let timer = 60;
 
-            button.disabled = true;
-            button.style.display = 'none';
+            sendOtpButton.disabled = true;
+            sendOtpButton.style.display = 'none';
 
             const timerDisplay = document.createElement('span');
             timerDisplay.className = 'time-display';
@@ -803,12 +912,78 @@ $conn->close();
 
                 if (timer <= 0) {
                     clearInterval(countdown);
-                    button.disabled = false;
-                    button.style.display = 'block';
+                    sendOtpButton.disabled = false;
+                    resendOtpContainer.style.display = 'flex'; // Show "Resend OTP" option
                     timerDisplay.remove();
                 }
             }, 1000);
         }
+
+        // Handle Resend OTP functionality
+        document.querySelector('.resend_otp').addEventListener('click', function() {
+            const resendOtpContainer = this;
+            const mobileNumber = document.getElementById('mobile-number').value;
+
+            if (!mobileNumber) {
+                const otpSentMessage = document.querySelector('.status-message-otp-sent');
+                otpSentMessage.style.display = 'block';
+                otpSentMessage.classList.add('error-message-otp-sent');
+                otpSentMessage.innerText = 'Please enter your mobile number before resending OTP.';
+                setTimeout(() => {
+                    otpSentMessage.style.display = 'none';
+                }, 3000);
+                return;
+            }
+
+            resendOtpContainer.style.display = 'none'; // Hide the Resend OTP option
+
+            // Trigger the OTP resend
+            fetch('send_otp2.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: new URLSearchParams({
+                        'mobile': mobileNumber,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const otpSentMessage = document.querySelector('.status-message-otp-sent');
+                    otpSentMessage.style.display = 'block';
+                    otpSentMessage.classList.remove('error-message-otp-sent');
+
+                    if (data.status === 'success') {
+                        otpSentMessage.innerText = 'OTP resent successfully!';
+                        document.querySelector('.otp-container').style.display =
+                            'flex'; // Show OTP input
+                        document.getElementById('order_id').value = data
+                            .OrderID; // Update the new OrderID
+                        startOtpTimer(); // Restart the timer
+                    } else {
+                        otpSentMessage.classList.add('error-message-otp-sent');
+                        otpSentMessage.innerText = data.message ||
+                            'Error resending OTP. Please try again.';
+                    }
+
+                    setTimeout(() => {
+                        otpSentMessage.style.display = 'none';
+                    }, 3000);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const otpSentMessage = document.querySelector('.status-message-otp-sent');
+                    otpSentMessage.style.display = 'block';
+                    otpSentMessage.classList.add('error-message-otp-sent');
+                    otpSentMessage.innerText = 'Failed to resend OTP. Please try again later.';
+                    setTimeout(() => {
+                        otpSentMessage.style.display = 'none';
+                    }, 3000);
+                });
+        });
+
+
+
         //   document.querySelector('.verify_otp').addEventListener('click', function(event) {
         //       event.preventDefault();
 
@@ -918,6 +1093,8 @@ $conn->close();
             const verifyButton = document.querySelector('.verify_otp');
             const timerDisplay = document.querySelector('.time-display');
             const sendOtpButton = document.querySelector('.send-otp-button');
+            const mobileNoBg = document.getElementById('mobile-number');
+            const resentOtpSend = document.querySelector('.resend_container');
 
             // Collect OTP values from the inputs
             let otpValue = "";
@@ -958,6 +1135,8 @@ $conn->close();
                         verifyButton.style.display = 'none';
                         timerDisplay.style.display = 'none';
                         sendOtpButton.style.display = 'none';
+                        mobileNoBg.style.background = '#ebebeb';
+                        resentOtpSend.style.display = 'none';
 
                         setTimeout(() => {
                             otpverifyMessage.style.display = 'none';
@@ -969,7 +1148,7 @@ $conn->close();
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Failed to verify OTP. Please try again later.');
+                    //   alert('Failed to verify OTP. Please try again later.');
                 });
         });
 
@@ -1017,7 +1196,7 @@ $conn->close();
             if (otp.length === 6) {
                 errorMessage.style.display = "none";
                 console.log("OTP Verified:", otp); // Replace with your verification logic
-                alert("OTP Verified Successfully: " + otp);
+                //  alert("OTP Verified Successfully: " + otp);
             } else {
                 errorMessage.style.display = "block";
                 errorMessage.textContent = "Please fill in all 6 digits of the OTP.";
