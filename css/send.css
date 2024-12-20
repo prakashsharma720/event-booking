@@ -387,3 +387,149 @@ body {
 
     
  }
+
+
+
+ .otp-form {
+   margin-top: 20px;
+}
+
+.otp-form h2 {
+   margin-bottom: 20px;
+   color: #333;
+}
+
+.otp-inputs {
+   display: flex;
+   justify-content: space-between;
+   margin-bottom: 20px;
+   width: 70%;
+}
+
+.otp-box {
+   width: 40px !important;
+   height: 40px;
+   font-size: 20px;
+   text-align: center;
+   border: 1px solid #e0e0e0;
+   border-radius: 8px;
+   background-color: #f6f7f8;
+   outline: none;
+}
+
+button.otp_verify_mobile {
+   /* width: 100%; */
+   padding: 12px;
+   background-color: #f39c12;
+   border: none;
+   border-radius: 8px;
+   color: #ffffff;
+   font-size: 16px;
+   font-weight: bold;
+   cursor: pointer;
+   transition: 0.3s;
+}
+
+button.otp_verify_mobile:hover {
+   background-color: #e67e22;
+   transition: 0.3s;
+}
+
+.validate_otp{
+   font-size: 18px;
+   color: #6c6b6b;
+}
+
+.verify_resend{
+   display: flex;
+   gap: 1em;
+}
+
+.otp-inputs {
+   display: flex;
+   gap: 10px;
+}
+
+.otp-box {
+   width: 40px;
+   height: 40px;
+   font-size: 18px;
+   text-align: center;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+}
+
+.otp-box:focus {
+   outline: 2px solid #007bff;
+}
+
+.otp-container>.field>input.otp-box{
+   margin-right: 0 !important;
+   padding: 0 !important;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+span.loader {
+   border: 2px solid #f3f3f3; /* Light grey */
+   border-top: 2px solid #3498db; /* Blue */
+   border-radius: 50%;
+   width: 15px;
+   height: 15px;
+   animation: spin 1s linear infinite;
+   display: inline-block;
+   margin: 0 !important;
+}
+
+@keyframes spin {
+   0% {
+       transform: rotate(0deg);
+   }
+   100% {
+       transform: rotate(360deg);
+   }
+}
+
+span.btn-text{
+   color: #fff !important;
+}
+
+.send-otp-container .send-otp-button, .send-otp-button{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   padding: 0 !important;
+}
+
+.resend_otp{
+   display: flex;
+   justify-content: end;
+}
+.resend_otp>p{
+   cursor: pointer;
+   color: #3498db;
+   transition: 0.3s;
+}
+
+.resend_otp>p:hover{
+   color: green;
+}
+
+.verify-button-container .verify_otp {
+   margin-top: 20px;
+   height: 50px;
+   border: none;
+   border-radius: 5px;
+   font-size: 18px;
+   font-weight: 500;
+   color: #fff;
+   background: #cfbc6d;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   padding: 8px 9px;
+}
+
+.otp-container .field input{
+   width: 35px !important;
+}
